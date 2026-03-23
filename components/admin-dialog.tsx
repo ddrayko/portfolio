@@ -17,7 +17,7 @@ export function AdminDialog({ open, onOpenChange, onSuccess }: AdminDialogProps)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md w-[95vw] bg-[#0B1118] border-white/20 rounded-[2rem] shadow-2xl p-8">
+      <DialogContent className="max-w-md w-[95vw] bg-background border-border/80 rounded-[2rem] shadow-2xl p-8">
         <DialogHeader>
           <DialogTitle>Add New Admin</DialogTitle>
           <DialogDescription>Create a new admin account with email and password.</DialogDescription>
