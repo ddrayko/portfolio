@@ -143,8 +143,8 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Header with Tabs (Sticky) */}
-      <div className="sticky top-0 z-30 bg-[#0B1118]/90 backdrop-blur-xl border-b border-white/10 pb-4 mb-6">
-        <div className="relative grid grid-cols-2 p-1 bg-white/[0.08] border border-white/20 rounded-2xl w-[350px] mx-auto overflow-hidden">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-xl border-b border-border/80 pb-4 mb-6">
+        <div className="relative grid grid-cols-2 p-1 bg-muted/50 border border-border/80 rounded-2xl w-[350px] mx-auto overflow-hidden">
           {/* Sliding Indicator Background */}
           <div
             className="absolute h-[calc(100%-8px)] top-1 rounded-xl bg-primary shadow-lg shadow-primary/20 transition-all duration-300 ease-out z-0"
@@ -183,7 +183,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
               <h3 className="font-bold text-xs uppercase tracking-[0.2em]">Core Settings</h3>
             </div>
 
-            <div className="space-y-4 bg-white/[0.04] p-6 rounded-3xl border border-white/10">
+            <div className="space-y-4 bg-muted/40 p-6 rounded-3xl border border-border/60">
               <div className="space-y-2">
                 <Label htmlFor="title" className="text-[10px] uppercase tracking-widest text-foreground/70 ml-1">Title</Label>
                 <Input id="title" name="title" defaultValue={project?.title} required className="h-10 rounded-xl border-white/10 bg-white/5 font-bold" />
@@ -225,7 +225,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
               <h3 className="font-bold text-xs uppercase tracking-[0.2em]">Visibility Status</h3>
             </div>
 
-            <div className="bg-white/[0.04] p-6 rounded-3xl border border-white/10 space-y-4">
+            <div className="bg-muted/40 p-6 rounded-3xl border border-border/60 space-y-4">
               <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
                 <div className="space-y-0.5">
                   <Label className="text-sm font-bold">In Development Mode</Label>
