@@ -10,6 +10,12 @@ import bcrypt from "bcryptjs"
 export async function createProject(data: Partial<Project>) {
   try {
     const { id: _, created_at: __, updated_at: ___, ...insertData } = data as any
+    
+    // Generate slug from title if not provided
+    if (!insertData.slug && insertData.title) {
+      insertData.slug = insertData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    }
+
     const [newProject] = await db.insert(projects).values({
       ...insertData,
       created_at: new Date()
