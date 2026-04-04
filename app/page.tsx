@@ -123,7 +123,9 @@ export default async function HomePage() {
                     transform: scaleX(1);
                   }
                 `}} />
-                  <Sparkles className="h-4 w-4 text-primary animate-pulse mr-2 flex-none" />
+                  {!(/\p{Extended_Pictographic}/u.test(updateData?.latest_update_text || "Fix database bug and new interface (v3!)")) && (
+                    <Sparkles className="h-4 w-4 text-primary animate-pulse mr-2 flex-none" />
+                  )}
                   <span className="transition-colors duration-300">
                     {updateData?.show_last_update_prefix !== false && "Last update : "}
                     {(updateData?.latest_update_text || "Fix database bug and new interface (v3!)").trim()}
