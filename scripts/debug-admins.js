@@ -9,7 +9,7 @@ const db = drizzle(sql);
 
 async function listAdmins() {
   try {
-    const result = await sql`SELECT id, email, password FROM admins`;
+    const result = await sql`SELECT id, email FROM admins`;
     console.log("--- CURRENT ADMINS ---");
     console.log(JSON.stringify(result, null, 2));
     console.log("----------------------");
