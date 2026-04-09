@@ -29,6 +29,10 @@ const techStack: TechItem[] = [
   { name: "AWS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
   { name: "Proxmox", logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/proxmox.svg" },
   { name: "Bash", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg" },
+  { name: "Linux", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
+  { name: "Ubuntu", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-original.svg" },
+  { name: "Debian", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/debian/debian-original.svg" },
+  { name: "Fedora", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fedora/fedora-original.svg" },
 ]
 
 const half = Math.ceil(techStack.length / 2)
@@ -61,8 +65,10 @@ export function TechStack() {
   useEffect(() => {
     const setHeight = () => {
       if (sectionRef.current) {
-        sectionRef.current.style.height = `${window.innerHeight}px`
-        sectionRef.current.style.maxHeight = `${window.innerHeight}px`
+        const h = window.innerHeight
+        sectionRef.current.style.height = `${h}px`
+        sectionRef.current.style.minHeight = `${h}px`
+        sectionRef.current.style.maxHeight = `${h}px`
       }
     }
     setHeight()
