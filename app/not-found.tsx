@@ -18,10 +18,10 @@ export default function NotFound() {
                         404
                     </div>
                     <h1 className="text-4xl md:text-5xl font-black tracking-tight font-display">
-                        Destination <span className="text-[#38bdf8]">Inconnue</span>
+                        Unknown <span className="text-[#38bdf8]">Destination</span>
                     </h1>
                     <p className="text-muted-foreground text-lg md:text-xl max-w-lg mx-auto font-medium leading-relaxed">
-                        Le serveur ne parvient pas à localiser cette section du portfolio. Il est possible que ce projet ait été déplacé ou n'existe plus dans mes archives.
+                        The server cannot locate this section of the portfolio. It is possible that this project has been moved or no longer exists in my archives.
                     </p>
                 </div>
 
@@ -31,7 +31,7 @@ export default function NotFound() {
                         className="group relative inline-flex items-center gap-3 px-10 py-5 bg-white text-[#030712] font-black uppercase tracking-widest text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.4)]"
                     >
                         <MoveLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                        Revenir au Hub
+                        Return to Hub
                         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#38bdf8] to-[#818cf8] opacity-0 group-hover:opacity-10 transition-opacity" />
                     </Link>
                 </div>

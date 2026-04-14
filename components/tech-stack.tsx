@@ -89,7 +89,7 @@ export function TechStack() {
         </div>
       </div>
 
-      {/* Masque sur l'outer div SANS overflow, prend toute la largeur */}
+      {/* Mask on the outer div WITHOUT overflow, takes full width */}
       <div
         className="w-full"
         style={{
@@ -97,11 +97,11 @@ export function TechStack() {
           maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
         }}
       >
-        {/* overflow-hidden sur l'inner div avec padding augmenté pour les ombres */}
+        {/* overflow-hidden on the inner div with increased padding for shadows */}
         <div className="overflow-hidden py-12">
           <div className="flex flex-col gap-6">
 
-            {/* Ligne 1 — gauche */}
+            {/* Row 1 — left */}
             <div className="flex w-max gap-6 hover:[&>div]:!animate-play-state-paused">
               <div className="flex shrink-0 gap-6" style={{ animation: "marquee-left 60s linear infinite" }}>
                 {row1.map((tech, i) => (
@@ -115,7 +115,7 @@ export function TechStack() {
               </div>
             </div>
 
-            {/* Ligne 2 — droite */}
+            {/* Row 2 — right */}
             <div className="flex w-max gap-6 hover:[&>div]:!animate-play-state-paused">
               <div className="flex shrink-0 gap-6" style={{ animation: "marquee-right 60s linear infinite" }}>
                 {row2.map((tech, i) => (

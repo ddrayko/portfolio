@@ -8,9 +8,9 @@ export function ChristmasOverlay() {
     useEffect(() => {
         setMounted(true)
 
-        // Flocons de neige en quantité minimale pour performance
+        // Snowflakes in minimal quantity for performance
         const createSnowflakes = () => {
-            const snowflakeCount = 15 // Quantité modérée
+            const snowflakeCount = 15 // Moderate quantity
             const container = document.getElementById('christmas-snowflakes')
             if (!container) return
 
@@ -29,18 +29,18 @@ export function ChristmasOverlay() {
             }
         }
 
-        // Initialiser les flocons
+        // Initialize snowflakes
         setTimeout(() => {
             createSnowflakes()
         }, 100)
 
-        // Message de Noël qui apparaît brièvement
+        // Christmas message that appears briefly
         const messageTimeout = setTimeout(() => {
             const message = document.getElementById('christmas-message')
             if (message) {
                 message.style.display = 'block'
 
-                // Disparaître après 5 secondes
+                // Disappear after 5 seconds
                 setTimeout(() => {
                     message.style.animation = 'fadeOutUp 1s ease-out forwards'
                 }, 5000)
@@ -56,14 +56,14 @@ export function ChristmasOverlay() {
 
     return (
         <>
-            {/* Container pour les flocons de neige */}
+            {/* Container for the snowflakes */}
             <div
                 id="christmas-snowflakes"
                 className="fixed inset-0 pointer-events-none z-[9998] overflow-hidden"
                 aria-hidden="true"
             />
 
-            {/* Message "Joyeux Noël" */}
+            {/* "Merry Christmas" Message */}
             <div
                 id="christmas-message"
                 className="fixed top-8 left-1/2 z-[9999] pointer-events-none"
@@ -93,7 +93,7 @@ export function ChristmasOverlay() {
                                     letterSpacing: '0.05em',
                                 }}
                             >
-                                Joyeux Noël 2025 !
+                                Merry Christmas 2025!
                             </h2>
                             <p
                                 className="text-sm text-white/90 mt-1"
@@ -101,7 +101,7 @@ export function ChristmasOverlay() {
                                     textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
                                 }}
                             >
-                                Passez de merveilleuses fêtes ✨
+                                Have a wonderful holiday season ✨
                             </p>
                         </div>
                         <span className="text-4xl" role="img" aria-label="Gift">
@@ -111,7 +111,7 @@ export function ChristmasOverlay() {
                 </div>
             </div>
 
-            {/* Animation CSS pour fadeOutUp */}
+            {/* CSS Animation for fadeOutUp */}
             <style jsx>{`
                 @keyframes fadeOutUp {
                     from {

@@ -33,17 +33,17 @@ function ProjectCardContent({ project, isSignedIn }: { project: Project; isSigne
           <div className="text-center space-y-4 p-6">
             <Lock className="h-12 w-12 text-white mx-auto animate-pulse" />
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-white">Connexion requise</h3>
+              <h3 className="text-xl font-bold text-white">Login required</h3>
               <p className="text-white/80 text-sm max-w-xs">
                 {publishableKey 
-                  ? "Ce projet nécessite une authentification pour être consulté." 
-                  : "L'authentification est désactivée en local (Clerk key manquante)."}
+                  ? "This project requires authentication to be viewed." 
+                  : "Authentication is disabled locally (Clerk key missing)."}
               </p>
             </div>
             {publishableKey && (
               <SignInButton mode="modal">
                 <button className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-bold hover:bg-primary/90 transition-colors shadow-lg">
-                  Se connecter
+                  Sign in
                 </button>
               </SignInButton>
             )}
@@ -89,12 +89,12 @@ function ProjectCardContent({ project, isSignedIn }: { project: Project; isSigne
                       {isPaused ? (
                         <>
                           <Pause className="h-3 w-3" />
-                          Développement en pause
+                          Development paused
                         </>
                       ) : (
                         <>
                           <Play className="h-3 w-3" />
-                          Développement en cours
+                          Development in progress
                         </>
                       )}
                     </div>
@@ -136,7 +136,7 @@ function ProjectCardContent({ project, isSignedIn }: { project: Project; isSigne
               <span className={`text-[10px] font-black uppercase tracking-[0.2em] transition-colors duration-500
                 ${isFinished ? "text-emerald-500/30" : isArchived ? "text-indigo-500/30" : "text-muted-foreground/30 group-hover:text-primary/40"}
               `}>
-                Projet sans visuel
+                Project without visual
               </span>
             </div>
           </div>
@@ -219,7 +219,7 @@ function ProjectCardContent({ project, isSignedIn }: { project: Project; isSigne
                     {isPaused ? (
                       <>
                         <Pause className="h-3 w-3" />
-                        En pause
+                        On pause
                       </>
                     ) : (
                       <>

@@ -200,7 +200,7 @@ export function UpdateDialog({ open, onOpenChange, onSuccess }: UpdateDialogProp
                                         </div>
                                         <p className="text-[10px] text-muted-foreground italic ml-1 flex items-center gap-2">
                                             <div className="w-1 h-1 rounded-full bg-primary/40" />
-                                            Active le compte à rebours sur la page "Update" publique.
+                                            Activates the countdown on the public "Update" page.
                                         </p>
                                     </div>
                                 )}

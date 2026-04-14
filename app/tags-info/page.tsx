@@ -21,82 +21,82 @@ export default async function TagsInfoPage() {
     const tagCategories = [
         {
             id: "no-tag",
-            name: "Aucun tag",
+            name: "No tags",
             icon: Rocket,
             color: "from-purple-500 to-pink-500",
             bgColor: "bg-purple-500/10",
             borderColor: "border-purple-500/30",
             iconColor: "text-purple-500",
-            description: "L'absence de tag signifie que le projet est en version stable et actif.",
+            description: "The absence of a tag means that the project is in a stable version and active.",
             details: [
-                "Le projet est pleinement fonctionnel et en version stable",
-                "Des mises à jour régulières sont toujours apportées",
-                "De nouvelles fonctionnalités peuvent être ajoutées",
-                "Le projet est activement maintenu et amélioré"
+                "The project is fully functional and in a stable version",
+                "Regular updates are always provided",
+                "New features may be added",
+                "The project is actively maintained and improved"
             ]
         },
         {
             id: "in-development-active",
-            name: "En développement (En cours)",
+            name: "In Development (Active)",
             icon: Timer,
             color: "from-green-500 to-emerald-500",
             bgColor: "bg-green-500/10",
             borderColor: "border-green-500/30",
             iconColor: "text-green-500",
-            description: "Le projet est actuellement en développement actif avec des progrès réguliers.",
+            description: "The project is currently in active development with regular progress.",
             details: [
-                "Le projet est en construction active",
-                "Des mises à jour régulières sont apportées",
-                "La barre de progression avance continuellement",
-                "Le projet arrivera prochainement dans une version stable"
+                "The project is under active construction",
+                "Regular updates are provided",
+                "The progress bar is continuously moving",
+                "The project will arrive soon in a stable version"
             ]
         },
         {
             id: "in-development-paused",
-            name: "En développement (En pause)",
+            name: "In Development (Paused)",
             icon: Timer,
             color: "from-orange-500 to-amber-500",
             bgColor: "bg-orange-500/10",
             borderColor: "border-orange-500/30",
             iconColor: "text-orange-500",
-            description: "Le développement du projet est temporairement en pause.",
+            description: "The development of the project is temporarily on pause.",
             details: [
-                "Le projet est en construction mais temporairement suspendu",
-                "Aucune mise à jour n'est apportée pour le moment",
-                "La barre de progression est figée",
-                "Le développement reprendra ultérieurement"
+                "The project is under construction but temporarily suspended",
+                "No updates are currently being provided",
+                "The progress bar is frozen",
+                "Development will resume later"
             ]
         },
         {
             id: "completed",
-            name: "Terminé",
+            name: "Completed",
             icon: CheckCircle2,
             color: "from-green-500 to-emerald-500",
             bgColor: "bg-green-500/10",
             borderColor: "border-green-500/30",
             iconColor: "text-green-500",
-            description: "Ce tag signifie que le projet est complètement terminé et fonctionnel.",
+            description: "This tag means that the project is completely finished and functional.",
             details: [
-                "Le projet est entièrement fonctionnel et stable",
-                "Toutes les fonctionnalités prévues ont été implémentées",
-                "Le projet ne recevra plus de mises à jour majeures ni mineures",
-                "Corrections de bugs et mises à jour de sécurité uniquement si nécessaire"
+                "The project is fully functional and stable",
+                "All planned features have been implemented",
+                "The project will no longer receive major or minor updates",
+                "Bug fixes and security updates only if necessary"
             ]
         },
         {
             id: "archived",
-            name: "Archivé",
+            name: "Archived",
             icon: Archive,
             color: "from-gray-500 to-slate-500",
             bgColor: "bg-gray-500/10",
             borderColor: "border-gray-500/30",
             iconColor: "text-gray-500",
-            description: "Ce tag indique que le projet a été archivé et n'est plus maintenu.",
+            description: "This tag indicates that the project has been archived and is no longer maintained.",
             details: [
-                "Le projet ne recevra plus aucune mise à jour",
-                "Le projet n'est pas terminé et est incomplet",
-                "Certaines fonctionnalités peuvent ne pas être opérationnelles",
-                "Le code source reste disponible pour référence ou fork (si possible)"
+                "The project will no longer receive any updates",
+                "The project is not finished and is incomplete",
+                "Some features may not be operational",
+                "The source code remains available for reference or fork (if possible)"
             ]
         }
     ]
@@ -117,7 +117,7 @@ export default async function TagsInfoPage() {
                         <div className="p-2 rounded-xl glass border-white/10 group-hover:border-primary/50 transition-all">
                             <ChevronLeft className="h-4 w-4" />
                         </div>
-                        Retour à l'accueil
+                        Back to Home
                     </Link>
                     <div className="flex items-center gap-2">
                         <Tags className="h-5 w-5 text-primary" />
@@ -131,10 +131,10 @@ export default async function TagsInfoPage() {
                 {/* Hero Section */}
                 <div className="max-w-4xl mx-auto text-center space-y-8 mb-24 reveal-up">
                     <h1 className="text-5xl md:text-7xl font-black tracking-tight font-display text-transparent bg-clip-text bg-gradient-to-br from-foreground via-foreground/90 to-foreground/50 text-glow">
-                        COMPRENDRE LES TAGS
+                        UNDERSTANDING TAGS
                     </h1>
                     <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto leading-relaxed">
-                        Chaque projet est marqué d'un <span className="text-primary">tag de statut</span> pour vous informer de son état actuel. Voici ce que signifie chaque tag.
+                        Each project is marked with a <span className="text-primary">status tag</span> to inform you of its current state. Here is what each tag means.
                     </p>
                 </div>
 
@@ -190,10 +190,10 @@ export default async function TagsInfoPage() {
                                 <AlertCircle className="h-6 w-6 text-primary" />
                             </div>
                             <div className="flex-1 space-y-3">
-                                <h3 className="text-xl font-bold">Bon à savoir</h3>
+                                <h3 className="text-xl font-bold">Good to know</h3>
                                 <p className="text-muted-foreground font-medium leading-relaxed">
-                                    Les tags sont mis à jour régulièrement pour refléter l'état actuel de chaque projet.
-                                    Si vous avez des questions sur un projet spécifique, n'hésitez pas à me <Link href="/contact" className="text-primary hover:underline font-bold">contacter</Link>.
+                                    Tags are updated regularly to reflect the current state of each project.
+                                    If you have questions about a specific project, feel free to <Link href="/contact" className="text-primary hover:underline font-bold">contact me</Link>.
                                 </p>
                             </div>
                         </div>
@@ -204,9 +204,9 @@ export default async function TagsInfoPage() {
                 <div className="max-w-4xl mx-auto mt-16 text-center reveal-up">
                     <div className="glass p-12 rounded-[2.5rem] border-white/10 space-y-6 mesh-bg relative overflow-hidden">
                         <Rocket className="h-12 w-12 text-primary mx-auto animate-pulse" />
-                        <h3 className="text-3xl font-bold tracking-tight">Prêt à explorer mes projets ?</h3>
+                        <h3 className="text-3xl font-bold tracking-tight">Ready to explore my projects?</h3>
                         <p className="text-lg text-muted-foreground font-medium max-w-xl mx-auto">
-                            Découvrez tous mes projets et leurs statuts actuels.
+                            Discover all my projects and their current status.
                         </p>
                         <div className="pt-4">
                             <Link
@@ -214,7 +214,7 @@ export default async function TagsInfoPage() {
                                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold text-sm tracking-wide hover:bg-primary/90 transition-all hover:scale-105 shadow-xl shadow-primary/20"
                             >
                                 <Code2 className="h-5 w-5" />
-                                Voir les projets
+                                See projects
                             </Link>
                         </div>
                     </div>

@@ -8,11 +8,11 @@ export function NewYearOverlay() {
     useEffect(() => {
         setMounted(true)
 
-        // Particules et confettis en quantité MINIMALE pour éviter le lag
+        // Particles and confetti in MINIMAL quantity to avoid lag
 
-        // Créer des particules dorées flottantes
+        // Create floating golden particles
         const createParticles = () => {
-            const particleCount = 5 // Très réduit pour performance
+            const particleCount = 5 // Very reduced for performance
             const container = document.getElementById('new-year-particles')
             if (!container) return
 
@@ -21,14 +21,14 @@ export function NewYearOverlay() {
                 particle.className = 'golden-particle'
                 particle.style.left = `${Math.random() * 100}%`
                 particle.style.animationDelay = `${Math.random() * 15}s`
-                particle.style.animationDuration = `${20 + Math.random() * 10}s` // Plus lent
+                particle.style.animationDuration = `${20 + Math.random() * 10}s` // Slower
                 container.appendChild(particle)
             }
         }
 
-        // Créer des confettis dorés
+        // Create golden confetti
         const createConfetti = () => {
-            const confettiCount = 2 // Très réduit pour performance
+            const confettiCount = 2 // Very reduced for performance
             const container = document.getElementById('new-year-confetti')
             if (!container) return
 
@@ -37,10 +37,10 @@ export function NewYearOverlay() {
             for (let i = 0; i < confettiCount; i++) {
                 const confetti = document.createElement('div')
                 confetti.className = 'golden-confetti'
-                confetti.style.left = `${(i + 1) * 33}%` // Espacés régulièrement
+                confetti.style.left = `${(i + 1) * 33}%` // Evenly spaced
                 confetti.style.backgroundColor = colors[i % colors.length]
                 confetti.style.animationDelay = `${i * 2.5}s`
-                confetti.style.animationDuration = `${8 + Math.random() * 4}s` // Plus lent
+                confetti.style.animationDuration = `${8 + Math.random() * 4}s` // Slower
                 confetti.style.width = `8px`
                 confetti.style.height = `8px`
                 confetti.style.borderRadius = '50%'
@@ -48,7 +48,7 @@ export function NewYearOverlay() {
             }
         }
 
-        // Initialiser les effets (PAS de feux d'artifice)
+        // Initialize effects (NO fireworks)
         setTimeout(() => {
             createParticles()
             createConfetti()
@@ -59,21 +59,21 @@ export function NewYearOverlay() {
 
     return (
         <>
-            {/* Container pour les particules */}
+            {/* Container for the particles */}
             <div
                 id="new-year-particles"
                 className="fixed inset-0 pointer-events-none z-[9998] overflow-hidden"
                 aria-hidden="true"
             />
 
-            {/* Container pour les confettis */}
+            {/* Container for the confetti */}
             <div
                 id="new-year-confetti"
                 className="fixed inset-0 pointer-events-none z-[9998] overflow-hidden"
                 aria-hidden="true"
             />
 
-            {/* Overlay avec message "Bonne Année" (optionnel, apparaît brièvement) */}
+            {/* Overlay with "Happy New Year" message (optional, appears briefly) */}
             <div
                 className="fixed top-8 left-1/2 z-[9999] pointer-events-none"
                 style={{
@@ -83,15 +83,15 @@ export function NewYearOverlay() {
             >
                 <div className="new-year-text text-center px-8 py-4 rounded-2xl backdrop-blur-sm bg-black/20 border border-[#FFD700]/30">
                     <div className="text-4xl md:text-6xl font-black tracking-tight">
-                        ✨ BONNE ANNÉE 2026 ✨
+                        ✨ HAPPY NEW YEAR 2026 ✨
                     </div>
                     <div className="text-lg md:text-xl mt-2 text-[#FFF4A3] font-semibold">
-                        Meilleurs vœux pour cette nouvelle année !
+                        Best wishes for this new year!
                     </div>
                 </div>
             </div>
 
-            {/* Styles additionnels pour les animations */}
+            {/* Additional styles for animations */}
             <style jsx>{`
                 @keyframes fadeOutUp {
                     from {
