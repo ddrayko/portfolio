@@ -75,7 +75,7 @@ export default function PrivacyPage() {
                         <section className="space-y-4">
                             <h2 className="text-2xl font-bold text-foreground tracking-tight">5. Contact Us</h2>
                             <p>
-                                Notre fonction de contact sur le Web arrive bientôt. En attendant, pour toute question concernant cette politique de confidentialité, veuillez nous contacter par e-mail à :
+                                Our web contact feature is coming soon. In the meantime, for any questions concerning this privacy policy, please contact us by email at:
                                 <span className="text-primary ml-1">admin@drayko.xyz</span>
                             </p>
                         </section>

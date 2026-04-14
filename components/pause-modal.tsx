@@ -51,13 +51,13 @@ export function PauseModal() {
           <DialogHeader className="space-y-3">
             <DialogTitle className="text-2xl font-display font-bold text-gradient flex items-center gap-2">
               <Info className="w-5 h-5 text-primary" />
-              Information Importante
+              Important Information
             </DialogTitle>
             <DialogDescription className="text-base text-foreground/80 leading-relaxed">
-              Je me suis un peu éloigné de l'univers du code et je code de moins en moins. Même si je continue d'en faire occasionnellement.
+              I've stepped away from the coding world a bit and I'm coding less and less. Even though I continue to do some occasionally.
               <br /><br />
-              Je suis actuellement dans une sorte de <span className="text-primary font-semibold italic">"pause"</span>.
-              Merci de passer par ici et de votre compréhension !
+              I am currently in a sort of <span className="text-primary font-semibold italic">"pause"</span>.
+              Thank you for stopping by and for your understanding!
             </DialogDescription>
           </DialogHeader>
 
@@ -66,7 +66,7 @@ export function PauseModal() {
               onClick={handleClose}
               className="w-full sm:w-auto px-8 py-6 rounded-xl text-lg font-display font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-border"
             >
-              Accéder au site
+              Enter site
             </Button>
           </DialogFooter>
         </div>

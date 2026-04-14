@@ -42,7 +42,7 @@ export default async function ContactPage() {
                     </Link>
                     <div className="flex items-center gap-2">
                         <Mail className="h-5 w-5 text-primary" />
-                        <span className="font-bold tracking-tight text-slate-900">Contact Direct</span>
+                        <span className="font-bold tracking-tight text-slate-900">Direct Contact</span>
                     </div>
                 </div>
             </header>
@@ -56,17 +56,17 @@ export default async function ContactPage() {
                         </div>
                         <div className="space-y-4">
                             <h1 className="text-4xl md:text-6xl font-black tracking-tight font-display text-slate-900">
-                                Parlons de votre <span className="text-gradient">Projet</span>
+                                Let's talk about your <span className="text-gradient">Project</span>
                             </h1>
                             <p className="text-slate-600 font-medium leading-relaxed max-w-lg mx-auto">
-                                Vous avez une idée ambitieuse ou une question technique ? Je suis disponible pour en discuter et vous accompagner dans votre réalisation.
+                                Have an ambitious idea or a technical question? I'm available to discuss it and support you in its realization.
                             </p>
                         </div>
                     </div>
 
                     <div className="space-y-8 py-10">
                         <div className="flex flex-col items-center gap-2">
-                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Email de contact</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Contact Email</span>
                             <a 
                                 href="mailto:hello@drayko.xyz" 
                                 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 hover:text-primary transition-all hover:scale-105 inline-block selection:bg-primary/20"
@@ -84,13 +84,13 @@ export default async function ContactPage() {
                                     <span className={`relative inline-flex rounded-full h-3 w-3 ${isAvailable ? "bg-green-500" : "bg-red-500"}`}></span>
                                 </span>
                                 <span className={`font-bold text-sm ${isAvailable ? "text-slate-900" : "text-slate-400"}`}>
-                                    {isAvailable ? "Ouvert aux projets" : "Indisponible"}
+                                    {isAvailable ? "Open for projects" : "Unavailable"}
                                 </span>
                             </div>
                         </div>
                         <div className="glass bg-white/50 p-6 rounded-3xl border-black/5 flex items-center justify-center gap-4">
                              <Clock className="h-4 w-4 text-primary" />
-                             <span className="font-bold text-sm text-slate-900">Réponse sous 24h</span>
+                             <span className="font-bold text-sm text-slate-900">Response within 24h</span>
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@ export default async function ContactPage() {
                         <Button asChild variant="ghost" className="text-slate-500 hover:text-slate-900 hover:bg-black/5 rounded-2xl h-14 px-8 font-bold">
                             <Link href="/">
                                 <ChevronLeft className="mr-2 h-4 w-4" />
-                                Retour au portfolio
+                                Back to portfolio
                             </Link>
                         </Button>
                     </div>
