@@ -3,7 +3,11 @@
   <img src="https://raw.githubusercontent.com/ddrayko/ddrayko/refs/heads/main/picto-and-text-noir.png#gh-light-mode-only" width="10000">
 </p>
 
+---
+
 ![Alt](https://repobeats.axiom.co/api/embed/73b1d473ae1a93e90e9c95bcfbb34cd60e6af90c.svg "Repobeats analytics image")
+
+---
 
 ## Star History
 
