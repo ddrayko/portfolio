@@ -122,12 +122,12 @@ export function TechStack() {
 
             {/* Row 1 — left */}
             <div className="flex w-max gap-6 hover:[&>div]:!animate-play-state-paused">
-              <div className="flex shrink-0 gap-6" style={{ animation: "marquee-left 60s linear infinite" }}>
+              <div className="flex shrink-0 gap-6" style={{ animation: "marquee-left 120s linear infinite" }}>
                 {row1.map((tech, i) => (
                   <TechCard key={`row1-a-${i}`} tech={tech} />
                 ))}
               </div>
-              <div className="flex shrink-0 gap-6" aria-hidden="true" style={{ animation: "marquee-left 60s linear infinite" }}>
+              <div className="flex shrink-0 gap-6" aria-hidden="true" style={{ animation: "marquee-left 120s linear infinite" }}>
                 {row1.map((tech, i) => (
                   <TechCard key={`row1-b-${i}`} tech={tech} />
                 ))}
@@ -136,12 +136,12 @@ export function TechStack() {
 
             {/* Row 2 — right */}
             <div className="flex w-max gap-6 hover:[&>div]:!animate-play-state-paused">
-              <div className="flex shrink-0 gap-6" style={{ animation: "marquee-right 60s linear infinite" }}>
+              <div className="flex shrink-0 gap-6" style={{ animation: "marquee-right 120s linear infinite" }}>
                 {row2.map((tech, i) => (
                   <TechCard key={`row2-a-${i}`} tech={tech} />
                 ))}
               </div>
-              <div className="flex shrink-0 gap-6" aria-hidden="true" style={{ animation: "marquee-right 60s linear infinite" }}>
+              <div className="flex shrink-0 gap-6" aria-hidden="true" style={{ animation: "marquee-right 120s linear infinite" }}>
                 {row2.map((tech, i) => (
                   <TechCard key={`row2-b-${i}`} tech={tech} />
                 ))}
