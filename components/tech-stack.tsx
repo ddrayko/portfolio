@@ -49,7 +49,7 @@ const techStack: TechItem[] = [
   { name: "Gitea", logo: "https://github.com/go-gitea.png" },
   { name: "Windows", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/windows11/windows11-original.svg" },
   { name: "Windows Server", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/windows8/windows8-original.svg" },
-  { name: "OpenCore", logo: "https://github.com/acidanthera.png" },
+  { name: "OpenCore", logo: "https://cdn.jsdelivr.net/gh/acidanthera/OpenCorePkg@master/Docs/Logos/Logo.png" },
   { name: "MacOS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apple/apple-original.svg" },
   { name: "Drizzle ORM", logo: "https://github.com/drizzle-team.png" },
 ]
