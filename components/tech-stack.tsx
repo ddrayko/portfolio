@@ -51,6 +51,7 @@ const techStack: TechItem[] = [
   { name: "Windows Server", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/windows8/windows8-original.svg" },
   { name: "OpenCore", logo: "https://github.com/acidanthera.png" },
   { name: "MacOS", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apple/apple-original.svg" },
+  { name: "Drizzle ORM", logo: "https://github.com/drizzle-team.png" },
 ]
 
 const half = Math.ceil(techStack.length / 2)
