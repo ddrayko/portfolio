@@ -69,29 +69,19 @@ export default async function UpdatePage() {
 
             <main className="relative z-10 pt-32 pb-24 container max-w-4xl mx-auto px-6 space-y-12">
                 {/* Next Update Card */}
-                <section className="reveal-up opacity-0 stagger-1">
-                    <div className="glass p-10 md:p-16 rounded-[3rem] border-white/5 relative overflow-hidden mesh-bg perspective-card">
-                        <div className="relative z-10 flex flex-col items-center text-center space-y-8">
-                            <div className="p-4 rounded-3xl bg-primary/10 text-primary animate-bounce">
-                                <Rocket className="h-10 w-10" />
-                            </div>
-                            <div className="space-y-2">
-                                <h1 className="text-4xl md:text-6xl font-black tracking-tight font-display text-gradient reveal-up stagger-1">NEXT EVOLUTION</h1>
-                                <p className="text-muted-foreground font-medium text-lg reveal-up stagger-2">Predicting the future of the digital ecosystem.</p>
-                            </div>
+                {(!updateData.no_update_planned && updateData.next_update_date) && (
+                    <section className="reveal-up opacity-0 stagger-1">
+                        <div className="glass p-10 md:p-16 rounded-[3rem] border-white/5 relative overflow-hidden mesh-bg perspective-card">
+                            <div className="relative z-10 flex flex-col items-center text-center space-y-8">
+                                <div className="p-4 rounded-3xl bg-primary/10 text-primary animate-bounce">
+                                    <Rocket className="h-10 w-10" />
+                                </div>
+                                <div className="space-y-2">
+                                    <h1 className="text-4xl md:text-6xl font-black tracking-tight font-display text-gradient reveal-up stagger-1">NEXT EVOLUTION</h1>
+                                    <p className="text-muted-foreground font-medium text-lg reveal-up stagger-2">Predicting the future of the digital ecosystem.</p>
+                                </div>
 
-                            <div className="pt-4 w-full reveal-up stagger-3">
-                                {updateData.no_update_planned || !updateData.next_update_date ? (
-                                    <div className="glass bg-white/5 border-white/10 p-8 rounded-[2.5rem] max-w-md mx-auto">
-                                        <div className="flex items-center justify-center gap-3 text-muted-foreground mb-2">
-                                            <Calendar className="h-5 w-5" />
-                                            <span className="font-bold tracking-widest uppercase text-xs">Status</span>
-                                        </div>
-                                        <div className="text-2xl font-black tracking-tighter italic text-muted-foreground/50">
-                                            No updates planned
-                                        </div>
-                                    </div>
-                                ) : (
+                                <div className="pt-4 w-full reveal-up stagger-3">
                                     <div className="space-y-6">
                                         <div className="flex items-center justify-center gap-3 text-primary">
                                             <Calendar className="h-4 w-4" />
@@ -99,11 +89,11 @@ export default async function UpdatePage() {
                                         </div>
                                         <Countdown targetDate={updateData.next_update_date} />
                                     </div>
-                                )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* Changelog Section */}
                 <section className="space-y-12 reveal-up opacity-0 stagger-2">
