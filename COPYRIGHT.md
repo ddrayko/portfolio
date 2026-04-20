@@ -23,9 +23,9 @@ A non-exclusive, non-transferable, and revocable license is granted for strictly
 
 This license allows:
 
-* Using the Project for a personal portfolio
-* Hosting the Project for personal purposes
-* Modifying the source code for individual use
+- Using the Project for a personal portfolio
+- Hosting the Project for personal purposes
+- Modifying the source code for individual use
 
 ---
 
@@ -33,14 +33,13 @@ This license allows:
 
 For any personal use of the Project, the following conditions must be strictly respected:
 
-* The following copyright notice must be preserved, visible, and unchanged in the footer of all pages:
+- The following copyright notice must be preserved, visible, and unchanged in the footer of all pages:
 
   **© 2025 - 2026 Drayko. All rights reserved.**
 
-* This requirement applies regardless of:
-
-  * any modification of the developer name (manual or automated)
-  * any partial modification of the Project
+- This requirement applies regardless of:
+  - any modification of the developer name (manual or automated)
+  - any partial modification of the Project
 
 ---
 
@@ -48,8 +47,8 @@ For any personal use of the Project, the following conditions must be strictly r
 
 As an exception, the user is allowed to remove the copyright from the footer only if:
 
-* the Project has undergone substantial modifications,
-* defined as modifying at least one thousand (1000) lines of code.
+- the Project has undergone substantial modifications,
+- defined as modifying at least one thousand (1000) lines of code.
 
 ---
 
@@ -57,8 +56,8 @@ As an exception, the user is allowed to remove the copyright from the footer onl
 
 If the Project is modified, regardless of the extent of the changes, the user must:
 
-* Publish the modified source code in a publicly accessible repository (e.g., on a Git-based platform)
-* Keep this repository publicly accessible for as long as the modified Project is used or distributed
+- Publish the modified source code in a publicly accessible repository (e.g., on a Git-based platform)
+- Keep this repository publicly accessible for as long as the modified Project is used or distributed
 
 ---
 
@@ -66,15 +65,14 @@ If the Project is modified, regardless of the extent of the changes, the user mu
 
 The following are strictly prohibited:
 
-* Any commercial use of the Project, directly or indirectly, including but not limited to:
+- Any commercial use of the Project, directly or indirectly, including but not limited to:
+  - selling the Project
+  - integrating it into a paid product or service
+  - any form of profit-driven use
 
-  * selling the Project
-  * integrating it into a paid product or service
-  * any form of profit-driven use
+- Removing the copyright without complying with the conditions set in Section 5
 
-* Removing the copyright without complying with the conditions set in Section 5
-
-* Redistributing the Project in a way that suggests it is entirely your own work without substantial modifications
+- Redistributing the Project in a way that suggests it is entirely your own work without substantial modifications
 
 ---
 
