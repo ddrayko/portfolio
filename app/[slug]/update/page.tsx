@@ -35,7 +35,7 @@ export default async function ProjectUpdatePage({ params }: ProjectUpdatePagePro
     }
 
     // Redirect to main update page if it's the portfolio itself
-    if (project.slug === "my-portfolio-this-web-site" || project.title === "My portfolio (this web site)") {
+    if (project.slug === "drayko-xyz" || project.title === "drayko.xyz") {
         redirect("/update")
     }
 
