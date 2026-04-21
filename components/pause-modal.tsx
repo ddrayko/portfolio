@@ -12,9 +12,13 @@ import {
 import { Button } from '@/components/ui/button'
 import { Rocket, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { usePathname } from 'next/navigation'
 
 export function PauseModal() {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
+
+  if (pathname !== '/') return null
 
   useEffect(() => {
     // Check if the modal has already been shown in this session
