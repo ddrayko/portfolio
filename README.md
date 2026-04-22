@@ -22,4 +22,5 @@
 ---
 
 © 2025 - 2026 Drayko. All rights reserved.
+
 (READ : ![COPYRIGHT.md](./COPYRIGHT.md))
