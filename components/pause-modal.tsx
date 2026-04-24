@@ -18,9 +18,8 @@ export function PauseModal() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 
-  if (pathname !== '/') return null
-
   useEffect(() => {
+    if (pathname !== '/') return
     // Check if the modal has already been shown in this session
     const hasSeenModal = sessionStorage.getItem('hasSeenReturnModal')
     if (!hasSeenModal) {
@@ -30,12 +29,14 @@ export function PauseModal() {
       }, 1000)
       return () => clearTimeout(timer)
     }
-  }, [])
+  }, [pathname])
 
   const handleClose = () => {
     setIsOpen(false)
     sessionStorage.setItem('hasSeenReturnModal', 'true')
   }
+
+  if (pathname !== '/') return null
 
   return (
     <Dialog open={isOpen} onOpenChange={(open: boolean) => {
