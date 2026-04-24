@@ -36,13 +36,16 @@ export function ChangelogList({ entries }: ChangelogListProps) {
             ) : (
                 entries.map((entry, idx) => {
                     const isScheduled = new Date(entry.date) > now
+                    const isLeft = idx % 2 === 0
 
                     return (
-                        <div key={entry.id} className={`relative flex items-center justify-center group ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                        <div key={entry.id} className="relative flex w-full group py-4">
                             {/* Timeline Dot */}
-                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-20 group-hover:scale-150 transition-transform duration-500 shadow-[0_0_15px_rgba(var(--primary),0.5)]" />
+                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-20 group-hover:scale-150 transition-transform duration-500 shadow-[0_0_15px_rgba(var(--primary),0.5)] top-1/2 -translate-y-1/2" />
 
-                            <div className={`w-full md:w-1/2 shrink-0 pl-16 md:pl-0 ${idx % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
+                            {isLeft ? (
+                                <>
+                                    <div className="w-full md:w-1/2 pl-16 md:pl-0 md:pr-12">
                                 <div className="glass p-8 rounded-[2rem] border-white/5 hover:border-primary/20 transition-all duration-500 group-hover:translate-y-[-5px]">
                                     <div className="flex items-center justify-between mb-4">
                                         <span className="text-primary font-black font-display text-2xl tracking-tighter">{entry.version}</span>
@@ -63,9 +66,37 @@ export function ChangelogList({ entries }: ChangelogListProps) {
                                             </li>
                                         ))}
                                     </ul>
-                                </div>
-                            </div>
-                            <div className="hidden md:block w-1/2 shrink-0" />
+                                    </div>
+                                    <div className="hidden md:block md:w-1/2" />
+                                </>
+                            ) : (
+                                <>
+                                    <div className="hidden md:block md:w-1/2" />
+                                    <div className="w-full md:w-1/2 pl-16 md:pl-12">
+                                        <div className="glass p-8 rounded-[2rem] border-white/5 hover:border-primary/20 transition-all duration-500 group-hover:-translate-y-1">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <span className="text-primary font-black font-display text-2xl tracking-tighter">{entry.version}</span>
+                                                <div className="flex items-center gap-2">
+                                                    {isScheduled && (
+                                                        <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-md bg-primary/20 text-primary border border-primary/20 animate-pulse">
+                                                            Scheduled
+                                                        </span>
+                                                    )}
+                                                    <span className="text-xs font-bold text-muted-foreground bg-white/5 px-3 py-1 rounded-full">{entry.date}</span>
+                                                </div>
+                                            </div>
+                                            <ul className="space-y-3">
+                                                {entry.changes.map((change, cIdx) => (
+                                                    <li key={cIdx} className="flex gap-3 text-sm text-foreground/80 font-medium leading-relaxed">
+                                                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary mt-0.5" />
+                                                        {change}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     )
                 })
