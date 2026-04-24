@@ -16,3 +16,4 @@ bcrypt.hash(password, saltRounds, function (err, hash) {
   );
   console.log("\n----------------------------------\n");
 });
+
