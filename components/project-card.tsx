@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Github, ArrowUpRight, Hammer, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, History, Play, Pause, Lock } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useUser, SignInButton } from "@clerk/nextjs"
+import dynamic from "next/dynamic"
+
+const ProjectCardWithClerk = dynamic(() => import("./clerk-integrated-components").then(m => m.ProjectCardWithClerk), { ssr: false })
 
 interface ProjectCardProps {
   project: Project
@@ -40,7 +42,7 @@ function ProjectCardContent({ project, isSignedIn }: { project: Project; isSigne
                     : "Authentication is disabled locally (Clerk key missing)."}
                 </p>
               </div>
-              {publishableKey && (
+              {publishableKey && SignInButton && (
                 <SignInButton mode="modal">
                   <button className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-bold hover:bg-primary/90 transition-colors shadow-lg">
                     Sign in
@@ -319,17 +321,17 @@ function ProjectCardContent({ project, isSignedIn }: { project: Project; isSigne
   );
 }
 
-function ProjectCardWithClerk({ project }: ProjectCardProps) {
-  const { user } = useUser()
-  return <ProjectCardContent project={project} isSignedIn={!!user} />
-}
-
 export function ProjectCard({ project }: ProjectCardProps) {
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
   if (!publishableKey) {
-    return <ProjectCardContent project={project} isSignedIn={false} />
+    return <ProjectCardContent project={project} isSignedIn={false} SignInButton={null} />
   }
 
-  return <ProjectCardWithClerk project={project} />
+  return (
+    <ProjectCardWithClerk
+      project={project}
+      renderContent={(props: any) => <ProjectCardContent {...props} />}
+    />
+  )
 }
