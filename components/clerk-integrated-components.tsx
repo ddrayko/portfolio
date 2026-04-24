@@ -5,12 +5,22 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 
-export function ProjectCardWithClerk({ project, renderContent }: { project: any; renderContent: (props: { project: any; isSignedIn: boolean; SignInButton: any }) => React.ReactNode }) {
+import { Suspense } from "react"
+
+function ProjectCardWithClerkInner({ project, renderContent }: { project: any; renderContent: (props: { project: any; isSignedIn: boolean; SignInButton: any }) => React.ReactNode }) {
   const { user } = useUser()
   return <>{renderContent({ project, isSignedIn: !!user, SignInButton: ClerkSignInButton })}</>
 }
 
-export function AuthButtonsContent() {
+export function ProjectCardWithClerk(props: any) {
+  return (
+    <Suspense fallback={props.renderContent({ ...props, isSignedIn: false, SignInButton: null })}>
+      <ProjectCardWithClerkInner {...props} />
+    </Suspense>
+  )
+}
+
+function AuthButtonsContentInner() {
   const { isLoaded, userId } = useAuth()
   const router = useRouter()
 
@@ -33,5 +43,13 @@ export function AuthButtonsContent() {
         <ClerkUserButton />
       </SignedIn>
     </>
+  )
+}
+
+export function AuthButtonsContent() {
+  return (
+    <Suspense fallback={null}>
+      <AuthButtonsContentInner />
+    </Suspense>
   )
 }
