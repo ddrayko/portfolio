@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 interface ScrollButtonProps {
   targetId: string
@@ -33,7 +34,12 @@ export function ScrollButton({
   }
 
   return (
-    <Button size={size} variant={variant as any} className={className} onClick={handleScroll}>
+    <Button 
+      size={size} 
+      variant={variant as any} 
+      className={cn("cursor-pointer select-text", className)} 
+      onClick={handleScroll}
+    >
       {children}
     </Button>
   )
