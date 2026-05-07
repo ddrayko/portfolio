@@ -87,5 +87,12 @@
   },
   "overrides": {
     "esbuild": "^0.25.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@clerk/shared",
+      "esbuild",
+      "sharp"
+    ]
   }
 }
