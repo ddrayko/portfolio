@@ -67,7 +67,7 @@ export function MomentTimeline({ moments }: MomentTimelineProps) {
 
                             {isLeft ? (
                                 <>
-                                    <div className="w-full md:w-1/2 pl-20 md:pl-0 md:pr-16 flex md:justify-end">
+                                    <div className="w-full md:w-1/2 pl-16 md:pl-0 flex md:justify-end">
                                         <div className="glass p-8 rounded-[2.5rem] border-white/10 hover:border-primary/30 transition-all duration-500 group-hover:translate-y-[-8px] w-full max-w-lg mesh-bg relative overflow-hidden group/card shadow-2xl">
                                             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
                                             
@@ -97,7 +97,7 @@ export function MomentTimeline({ moments }: MomentTimelineProps) {
                             ) : (
                                 <>
                                     <div className="hidden md:block md:w-1/2" />
-                                    <div className="w-full md:w-1/2 pl-20 md:pl-16 flex md:justify-start">
+                                    <div className="w-full md:w-1/2 pl-16 md:pl-0 flex md:justify-start">
                                         <div className="glass p-8 rounded-[2.5rem] border-white/10 hover:border-primary/30 transition-all duration-500 group-hover:translate-y-[-8px] w-full max-w-lg mesh-bg relative overflow-hidden group/card shadow-2xl">
                                             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
                                             
