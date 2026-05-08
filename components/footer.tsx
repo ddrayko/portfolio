@@ -9,6 +9,9 @@ export function Footer() {
     const currentYear = new Date().getFullYear()
     const pathname = usePathname()
     const isHomePage = pathname === "/"
+    const isMaintenancePage = pathname === "/maintenance"
+
+    if (isMaintenancePage) return null
 
     return (
         <footer className="py-20 border-t border-white/5 bg-background relative overflow-hidden">
