@@ -43,7 +43,7 @@ export default async function MaintenancePage() {
                 <div className="text-center space-y-8 mb-16 reveal-up">
                     <div className="text-primary font-bold tracking-widest text-xs uppercase stagger-1">System Status</div>
                     <h1 className="text-5xl md:text-8xl font-black tracking-tight font-display text-transparent bg-clip-text bg-gradient-to-br from-foreground via-foreground/90 to-foreground/50 text-glow leading-tight stagger-2">
-                        COSMIC <br /> REALIGNMENT
+                        UPDATE IN PROGRESS
                     </h1>
                 </div>
 
@@ -59,7 +59,7 @@ export default async function MaintenancePage() {
 
                         <div className="flex flex-col gap-3">
                             <div className="flex justify-between text-xs font-bold tracking-widest uppercase text-muted-foreground mb-1">
-                                <span>Optimization</span>
+                                <span>Update Progress</span>
                                 <span>{progress || 0}%</span>
                             </div>
                             <div className="h-2 w-full bg-primary/10 rounded-full overflow-hidden relative">
@@ -69,13 +69,6 @@ export default async function MaintenancePage() {
                                 />
                             </div>
                         </div>
-                    </div>
-
-                    {/* Footer note for maintenance */}
-                    <div className="flex justify-center gap-3 opacity-30">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
                     </div>
                 </div>
             </main>
