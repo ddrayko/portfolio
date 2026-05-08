@@ -214,7 +214,7 @@ export default function AdminDashboardClient() {
                   )}
                 </div>
 
-                <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-primary/30 to-transparent rounded-full shadow-[0_0_20px_rgba(var(--primary),0.1)]" />
+                <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-full shadow-[0_0_15px_rgba(255,255,255,0.02)]" />
 
                 {/* Moments Section */}
                 <div className="space-y-8">
