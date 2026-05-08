@@ -86,16 +86,14 @@
     "typescript": "^5"
   },
   "overrides": {
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.0",
+    "postcss": "^8.5.10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "@clerk/shared",
       "esbuild",
       "sharp"
-    ],
-    "overrides": {
-      "postcss": "^8.5.10"
-    }
+    ]
   }
 }
