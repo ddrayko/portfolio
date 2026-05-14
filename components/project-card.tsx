@@ -8,6 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useSession } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
+import { SignInDialog } from "@/components/sign-in-dialog"
 
 interface ProjectCardProps {
   project: Project
@@ -39,12 +40,13 @@ function ProjectCardContent({ project, isSignedIn }: { project: Project; isSigne
                   This project requires authentication to be viewed.
                 </p>
               </div>
-              <button 
-                onClick={() => router.push('/admin')}
-                className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-bold hover:bg-primary/90 transition-colors shadow-lg"
-              >
-                Sign in
-              </button>
+              <SignInDialog>
+                <button 
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-bold hover:bg-primary/90 transition-colors shadow-lg"
+                >
+                  Sign in
+                </button>
+              </SignInDialog>
             </div>
           </div>
         )}
