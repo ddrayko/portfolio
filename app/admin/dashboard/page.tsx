@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
-import { checkAdminSession } from "@/lib/auth"
+import { checkAdminSession } from "@/lib/admin-auth"
 import AdminDashboardClient from "./admin-dashboard-client"
 
 export const dynamic = "force-dynamic"
