@@ -20,6 +20,8 @@ export const metadata: Metadata = {
 import { Suspense } from "react"
 import Script from "next/script"
 
+import { CookieConsent } from "@/components/cookie-consent"
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -42,6 +44,7 @@ export default async function RootLayout({
           </Suspense>
           <Footer />
         </div>
+        <CookieConsent />
       </body>
     </html>
   )

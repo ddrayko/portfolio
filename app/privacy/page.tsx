@@ -65,10 +65,17 @@ export default function PrivacyPage() {
                         </section>
 
                         <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">4. Cookies</h2>
+                            <h2 className="text-2xl font-bold text-foreground tracking-tight">4. Cookies and Advertising</h2>
                             <p>
-                                Our website uses minimal cookies to enhance performance. You can set your browser to refuse all or some
-                                browser cookies, or to alert you when websites set or access cookies.
+                                Our website uses cookies to enhance performance and serve relevant advertisements. We use third-party advertising companies, including Google AdSense, to serve ads when you visit our website.
+                            </p>
+                            <ul className="list-disc pl-6 space-y-2">
+                                <li>Third party vendors, including Google, use cookies to serve ads based on your prior visits to our website or other websites.</li>
+                                <li>Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to our sites and/or other sites on the Internet.</li>
+                                <li>You may opt out of personalized advertising by visiting <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Ads Settings</a>. Alternatively, you can opt out of a third-party vendor's use of cookies for personalized advertising by visiting <a href="https://youradchoices.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">www.aboutads.info</a>.</li>
+                            </ul>
+                            <p>
+                                You can set your browser to refuse all or some browser cookies, or to alert you when websites set or access cookies.
                             </p>
                         </section>
 
