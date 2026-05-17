@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 }
 
 import { Suspense } from "react"
+import Script from "next/script"
 
 export default async function RootLayout({
   children,
@@ -26,6 +27,14 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} light`}>
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686663034025604"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="font-sans antialiased selection:bg-primary/30 selection:text-primary transition-colors duration-300" suppressHydrationWarning>
         <div className="relative flex min-h-screen flex-col">
           <Suspense fallback={null}>
