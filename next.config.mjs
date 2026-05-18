@@ -44,6 +44,15 @@ const nextConfig = {
     ],
   },
   serverExternalPackages: ["better-auth", "@better-auth/infra", "zod"],
+  async redirects() {
+    return [
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default nextConfig
