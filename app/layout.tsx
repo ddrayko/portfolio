@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://drayko.xyz"),
   title: "Drayko - Creative Developer",
   description: "Portfolio of Drayko, a Creative Developer & Designer specializing in high-performance digital experiences.",
   icons: {
