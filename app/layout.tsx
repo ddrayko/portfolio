@@ -22,12 +22,17 @@ import { Suspense } from "react"
 import Script from "next/script"
 
 import { CookieConsent } from "@/components/cookie-consent"
+import { OldVersionPopup } from "@/components/old-version-popup"
+import { getVersions } from "@/lib/actions"
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const versionsResult = await getVersions()
+  const versions = versionsResult.success ? versionsResult.data : []
+
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} light`}>
       <head>
@@ -46,6 +51,7 @@ export default async function RootLayout({
           <Footer />
         </div>
         <CookieConsent />
+        <OldVersionPopup versions={versions as any} />
       </body>
     </html>
   )
