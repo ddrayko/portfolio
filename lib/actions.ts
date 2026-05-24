@@ -324,7 +324,6 @@ export async function deleteMoment(id: string) {
     console.error("Error deleting moment:", error)
     return { success: false, error: error.message }
   }
-  }
 }
 
 export async function getVersions() {
