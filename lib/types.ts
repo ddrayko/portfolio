@@ -57,5 +57,6 @@ export interface Version {
   name: string
   description: string | null
   link: string
+  is_current?: boolean
   created_at: string
 }

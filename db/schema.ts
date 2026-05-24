@@ -108,5 +108,6 @@ export const versions = pgTable("versions", {
   name: text("name").notNull(),
   description: text("description"),
   link: text("link").notNull(),
+  is_current: boolean("is_current").default(false),
   created_at: timestamp("created_at").defaultNow(),
 });

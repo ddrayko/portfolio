@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Pencil, Trash2, GitMerge } from "lucide-react"
+import { Pencil, Trash2, GitMerge, Sparkles } from "lucide-react"
 import type { Version } from "@/lib/types"
 import { deleteVersion } from "@/lib/actions"
 import { VersionDialog } from "@/components/version-dialog"
@@ -38,7 +38,11 @@ export function AdminVersionCard({ version, onDeleted, onUpdated }: AdminVersion
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">Version</span>
-              <span className="text-[10px] font-bold text-muted-foreground bg-white/5 px-2 py-0.5 rounded-full">{new Date(version.created_at).toLocaleDateString()}</span>
+              {version.is_current && (
+                <span className="text-[10px] font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <Sparkles className="h-3 w-3" /> Actuelle
+                </span>
+              )}
             </div>
             <h4 className="font-bold text-foreground/90 group-hover:text-primary transition-colors">{version.name}</h4>
             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">

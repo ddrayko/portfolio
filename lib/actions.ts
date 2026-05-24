@@ -387,3 +387,19 @@ export async function deleteVersion(id: string) {
     return { success: false, error: error.message }
   }
 }
+
+export async function setCurrentVersion(id: string) {
+  try {
+    // Set all to false
+    await db.update(versions).set({ is_current: false })
+    // Set the specific one to true
+    await db.update(versions).set({ is_current: true }).where(eq(versions.id, parseInt(id)))
+
+    revalidatePath("/")
+    revalidatePath("/admin/dashboard")
+    return { success: true }
+  } catch (error: any) {
+    console.error("Error setting current version:", error)
+    return { success: false, error: error.message }
+  }
+}

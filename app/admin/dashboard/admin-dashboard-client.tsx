@@ -16,9 +16,10 @@ import { UpdateDialog } from "@/components/update-dialog"
 import { BadgeDialog } from "@/components/badge-dialog"
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { Project, Admin, SiteUpdate, Moment, Version } from "@/lib/types"
 import { logoutAdmin } from "@/lib/admin-auth"
-import { getAdmins, getMaintenanceMode, getAvailability, getProjects, getSiteUpdateData, getMoments, getVersions } from "@/lib/actions"
+import { getAdmins, getMaintenanceMode, getAvailability, getProjects, getSiteUpdateData, getMoments, getVersions, setCurrentVersion } from "@/lib/actions"
 import { MaintenanceToggle } from "@/components/maintenance-toggle"
 import { AvailabilityToggle } from "@/components/availability-toggle"
 import Link from "next/link"
@@ -131,6 +132,13 @@ export default function AdminDashboardClient() {
 
   const handleVersionUpdated = () => {
     fetchVersions()
+  }
+
+  const handleSetCurrentVersion = async (versionId: string) => {
+    const result = await setCurrentVersion(versionId)
+    if (result.success) {
+      fetchVersions()
+    }
   }
 
   const handleAdminDeleted = () => {
@@ -292,10 +300,29 @@ export default function AdminDashboardClient() {
                         Gérez les différentes versions de votre portfolio.
                       </p>
                     </div>
-                    <Button onClick={() => setAddVersionOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group self-start md:self-auto">
-                      <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
-                      Add Version
-                    </Button>
+                    <div className="flex flex-wrap items-end gap-4 self-start md:self-auto">
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold ml-1">Version Actuelle</span>
+                        <Select 
+                          value={versions.find(v => v.is_current)?.id || ""} 
+                          onValueChange={handleSetCurrentVersion}
+                          disabled={versions.length === 0}
+                        >
+                          <SelectTrigger className="w-[180px] h-12 rounded-xl glass border-white/10">
+                            <SelectValue placeholder="Aucune" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {versions.map(v => (
+                              <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <Button onClick={() => setAddVersionOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group shrink-0">
+                        <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
+                        Add Version
+                      </Button>
+                    </div>
                   </div>
 
                   {isVersionsLoading ? (
