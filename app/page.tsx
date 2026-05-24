@@ -15,7 +15,6 @@ import { AuthButtons } from "@/components/auth-buttons"
 import { VersionSelector } from "@/components/version-selector"
 import { isLocalRequest } from "@/lib/server-utils"
 import { versions as versionsTable } from "@/db/schema"
-import { isLocalRequest } from "@/lib/server-utils"
 
 export const dynamic = "force-dynamic"
 
