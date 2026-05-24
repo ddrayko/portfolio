@@ -12,7 +12,9 @@ import { ArrowRight, Sparkles, Code2, Globe, Command, ChevronDown, Github, Gitla
 import { getMaintenanceMode } from "@/lib/actions"
 import { redirect } from "next/navigation"
 import { AuthButtons } from "@/components/auth-buttons"
+import { VersionSelector } from "@/components/version-selector"
 import { isLocalRequest } from "@/lib/server-utils"
+import { versions as versionsTable } from "@/db/schema"
 
 export const dynamic = "force-dynamic"
 
@@ -27,6 +29,7 @@ export default async function HomePage() {
   }
 
   let projects: Project[] = []
+  let versions: any[] = []
   let fetchError = false
   let updateData: SiteUpdate | null = null
 
@@ -38,6 +41,13 @@ export default async function HomePage() {
       created_at: p.created_at?.toISOString() || new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })) as unknown as Project[]
+
+    const rawVersions = await db.select().from(versionsTable).orderBy(desc(versionsTable.created_at))
+    versions = rawVersions.map((v: any) => ({
+      ...v,
+      id: v.id.toString(),
+      created_at: v.created_at?.toISOString() || new Date().toISOString(),
+    }))
 
     // Fetch site update info
     const [rawUpdate] = await db.select().from(siteUpdates).limit(1)
@@ -87,6 +97,7 @@ export default async function HomePage() {
           </nav>
 
           <div className="flex items-center gap-4">
+            <VersionSelector versions={versions as any} />
             <AuthButtons />
           </div>
         </div>

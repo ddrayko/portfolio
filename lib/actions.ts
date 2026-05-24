@@ -326,3 +326,64 @@ export async function deleteMoment(id: string) {
   }
 }
 
+export async function getVersions() {
+  try {
+    const data = await db.select().from(versions).orderBy(desc(versions.created_at))
+    return {
+      success: true,
+      data: data.map((v: any) => ({
+        ...v,
+        id: v.id.toString(),
+        created_at: v.created_at?.toISOString() || new Date().toISOString()
+      })) as Version[]
+    }
+  } catch (error: any) {
+    console.error("Error fetching versions:", error)
+    return { success: false, error: error.message, data: [] }
+  }
+}
+
+export async function createVersion(data: Partial<Version>) {
+  try {
+    const { id: _, created_at: __, ...insertData } = data as any
+    const [newVersion] = await db.insert(versions).values({
+      ...insertData,
+      created_at: new Date()
+    }).returning()
+
+    revalidatePath("/")
+    revalidatePath("/admin/dashboard")
+    return { success: true, version: newVersion }
+  } catch (error: any) {
+    console.error("Error creating version:", error)
+    return { success: false, error: error.message }
+  }
+}
+
+export async function updateVersion(id: string, data: Partial<Version>) {
+  try {
+    const { id: _, created_at: __, ...updateData } = data as any
+    await db.update(versions)
+      .set(updateData)
+      .where(eq(versions.id, parseInt(id)))
+
+    revalidatePath("/")
+    revalidatePath("/admin/dashboard")
+    return { success: true }
+  } catch (error: any) {
+    console.error("Error updating version:", error)
+    return { success: false, error: error.message }
+  }
+}
+
+export async function deleteVersion(id: string) {
+  try {
+    await db.delete(versions).where(eq(versions.id, parseInt(id)))
+    revalidatePath("/")
+    revalidatePath("/admin/dashboard")
+    return { success: true }
+  } catch (error: any) {
+    console.error("Error deleting version:", error)
+    return { success: false, error: error.message }
+  }
+}
