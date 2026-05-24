@@ -52,3 +52,10 @@ export interface Moment {
   created_at: string
 }
 
+export interface Version {
+  id: string
+  name: string
+  description: string | null
+  link: string
+  created_at: string
+}

@@ -102,3 +102,11 @@ export const verification = pgTable("verification", {
   createdAt: timestamp("createdAt"),
   updatedAt: timestamp("updatedAt"),
 });
+
+export const versions = pgTable("versions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  link: text("link").notNull(),
+  created_at: timestamp("created_at").defaultNow(),
+});
