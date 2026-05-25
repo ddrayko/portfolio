@@ -289,68 +289,6 @@ export default function AdminDashboardClient() {
                   )}
                 </div>
 
-                <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-black/10 to-transparent rounded-full" />
-
-                {/* Versions Section */}
-                <div className="space-y-8">
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-8">
-                    <div className="space-y-2">
-                      <h2 className="text-2xl font-bold tracking-tight">MANAGE VERSIONS</h2>
-                      <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                        Gérez les différentes versions de votre portfolio.
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap items-end gap-4 self-start md:self-auto">
-                      <div className="flex flex-col gap-1.5">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold ml-1">Version Actuelle</span>
-                        <Select 
-                          value={versions.find(v => v.is_current)?.id || ""} 
-                          onValueChange={handleSetCurrentVersion}
-                          disabled={versions.length === 0}
-                        >
-                          <SelectTrigger className="w-[180px] h-12 rounded-xl glass border-white/10">
-                            <SelectValue placeholder="Aucune" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {versions.map(v => (
-                              <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <Button onClick={() => setAddVersionOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group shrink-0">
-                        <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
-                        Add Version
-                      </Button>
-                    </div>
-                  </div>
-
-                  {isVersionsLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {[1, 2, 3].map(i => (
-                        <div key={i} className="h-32 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5 animate-pulse" />
-                      ))}
-                    </div>
-                  ) : versions.length === 0 ? (
-                    <div className="bg-black/5 dark:bg-white/5 p-12 rounded-3xl border border-black/5 dark:border-white/5 text-center space-y-4 shadow-inner">
-                      <div className="w-16 h-16 rounded-full bg-black/5 dark:bg-white/5 mx-auto flex items-center justify-center text-muted-foreground">
-                        <Database className="h-8 w-8" />
-                      </div>
-                      <p className="text-muted-foreground italic">Aucune version ajoutée.</p>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {versions.map((version) => (
-                        <AdminVersionCard
-                          key={version.id}
-                          version={version}
-                          onDeleted={handleVersionDeleted}
-                          onUpdated={handleVersionUpdated}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
 
               </div>
             </AccordionContent>
@@ -496,6 +434,75 @@ export default function AdminDashboardClient() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                {/* Nested: Versions */}
+                <AccordionItem value="versions" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
+                  <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <Database className="h-5 w-5 text-primary" />
+                      <span className="text-xl font-bold">Manage Versions</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-8 pb-8 space-y-8">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-black/5 dark:border-white/5 pt-8">
+                      <div className="space-y-2">
+                        <h2 className="text-2xl font-bold tracking-tight">MANAGE VERSIONS</h2>
+                        <p className="text-muted-foreground font-medium max-w-xl text-sm">
+                          Gérez les différentes versions de votre portfolio.
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap items-end gap-4 self-start md:self-auto">
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold ml-1">Version Actuelle</span>
+                          <Select 
+                            value={versions.find(v => v.is_current)?.id || ""} 
+                            onValueChange={handleSetCurrentVersion}
+                            disabled={versions.length === 0}
+                          >
+                            <SelectTrigger className="w-[180px] h-12 rounded-xl glass border-white/10">
+                              <SelectValue placeholder="Aucune" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {versions.map(v => (
+                                <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <Button onClick={() => setAddVersionOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group shrink-0">
+                          <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
+                          Add Version
+                        </Button>
+                      </div>
+                    </div>
+
+                    {isVersionsLoading ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className="h-32 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5 animate-pulse" />
+                        ))}
+                      </div>
+                    ) : versions.length === 0 ? (
+                      <div className="bg-black/5 dark:bg-white/5 p-12 rounded-3xl border border-black/5 dark:border-white/5 text-center space-y-4 shadow-inner">
+                        <div className="w-16 h-16 rounded-full bg-black/5 dark:bg-white/5 mx-auto flex items-center justify-center text-muted-foreground">
+                          <Database className="h-8 w-8" />
+                        </div>
+                        <p className="text-muted-foreground italic">Aucune version ajoutée.</p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {versions.map((version) => (
+                          <AdminVersionCard
+                            key={version.id}
+                            version={version}
+                            onDeleted={handleVersionDeleted}
+                            onUpdated={handleVersionUpdated}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </AccordionContent>
+                </AccordionItem>
+
 
                 {/* Nested: Admins */}
                 <AccordionItem value="admins" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
