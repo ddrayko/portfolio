@@ -60,7 +60,7 @@ export function Footer() {
                                 <li>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
-                                            <span className="text-muted-foreground/40 transition-all flex items-center gap-2 grayscale cursor-default">
+                                            <span className="text-muted-foreground/40 transition-all inline-flex items-center gap-2 grayscale cursor-default">
                                                 <Github className="h-4 w-4" />
                                                 <span className="line-through">GitHub</span>
                                             </span>
