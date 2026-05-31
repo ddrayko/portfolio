@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Shield, History as HistoryIcon, Sparkles, Map } from "lucide-react"
+import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Shield, History as HistoryIcon, Sparkles, Map, Activity } from "lucide-react"
 import { AdminProjectCard } from "@/components/admin-project-card"
 import { AdminMomentCard } from "@/components/admin-moment-card"
 import { AdminVersionCard } from "@/components/admin-version-card"
