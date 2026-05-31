@@ -31,7 +31,6 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
   const [isCompleted, setIsCompleted] = useState(project?.is_completed || false)
   const [isArchived, setIsArchived] = useState(project?.is_archived || false)
   const [progress, setProgress] = useState(project?.development_progress || 0)
-  const [requiresAuth, setRequiresAuth] = useState(project?.requires_auth || false)
   const [changelog, setChangelog] = useState<ChangelogEntry[]>(project?.changelog || [])
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -56,7 +55,6 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
       is_completed: isCompleted,
       is_archived: isArchived,
       development_progress: progress,
-      requires_auth: requiresAuth,
     }
 
     try {
@@ -282,10 +280,6 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
                 <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
                   <Label className="text-sm font-bold">Archived</Label>
                   <Switch checked={isArchived} onCheckedChange={setIsArchived} className="scale-75" />
-                </div>
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
-                  <Label className="text-sm font-bold">Requires Auth</Label>
-                  <Switch checked={requiresAuth} onCheckedChange={setRequiresAuth} className="scale-75" />
                 </div>
               </div>
             </div>

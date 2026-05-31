@@ -15,7 +15,6 @@ export interface Project {
   is_completed?: boolean
   is_archived?: boolean
   changelog?: ChangelogEntry[]
-  requires_auth?: boolean
 }
 
 export interface Admin {

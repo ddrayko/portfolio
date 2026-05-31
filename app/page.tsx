@@ -11,7 +11,6 @@ import Link from "next/link"
 import { ArrowRight, Sparkles, Code2, Globe, Command, ChevronDown, Github, Gitlab, MessageSquare, Rocket, Timer } from "lucide-react"
 import { getMaintenanceMode } from "@/lib/actions"
 import { redirect } from "next/navigation"
-import { AuthButtons } from "@/components/auth-buttons"
 import { VersionSelector } from "@/components/version-selector"
 import { isLocalRequest } from "@/lib/server-utils"
 import { versions as versionsTable } from "@/db/schema"
@@ -98,7 +97,6 @@ export default async function HomePage() {
 
           <div className="flex items-center gap-4">
             <VersionSelector versions={versions as any} />
-            <AuthButtons />
           </div>
         </div>
       </header>

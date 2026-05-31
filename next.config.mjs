@@ -43,7 +43,7 @@ const nextConfig = {
       },
     ],
   },
-  serverExternalPackages: ["better-auth", "@better-auth/infra", "zod"],
+  serverExternalPackages: ["zod"],
   async redirects() {
     return [
       {

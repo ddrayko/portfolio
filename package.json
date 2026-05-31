@@ -13,8 +13,6 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@better-auth/infra": "^0.2.8",
-    "@better-auth/sso": "^1.6.11",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
@@ -46,7 +44,6 @@
     "@types/bcryptjs": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "bcryptjs": "^3.0.3",
-    "better-auth": "^1.6.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",

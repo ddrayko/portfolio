@@ -19,9 +19,7 @@ export const metadata: Metadata = {
 }
 
 import { Suspense } from "react"
-import Script from "next/script"
 
-import { CookieConsent } from "@/components/cookie-consent"
 import { OldVersionPopup } from "@/components/old-version-popup"
 import { getVersions } from "@/lib/actions"
 
@@ -35,14 +33,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} light`}>
-      <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9686663034025604"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-      </head>
       <body className="font-sans antialiased selection:bg-primary/30 selection:text-primary transition-colors duration-300" suppressHydrationWarning>
         <div className="relative flex min-h-screen flex-col">
           <Suspense fallback={null}>
@@ -50,7 +40,6 @@ export default async function RootLayout({
           </Suspense>
           <Footer />
         </div>
-        <CookieConsent />
         <OldVersionPopup versions={versions as any} />
       </body>
     </html>

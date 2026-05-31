@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Shield, History as HistoryIcon, Activity, Sparkles, Map } from "lucide-react"
+import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Shield, History as HistoryIcon, Sparkles, Map } from "lucide-react"
 import { AdminProjectCard } from "@/components/admin-project-card"
 import { AdminMomentCard } from "@/components/admin-moment-card"
 import { AdminVersionCard } from "@/components/admin-version-card"
@@ -11,7 +11,6 @@ import { MomentDialog } from "@/components/moment-dialog"
 import { VersionDialog } from "@/components/version-dialog"
 import { AdminDialog } from "@/components/admin-dialog"
 import { AdminCard } from "@/components/admin-card"
-import { AdminStats } from "@/components/admin-stats"
 import { UpdateDialog } from "@/components/update-dialog"
 import { BadgeDialog } from "@/components/badge-dialog"
 import { Separator } from "@/components/ui/separator"
@@ -294,30 +293,7 @@ export default function AdminDashboardClient() {
             </AccordionContent>
           </AccordionItem>
 
-          {/* TOP LEVEL 2: INSIGHTS */}
-          <AccordionItem value="insights" className="border-none">
-            <AccordionTrigger className="bg-white/40 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2rem] hover:no-underline hover:bg-white/60 dark:hover:bg-white/10 group transition-all data-[state=open]:rounded-b-none border border-black/5 dark:border-white/10 shadow-sm">
-              <div className="flex items-center gap-6 text-left">
-                <div className="p-4 rounded-2xl bg-primary/10 text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-primary-foreground transition-all duration-500 shadow-inner">
-                  <Activity className="h-8 w-8" />
-                </div>
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-primary/70 mb-1">Performance Overview</p>
-                  <h3 className="text-3xl font-bold tracking-tight">NETWORK PULSE</h3>
-                </div>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="bg-white/20 dark:bg-white/[0.02] backdrop-blur-xl border border-t-0 border-black/5 dark:border-white/10 p-10 rounded-b-[2rem] shadow-xl">
-              <div className="space-y-8">
-                <p className="text-muted-foreground font-medium max-w-xl">
-                  Real-time insights into traffic, security, and performance across the global edge network.
-                </p>
-                <AdminStats />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* TOP LEVEL 3: SYSTEM */}
+          {/* TOP LEVEL 2: SYSTEM */}
           <AccordionItem value="system" className="border-none">
             <AccordionTrigger className="bg-white/40 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2rem] hover:no-underline hover:bg-white/60 dark:hover:bg-white/10 group transition-all data-[state=open]:rounded-b-none border border-black/5 dark:border-white/10 shadow-sm">
               <div className="flex items-center gap-6 text-left">
