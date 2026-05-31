@@ -2,9 +2,9 @@
 
 import { db } from "@/db"
 import { projects, admins, settings, siteUpdates, moments, versions } from "@/db/schema"
-import { eq, desc, and } from "drizzle-orm"
+import { eq, desc } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
-import type { Project, Admin, SiteUpdate, Moment, Version } from "./types"
+import type { Project, SiteUpdate, Moment, Version } from "./types"
 import bcrypt from "bcryptjs"
 
 export async function createProject(data: Partial<Project>) {

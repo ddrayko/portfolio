@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { updateMaintenanceMode } from "@/lib/actions"
 import { Construction, Loader2, Save } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 
 interface MaintenanceToggleProps {
     initialState: boolean

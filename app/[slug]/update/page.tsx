@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ChevronLeft, History, Rocket, Calendar, Info, Package, Hammer, Archive } from "lucide-react"
+import { ChevronLeft, History, Package, Hammer, Archive } from "lucide-react"
 import { getProjectBySlug } from "@/lib/actions"
 import { notFound, redirect } from "next/navigation"
 import { ChangelogList } from "@/components/changelog-list"

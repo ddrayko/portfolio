@@ -13,7 +13,7 @@ const createDbInstance = () => {
         if (process.env.NODE_ENV === 'development') {
             console.warn("⚠️ DATABASE_URL or POSTGRES_URL is not set. Using mock database for local development.");
             const mock: any = new Proxy(() => mock, {
-                get: (target, prop) => {
+                get: (_, prop) => {
                     if (prop === 'then') return (onFullfilled: any) => onFullfilled([]);
                     return mock;
                 },
@@ -31,7 +31,7 @@ const createDbInstance = () => {
 
 // Use a Proxy to defer initialization until a method is accessed
 export const db = new Proxy({} as any, {
-    get(target, prop, receiver) {
+    get(_, prop, receiver) {
         // We initialize on any property access
         const instance = createDbInstance();
         return Reflect.get(instance, prop, receiver);

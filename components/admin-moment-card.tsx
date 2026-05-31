@@ -6,7 +6,6 @@ import { Pencil, Trash2, GraduationCap, Briefcase, Trophy, Milestone, Sparkles }
 import type { Moment } from "@/lib/types"
 import { deleteMoment } from "@/lib/actions"
 import { MomentDialog } from "@/components/moment-dialog"
-import { DeleteAdminDialog } from "@/components/delete-admin-dialog" // Reusing delete dialog if possible or creating new
 
 interface AdminMomentCardProps {
   moment: Moment

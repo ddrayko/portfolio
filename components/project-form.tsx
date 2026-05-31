@@ -11,7 +11,7 @@ import { createProject, updateProject } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
-import { Plus, Trash2, Calendar, GitBranch, ListPlus, Settings2, Sparkles, LayoutGrid, History, Save, ChevronUp, ChevronDown, Play, Pause } from "lucide-react"
+import { Plus, Trash2, GitBranch, Settings2, Sparkles, LayoutGrid, History, Save, ChevronUp, ChevronDown, Play, Pause } from "lucide-react"
 
 interface ProjectFormProps {
   project?: Project

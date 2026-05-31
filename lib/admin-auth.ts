@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { db } from "@/db"
 import { admins } from "@/db/schema"
-import { eq, and } from "drizzle-orm"
+import { eq } from "drizzle-orm"
 import bcrypt from "bcryptjs"
 
 const ADMIN_SESSION_COOKIE = "admin_session"

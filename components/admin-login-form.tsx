@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { Lock, Command, ChevronLeft, ShieldCheck } from "lucide-react"
+import { Lock, ChevronLeft, ShieldCheck } from "lucide-react"
 import { loginAdmin } from "@/lib/admin-auth"
 import Link from "next/link"
 

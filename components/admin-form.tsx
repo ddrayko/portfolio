@@ -23,7 +23,9 @@ export function AdminForm({ onSuccess }: AdminFormProps) {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    const result = await createAdmin(formData)
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+    const result = await createAdmin(email, password)
 
     if (result.success) {
       onSuccess?.()

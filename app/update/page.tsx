@@ -1,4 +1,3 @@
-import type React from "react"
 import Link from "next/link"
 import { ChevronLeft, History, Rocket, Calendar } from "lucide-react"
 import { db } from "@/db"
