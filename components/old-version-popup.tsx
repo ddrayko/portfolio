@@ -13,7 +13,7 @@ export function OldVersionPopup({ versions }: OldVersionPopupProps) {
   const [newerVersion, setNewerVersion] = useState<Version | null>(null)
 
   useEffect(() => {
-    // Petit délai pour l'animation
+    // Small delay for animation
     const timer = setTimeout(() => {
       const hostname = window.location.hostname
       
@@ -22,7 +22,7 @@ export function OldVersionPopup({ versions }: OldVersionPopupProps) {
         return
       }
 
-      // Trouver la version correspondant à l'environnement actuel
+      // Find the version matching the current environment
       const currentEnvVersion = versions.find(v => {
         try {
           const vUrl = new URL(v.link)
@@ -35,8 +35,8 @@ export function OldVersionPopup({ versions }: OldVersionPopupProps) {
       if (currentEnvVersion) {
         const currentCreatedAt = new Date(currentEnvVersion.created_at).getTime()
         
-        // Chercher une version créée APRÈS la version actuelle
-        // Les versions sont supposées être triées (on peut aussi forcer le tri ici)
+        // Look for a version created AFTER the current version
+        // Versions are expected to be sorted (can also force sort here)
         const sortedVersions = [...versions].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
         
         const latestVersion = sortedVersions.find(v => new Date(v.created_at).getTime() > currentCreatedAt)
@@ -72,20 +72,20 @@ export function OldVersionPopup({ versions }: OldVersionPopupProps) {
               <AlertCircle className="h-5 w-5" />
             </div>
             <div>
-              <h4 className="font-bold text-sm text-foreground">Ancienne version</h4>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Mise à jour disponible</p>
+              <h4 className="font-bold text-sm text-foreground">Old version</h4>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Update available</p>
             </div>
           </div>
           
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Vous consultez actuellement une ancienne version du portfolio. La version <strong className="text-foreground">{newerVersion.name}</strong> est disponible.
+            You are currently viewing an older version of the portfolio. Version <strong className="text-foreground">{newerVersion.name}</strong> is available.
           </p>
 
           <a 
             href={newerVersion.link}
             className="mt-2 inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs uppercase tracking-wider hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-[0.98]"
           >
-            Voir la nouvelle version
+            See the new version
             <ArrowRight className="h-3.5 w-3.5" />
           </a>
         </div>

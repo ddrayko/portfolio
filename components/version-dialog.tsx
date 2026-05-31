@@ -22,9 +22,9 @@ export function VersionDialog({ open, onOpenChange, version, onSuccess }: Versio
       <DialogContent className="sm:max-w-xl flex flex-col p-0 overflow-hidden bg-background border border-border/80 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] rounded-[2rem]">
         <div className="px-8 pt-8 pb-4 bg-muted/30 border-b border-border/80">
           <DialogHeader>
-            <DialogTitle className="text-3xl font-black tracking-tight text-foreground">{version ? "Modifier la Version" : "Ajouter une Version"}</DialogTitle>
+            <DialogTitle className="text-3xl font-black tracking-tight text-foreground">{version ? "Edit Version" : "Add Version"}</DialogTitle>
             <DialogDescription className="text-sm font-medium text-muted-foreground">
-              {version ? "Modifiez les informations de la version ci-dessous." : "Remplissez les détails pour ajouter une nouvelle version."}
+              {version ? "Edit the version details below." : "Fill in the details to add a new version."}
             </DialogDescription>
           </DialogHeader>
         </div>

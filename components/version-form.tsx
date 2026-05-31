@@ -56,17 +56,17 @@ export function VersionForm({ version, onSuccess }: VersionFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4 bg-muted/40 p-6 rounded-3xl border border-border/60">
         <div className="space-y-2">
-          <Label htmlFor="name" className="text-[10px] uppercase tracking-widest text-foreground/70 ml-1">Nom de la version</Label>
+          <Label htmlFor="name" className="text-[10px] uppercase tracking-widest text-foreground/70 ml-1">Version Name</Label>
           <Input id="name" name="name" defaultValue={version?.name} required placeholder="v1.0" className="h-10 rounded-xl border-white/10 bg-white/5 font-bold" />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="description" className="text-[10px] uppercase tracking-widest text-foreground/70 ml-1">Description</Label>
-          <Textarea id="description" name="description" defaultValue={version?.description || ""} rows={3} placeholder="Nouvelle interface..." className="rounded-xl border-white/10 bg-white/5 min-h-[100px] text-sm" />
+          <Textarea id="description" name="description" defaultValue={version?.description || ""} rows={3} placeholder="New interface..." className="rounded-xl border-white/10 bg-white/5 min-h-[100px] text-sm" />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="link" className="text-[10px] uppercase tracking-widest text-foreground/70 ml-1">Lien de la version</Label>
+          <Label htmlFor="link" className="text-[10px] uppercase tracking-widest text-foreground/70 ml-1">Version Link</Label>
           <Input id="link" name="link" defaultValue={version?.link} required placeholder="https://v1.drayko.dev" className="h-10 rounded-xl border-white/10 bg-white/5 font-bold" />
         </div>
       </div>
@@ -78,10 +78,10 @@ export function VersionForm({ version, onSuccess }: VersionFormProps) {
           disabled={isLoading}
           className="w-full h-11 rounded-xl font-bold uppercase tracking-widest text-xs shadow-xl transition-all"
         >
-          {isLoading ? "Enregistrement..." : (
+          {isLoading ? "Saving..." : (
             <span className="flex items-center gap-2">
               <Save className="h-4 w-4" />
-              {version ? "Mettre à jour" : "Créer Version"}
+              {version ? "Update Version" : "Create Version"}
             </span>
           )}
         </Button>

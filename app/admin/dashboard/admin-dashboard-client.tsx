@@ -422,19 +422,19 @@ export default function AdminDashboardClient() {
                       <div className="space-y-2">
                         <h2 className="text-2xl font-bold tracking-tight">MANAGE VERSIONS</h2>
                         <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                          Gérez les différentes versions de votre portfolio.
+                          Manage the different versions of your portfolio.
                         </p>
                       </div>
                       <div className="flex flex-wrap items-end gap-4 self-start md:self-auto">
                         <div className="flex flex-col gap-1.5">
-                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold ml-1">Version Actuelle</span>
+                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold ml-1">Current Version</span>
                           <Select 
                             value={versions.find(v => v.is_current)?.id || ""} 
                             onValueChange={handleSetCurrentVersion}
                             disabled={versions.length === 0}
                           >
                             <SelectTrigger className="w-[180px] h-12 rounded-xl glass border-white/10">
-                              <SelectValue placeholder="Aucune" />
+                              <SelectValue placeholder="None" />
                             </SelectTrigger>
                             <SelectContent>
                               {versions.map(v => (
@@ -461,7 +461,7 @@ export default function AdminDashboardClient() {
                         <div className="w-16 h-16 rounded-full bg-black/5 dark:bg-white/5 mx-auto flex items-center justify-center text-muted-foreground">
                           <Database className="h-8 w-8" />
                         </div>
-                        <p className="text-muted-foreground italic">Aucune version ajoutée.</p>
+                        <p className="text-muted-foreground italic">No versions added yet.</p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

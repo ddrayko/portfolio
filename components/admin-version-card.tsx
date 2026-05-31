@@ -40,13 +40,13 @@ export function AdminVersionCard({ version, onDeleted, onUpdated }: AdminVersion
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">Version</span>
               {version.is_current && (
                 <span className="text-[10px] font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full flex items-center gap-1">
-                  <Sparkles className="h-3 w-3" /> Actuelle
+                  <Sparkles className="h-3 w-3" /> Current
                 </span>
               )}
             </div>
             <h4 className="font-bold text-foreground/90 group-hover:text-primary transition-colors">{version.name}</h4>
             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-              {version.description || "Aucune description."}
+              {version.description || "No description."}
             </p>
             <a href={version.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline truncate block max-w-[200px]">
               {version.link}
@@ -85,13 +85,13 @@ export function AdminVersionCard({ version, onDeleted, onUpdated }: AdminVersion
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in">
           <div className="glass p-8 rounded-[2rem] border-white/10 max-w-sm w-full space-y-6 shadow-2xl">
             <div className="text-center space-y-2">
-              <h3 className="text-xl font-bold">Supprimer la version ?</h3>
-              <p className="text-sm text-muted-foreground">Cette action est irréversible.</p>
+              <h3 className="text-xl font-bold">Delete version?</h3>
+              <p className="text-sm text-muted-foreground">This action is irreversible.</p>
             </div>
             <div className="flex gap-3">
-              <Button variant="ghost" onClick={() => setDeleteOpen(false)} className="flex-1 rounded-xl">Annuler</Button>
+              <Button variant="ghost" onClick={() => setDeleteOpen(false)} className="flex-1 rounded-xl">Cancel</Button>
               <Button variant="destructive" onClick={handleDelete} disabled={isDeleting} className="flex-1 rounded-xl shadow-lg shadow-destructive/20">
-                {isDeleting ? "Suppression..." : "Supprimer"}
+                {isDeleting ? "Deleting..." : "Delete"}
               </Button>
             </div>
           </div>

@@ -254,7 +254,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
                           }`}
                       >
                         <Play className="h-4 w-4" />
-                        En cours
+                        In Progress
                       </button>
                       <button
                         type="button"
@@ -265,7 +265,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
                           }`}
                       >
                         <Pause className="h-4 w-4" />
-                        En pause
+                        Paused
                       </button>
                     </div>
                   </div>

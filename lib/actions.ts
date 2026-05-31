@@ -289,7 +289,7 @@ export async function createMoment(data: Partial<Moment>) {
       created_at: new Date()
     }).returning()
 
-    revalidatePath("/parcours")
+    revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
     return { success: true, moment: newMoment }
   } catch (error: any) {
@@ -305,7 +305,7 @@ export async function updateMoment(id: string, data: Partial<Moment>) {
       .set(updateData)
       .where(eq(moments.id, parseInt(id)))
 
-    revalidatePath("/parcours")
+    revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
     return { success: true }
   } catch (error: any) {
@@ -317,7 +317,7 @@ export async function updateMoment(id: string, data: Partial<Moment>) {
 export async function deleteMoment(id: string) {
   try {
     await db.delete(moments).where(eq(moments.id, parseInt(id)))
-    revalidatePath("/parcours")
+    revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
     return { success: true }
   } catch (error: any) {
