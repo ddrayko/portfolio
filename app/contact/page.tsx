@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ChevronLeft, Mail, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getMaintenanceMode, getAvailability } from "@/lib/actions"
+import { CopyEmail } from "@/components/copy-email"
 import { redirect } from "next/navigation"
 import { isLocalRequest } from "@/lib/server-utils"
 
@@ -67,12 +68,15 @@ export default async function ContactPage() {
                     <div className="space-y-8 py-10">
                         <div className="flex flex-col items-center gap-2">
                             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Contact Email</span>
-                            <a 
-                                href="mailto:hello@drayko.xyz" 
-                                className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 hover:text-primary transition-all hover:scale-105 inline-block selection:bg-primary/20"
-                            >
-                                hello@drayko.xyz
-                            </a>
+                            <div className="flex items-center gap-4 flex-wrap justify-center">
+                                <a 
+                                    href="mailto:hello@drayko.xyz" 
+                                    className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 hover:text-primary transition-all hover:scale-105 inline-block selection:bg-primary/20"
+                                >
+                                    hello@drayko.xyz
+                                </a>
+                                <CopyEmail email="hello@drayko.xyz" />
+                            </div>
                         </div>
                     </div>
 

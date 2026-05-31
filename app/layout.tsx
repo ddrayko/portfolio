@@ -21,6 +21,8 @@ export const metadata: Metadata = {
 import { Suspense } from "react"
 
 import { OldVersionPopup } from "@/components/old-version-popup"
+import { BackToTop } from "@/components/back-to-top"
+import { ConsoleEasterEgg } from "@/components/console-easter-egg"
 import { getVersions } from "@/lib/actions"
 
 export default async function RootLayout({
@@ -40,6 +42,8 @@ export default async function RootLayout({
           </Suspense>
           <Footer />
         </div>
+        <BackToTop />
+        <ConsoleEasterEgg />
         <OldVersionPopup versions={versions as any} />
       </body>
     </html>
