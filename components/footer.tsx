@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Command, Github, Gitlab, MessageSquare } from "lucide-react"
 import { ScrollButton } from "@/components/scroll-button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { usePathname } from "next/navigation"
 
 export function Footer() {
@@ -56,7 +57,19 @@ export function Footer() {
                         <div className="space-y-4">
                             <h5 className="font-bold text-sm uppercase tracking-widest text-primary">Social</h5>
                             <ul className="space-y-3 text-muted-foreground font-medium">
-                                <li className="transition-transform hover:translate-x-1"><Link href="https://github.com/ddrayko" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2"><Github className="h-4 w-4" /> GitHub</Link></li>
+                                <li className="transition-transform hover:translate-x-1">
+    <Tooltip>
+        <TooltipTrigger asChild>
+            <a href="https://codeberg.org/ddrayko" target="_blank" rel="noopener noreferrer" className="text-muted-foreground/40 hover:text-muted-foreground/60 transition-all flex items-center gap-2 grayscale hover:grayscale-0">
+                <Github className="h-4 w-4" />
+                <span className="line-through">GitHub</span>
+            </a>
+        </TooltipTrigger>
+        <TooltipContent side="top" className="max-w-xs text-center">
+            <p>Account migrated to <strong>Codeberg</strong> — new direction, away from Microsoft's AI policies.</p>
+        </TooltipContent>
+    </Tooltip>
+</li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="https://gitlab.com/drayko_dev" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2"><Gitlab className="h-4 w-4" /> GitLab</Link></li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="/contact" className="hover:text-foreground transition-all flex items-center gap-2"><MessageSquare className="h-4 w-4" /> Contact</Link></li>
                             </ul>
