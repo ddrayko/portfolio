@@ -36,97 +36,14 @@ export default function CopyrightPage() {
 
                     <div className="prose prose-invert max-w-none space-y-8 font-medium text-muted-foreground leading-relaxed">
                         <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">1. Purpose</h2>
                             <p>
-                                This document defines the terms and conditions for the use of the source code, assets, and all elements constituting this project (hereinafter referred to as the "Project").
+                                This project is <strong>free software</strong>. You are permitted to use it for any purpose, including commercial and personal use. You may modify, distribute, reproduce, sublicense, or otherwise use this project in any way you see fit, without restriction.
                             </p>
                         </section>
 
                         <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">2. Intellectual Property</h2>
                             <p>
-                                The Project is the exclusive property of Drayko. No ownership rights are transferred to the user under this document.
-                            </p>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">3. Personal Use License</h2>
-                            <p>
-                                A non-exclusive, non-transferable, and revocable license is granted for strictly personal use. This license allows:
-                            </p>
-                            <ul className="list-disc pl-6 space-y-2">
-                                <li>Using the Project for a personal portfolio</li>
-                                <li>Hosting the Project for personal purposes</li>
-                                <li>Modifying the source code for individual use</li>
-                            </ul>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">4. Mandatory Conditions</h2>
-                            <p>
-                                For any personal use of the Project, the following conditions must be strictly respected:
-                            </p>
-                            <ul className="list-disc pl-6 space-y-2">
-                                <li>
-                                    The following copyright notice must be preserved, visible, and unchanged in the footer of all pages:
-                                    <span className="block mt-2 font-bold text-foreground">© 2025 - 2026 Drayko. All rights reserved.</span>
-                                </li>
-                                <li>
-                                    This requirement applies regardless of any modification of the developer name (manual or automated) or any partial modification of the Project.
-                                </li>
-                            </ul>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">5. Exception — Substantial Modifications</h2>
-                            <p>
-                                As an exception, the user is allowed to remove the copyright from the footer only if the Project has undergone substantial modifications, defined as modifying at least one thousand (1000) lines of code.
-                            </p>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">6. Open Source Requirement for Modifications</h2>
-                            <p>
-                                If the Project is modified, regardless of the extent of the changes, the user must:
-                            </p>
-                            <ul className="list-disc pl-6 space-y-2">
-                                <li>Publish the modified source code in a publicly accessible repository (e.g., on a Git-based platform)</li>
-                                <li>Keep this repository publicly accessible for as long as the modified Project is used or distributed</li>
-                            </ul>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">7. Prohibited Uses</h2>
-                            <p>
-                                The following are strictly prohibited:
-                            </p>
-                            <ul className="list-disc pl-6 space-y-2">
-                                <li>
-                                    Any commercial use of the Project, directly or indirectly, including but not limited to selling the Project, integrating it into a paid product or service, or any form of profit-driven use.
-                                </li>
-                                <li>Removing the copyright without complying with the conditions set in Section 5.</li>
-                                <li>Redistributing the Project in a way that suggests it is entirely your own work without substantial modifications.</li>
-                            </ul>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">8. Disclaimer of Warranty</h2>
-                            <p>
-                                The Project is provided "as is", without warranty of any kind, express or implied.
-                            </p>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">9. Limitation of Liability</h2>
-                            <p>
-                                In no event shall the author be held liable for any direct or indirect damages resulting from the use of the Project.
-                            </p>
-                        </section>
-
-                        <section className="space-y-4">
-                            <h2 className="text-2xl font-bold text-foreground tracking-tight">10. Acceptance</h2>
-                            <p>
-                                Any use of the Project implies full acceptance of these terms and conditions.
+                                The software is provided "as is", without warranty of any kind, express or implied. In no event shall the author be held liable for any claim, damages, or other liability arising from the use of the software.
                             </p>
                         </section>
                     </div>
