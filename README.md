@@ -217,7 +217,7 @@ flowchart LR
                            CRUD + cards"]
     Sections --> Section5["Site Settings
                            UpdateDialog
-                           BadgeDialog
+                           BadgeDialog (headline + prefix + link destination)
                            MaintenanceToggle
                            AvailabilityToggle"]
 
