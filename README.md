@@ -1,4 +1,4 @@
-<img src="public/pictoandtext.png" alt="Drayko Logo" width="400"/>
+<img src="public/assets/logo/pictoandtext.png" alt="Drayko Logo" width="400"/>
 
 # Drayko v6 Portfolio
 

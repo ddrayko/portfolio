@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   title: "Drayko - Creative Developer",
   description: "Portfolio of Drayko, a Creative Developer & Designer specializing in high-performance digital experiences.",
   icons: {
-    icon: "/fav.png",
-    apple: "/fav.png",
+    icon: "/assets/logo/fav.png",
+    apple: "/assets/logo/fav.png",
   },
 }
 
