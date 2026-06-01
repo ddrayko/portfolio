@@ -293,6 +293,7 @@ sequenceDiagram
 - **Tech Stack Marquee** — 47 technology icons in 3 auto-scrolling rows with hover pause
 - **Journey Timeline** — Alternating left/right cards with Lucide icons, animated on viewport
 - **System Roadmap** — Next-update countdown (Odometer.js) + versioned changelog
+- **Hero Badge** — Dynamic badge with configurable link destination (update page or custom URL)
 - **Version Selector** — Dropdown to switch between portfolio versions with old-version detection popup
 - **Availability Badge** — Real-time "Open for projects" indicator on contact page
 - **Maintenance Mode** — Server-side redirect with bypass for local requests
@@ -300,7 +301,7 @@ sequenceDiagram
 ### Admin
 - **Full CRUD** — Projects, Moments, Versions, Admins
 - **Project Editor** — Two-tab form (details + reorderable changelog)
-- **Site Updates** — Edit roadmap, changelog, planned features, badge text
+- **Site Updates** — Edit roadmap, changelog, planned features, badge text, and badge link destination (update page / custom URL)
 - **Maintenance Toggle** — Enable/disable site-wide with custom message and ETA
 - **Availability Toggle** — "Open for projects" switch
 - **Version Management** — Create named versions with links (e.g., v5, v6-beta)
