@@ -127,6 +127,8 @@ erDiagram
         jsonb changelog
         text latest_update_text
         boolean show_last_update_prefix
+        text hero_link_type
+        text hero_custom_url
         timestamp updated_at
     }
 
