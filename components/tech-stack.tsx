@@ -102,7 +102,7 @@ export function TechStack() {
   return (
     <section ref={sectionRef} id="tech-stack" className="w-full relative flex flex-col justify-center bg-muted/20 border-y border-white/5">
       <div className="container mx-auto px-6 pt-16 lg:pt-24 pb-8">
-        <div className="flex flex-col items-center text-center mb-24 space-y-4">
+        <div className="flex flex-col items-center text-center mb-10 space-y-4">
           <div className="text-primary font-bold tracking-widest text-sm uppercase reveal-up">Expertise</div>
           <h3 className="text-5xl md:text-6xl font-bold tracking-tight font-display reveal-up stagger-1">TECHNICAL ECOSYSTEM</h3>
           <p className="text-lg text-muted-foreground font-medium max-w-2xl mx-auto reveal-up stagger-2">
