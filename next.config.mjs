@@ -15,22 +15,6 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'cdn.jsdelivr.net',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.svgrepo.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'upload.wikimedia.org',
-      },
-      {
-        protocol: 'https',
-        hostname: 'help.ovhcloud.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'blob.vercel-storage.com',
       },
       {
