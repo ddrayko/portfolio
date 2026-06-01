@@ -37,7 +37,7 @@ flowchart LR
     subgraph NextJS["Next.js 16 App Router"]
         Layout["layout.tsx — fonts, footer, popups"]
         Pages["13 routes: / /about /contact /journey /update /privacy /terms /copyright /tags-info /maintenance /[slug]/update /admin + dashboard"]
-        API["16 server actions — CRUD projects, admins, moments, versions, settings"]
+        API["Server actions — CRUD projects, admins, moments, versions, settings, site updates"]
     end
 
     subgraph Components["Components"]
@@ -66,7 +66,7 @@ flowchart LR
 
 | Route | Type | Description |
 |-------|------|-------------|
-| `/` | Dynamic | Homepage — hero, project grid, tech stack marquee, CTA |
+| `/` | Dynamic | Homepage — hero (badge links to /update or custom URL), project grid, tech stack marquee, CTA |
 | `/about` | Dynamic | Developer story, philosophy cards, personal note |
 | `/contact` | Dynamic | Contact info, availability status, email copy |
 | `/journey` | Dynamic | Animated timeline of education, work, and milestones |
