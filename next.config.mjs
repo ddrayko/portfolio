@@ -27,7 +27,6 @@ const nextConfig = {
       },
     ],
   },
-  serverExternalPackages: ["zod"],
   async redirects() {
     return [
       {

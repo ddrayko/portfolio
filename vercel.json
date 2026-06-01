@@ -1,0 +1,4 @@
+{
+  "installCommand": "npm ci --prefer-offline",
+  "framework": "nextjs"
+}
