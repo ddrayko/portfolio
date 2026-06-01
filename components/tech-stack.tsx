@@ -91,9 +91,7 @@ export function TechStack() {
     const setHeight = () => {
       if (sectionRef.current) {
         const h = window.innerHeight
-        sectionRef.current.style.height = `${h}px`
         sectionRef.current.style.minHeight = `${h}px`
-        sectionRef.current.style.maxHeight = `${h}px`
       }
     }
     setHeight()
@@ -102,8 +100,8 @@ export function TechStack() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="tech-stack" className="w-full relative overflow-hidden flex flex-col justify-center">
-      <div className="container mx-auto px-6 pt-16 lg:pt-24">
+    <section ref={sectionRef} id="tech-stack" className="w-full relative flex flex-col justify-center">
+      <div className="container mx-auto px-6 pt-16 lg:pt-24 pb-8">
         <div className="flex flex-col items-center text-center mb-24 space-y-4">
           <div className="text-primary font-bold tracking-widest text-sm uppercase reveal-up">Expertise</div>
           <h3 className="text-5xl md:text-6xl font-bold tracking-tight font-display reveal-up stagger-1">TECHNICAL ECOSYSTEM</h3>
@@ -123,7 +121,7 @@ export function TechStack() {
         }}
       >
         {/* overflow-hidden on the inner div with increased padding for shadows */}
-        <div className="overflow-hidden py-12">
+        <div className="overflow-hidden pt-12 pb-32">
           <div className="flex flex-col gap-6">
 
             {/* Row 1 — left */}
