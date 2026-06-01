@@ -121,7 +121,7 @@ export function TechStack() {
         }}
       >
         {/* overflow-hidden on the inner div with increased padding for shadows */}
-        <div className="overflow-hidden pt-12 pb-32">
+        <div className="overflow-hidden pt-12 pb-12">
           <div className="flex flex-col gap-6">
 
             {/* Row 1 — left */}
