@@ -38,6 +38,8 @@ export interface SiteUpdate {
   changelog: ChangelogEntry[];
   latest_update_text?: string;
   show_last_update_prefix?: boolean;
+  hero_link_type?: string;
+  hero_custom_url?: string;
   updated_at: string;
 }
 

@@ -196,6 +196,8 @@ export async function getSiteUpdateData() {
           changelog: row.changelog as any || [],
           planned_features: row.planned_features as any || [],
           show_last_update_prefix: row.show_last_update_prefix ?? true,
+          hero_link_type: row.hero_link_type || "update",
+          hero_custom_url: row.hero_custom_url || "",
         } as SiteUpdate
       }
     }

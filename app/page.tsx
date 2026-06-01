@@ -106,7 +106,7 @@ export default async function HomePage() {
             <div className="reveal-up stagger-1">
               <div className="flex flex-col items-center gap-4 reveal-up stagger-1">
                 <Link
-                  href="/update"
+                  href={updateData?.hero_link_type === "custom" && updateData?.hero_custom_url ? updateData.hero_custom_url : "/update"}
                   className="inline-flex items-center px-4 py-2 rounded-full glass border-white/10 text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-all group overflow-hidden whitespace-nowrap hover:shadow-[0_0_30px_rgba(var(--primary),0.1)]"
                 >
                   <style dangerouslySetInnerHTML={{
