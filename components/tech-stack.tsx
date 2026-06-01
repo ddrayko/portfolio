@@ -53,6 +53,10 @@ const techStack: TechItem[] = [
   { name: "MacOS", logo: "/assets/tech/apple.svg" },
   { name: "Drizzle ORM", logo: "/assets/tech/drizzle.png" },
   { name: "Nginx", logo: "/assets/tech/nginx.svg" },
+  { name: "PostgreSQL", logo: "/assets/tech/postgresql.svg" },
+  { name: "OpenCode", logo: "/assets/tech/opencode.svg" },
+  { name: "Claude", logo: "/assets/tech/claude.svg" },
+  { name: "Codex", logo: "/assets/tech/codex.svg" },
 ]
 
 const third = Math.ceil(techStack.length / 3)
