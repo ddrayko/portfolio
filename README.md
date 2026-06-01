@@ -30,69 +30,28 @@
 ## Architecture
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph Client["Client Layer"]
         Browser["Browser"]
         React["React 19 + RSC"]
     end
 
     subgraph NextJS["Next.js 16 App Router"]
-        direction TB
-        Layout["Root Layout (layout.tsx)
-                - Inter + Outfit fonts
-                - Footer
-                - BackToTop
-                - ConsoleEasterEgg
-                - OldVersionPopup"]
-        
-        Pages["Pages (13 routes)
-                /               → Home
-                /about          → About
-                /contact        → Contact
-                /journey        → Timeline
-                /update         → Roadmap
-                /privacy        → Privacy
-                /terms          → Terms
-                /copyright      → Copyright
-                /tags-info      → Tag Legend
-                /maintenance    → Maintenance
-                /[slug]/update  → Project Updates
-                /admin          → Login
-                /admin/dashboard → Admin Panel"]
-        
-        API["Server Actions (16)
-                CRUD: Projects, Admins, Moments,
-                Versions, Settings"]
+        Layout["layout.tsx — fonts, footer, popups"]
+        Pages["13 routes: / /about /contact /journey /update /privacy /terms /copyright /tags-info /maintenance /[slug]/update /admin + dashboard"]
+        API["16 server actions — CRUD projects, admins, moments, versions, settings"]
     end
 
-    subgraph Components["Components Layer"]
-        direction TB
-        Public["Public Components
-                ProjectCard · TechStack · TagFilter
-                PortfolioContent · MomentTimeline
-                VersionSelector · CopyEmail
-                Countdown · ChangelogList"]
-        
-        Admin["Admin Components
-                AdminDashboardClient · AdminForm
-                ProjectForm · MomentForm
-                VersionForm · UpdateDialog
-                BadgeDialog · MaintenanceToggle
-                AvailabilityToggle"]
-        
-        UI["UI Primitives (20)
-                Button · Dialog · Accordion · Card
-                Select · Sheet · Toast · Tooltip
-                DropdownMenu · Tabs · ..."]
+    subgraph Components["Components"]
+        Public["Public — ProjectCard, TechStack, PortfolioContent, MomentTimeline, TagFilter, VersionSelector"]
+        Admin["Admin — DashboardClient, Forms, Dialogs, Toggles"]
+        UI["UI primitives — 20 Radix + shadcn/ui components"]
     end
 
     subgraph Data["Data Layer"]
         Drizzle["Drizzle ORM"]
-        DB[(PostgreSQL
-            6 tables)]
-        Schema["Schema
-                projects · admins · settings
-                site_updates · moments · versions"]
+        DB[("PostgreSQL — 6 tables")]
+        Schema["projects · admins · settings · site_updates · moments · versions"]
     end
 
     Client --> NextJS
@@ -288,40 +247,40 @@ flowchart LR
 
 ```mermaid
 sequenceDiagram
-    participant Client as Browser
-    participant Server as Next.js Server
-    participant DB as PostgreSQL
+    participant B as Browser
+    participant S as Next.js Server
+    participant D as PostgreSQL
 
-    Note over Client,DB: Public Pages (every request)
-    Client->>Server: GET / (or any page)
-    Server->>Server: checkMaintenance() + isLocalRequest()
-    alt Maintenance Mode ON & not local
-        Server->>Client: 302 Redirect /maintenance
-    else Normal flow
-        Server->>DB: SELECT projects, versions, site_updates
-        DB-->>Server: Serialized data
-        Server->>Server: Serialize dates (toISOString)
-        Server-->>Client: Rendered HTML + RSC payload
+    Note over B,S: Public page request
+    B->>S: GET / (any page)
+    S->>S: checkMaintenance() + isLocalRequest()
+    alt Maintenance ON & not local
+        S->>B: 302 Redirect /maintenance
+    else Normal
+        S->>D: SELECT projects, versions, site_updates
+        D-->>S: data rows
+        S->>S: Serialize dates (toISOString)
+        S-->>B: Rendered HTML + RSC payload
     end
 
-    Note over Client,DB: Admin Login
-    Client->>Server: POST login (email + password)
-    Server->>DB: SELECT admin WHERE email = ?
-    Server->>Server: bcrypt.compare(password, hash)
-    alt Valid credentials
-        Server->>Server: Set httpOnly cookie (admin_session, 24h)
-        Server->>Client: 302 Redirect /admin/dashboard
+    Note over B,S: Admin login
+    B->>S: POST login (email, password)
+    S->>D: SELECT admin WHERE email = ?
+    S->>S: bcrypt.compare(password, hash)
+    alt Valid
+        S->>S: Set httpOnly cookie (24h)
+        S->>B: 302 Redirect /admin/dashboard
     else Invalid
-        Server-->>Client: { success: false, error: "..." }
+        S-->>B: { success: false, error }
     end
 
-    Note over Client,DB: Admin CRUD (authenticated)
-    Client->>Server: Server Action (create/update/delete)
-    Server->>Server: checkAdminSession()
-    Server->>DB: INSERT / UPDATE / DELETE
-    DB-->>Server: Result
-    Server->>Server: revalidatePath("/")
-    Server-->>Client: { success: true, data }
+    Note over B,S: Admin CRUD
+    B->>S: Server Action (create/update/delete)
+    S->>S: checkAdminSession()
+    S->>D: INSERT / UPDATE / DELETE
+    D-->>S: result
+    S->>S: revalidatePath("/")
+    S-->>B: { success: true, data }
 ```
 
 ---
