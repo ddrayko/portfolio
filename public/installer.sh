@@ -208,6 +208,12 @@ title "Project setup"
 if [ -d "$PROJECT_DIR/.git" ]; then
   log "Project already exists at $PROJECT_DIR"
   cd "$PROJECT_DIR"
+  info "Checking remote URL..."
+  CURRENT_REMOTE=$(git remote get-url origin 2>/dev/null) || true
+  if [ "$CURRENT_REMOTE" != "$REPO_URL" ] && [ "$CURRENT_REMOTE" != "$REPO_SSH" ]; then
+    info "Updating remote from '$CURRENT_REMOTE' to '$REPO_URL'"
+    git remote set-url origin "$REPO_URL"
+  fi
   info "Pulling latest changes..."
   git pull --ff-only 2>/dev/null || warn "Could not pull (uncommitted changes?)"
 elif [ -f "package.json" ] && grep -q "drayko" package.json 2>/dev/null; then
