@@ -1,8 +1,27 @@
 const bcrypt = require("bcryptjs");
-const dotenv = require("dotenv");
+const fs = require("fs");
 const path = require("path");
 
-dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
+function loadEnv() {
+  const envPath = path.resolve(__dirname, "..", ".env");
+  try {
+    const content = fs.readFileSync(envPath, "utf-8");
+    for (const line of content.split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const eqIdx = trimmed.indexOf("=");
+      if (eqIdx === -1) continue;
+      const key = trimmed.slice(0, eqIdx).trim();
+      let val = trimmed.slice(eqIdx + 1).trim();
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+        val = val.slice(1, -1);
+      }
+      process.env[key] = val;
+    }
+  } catch {}
+}
+
+loadEnv();
 
 const DB_TYPE = process.env.DB_TYPE || "";
 const DATABASE_URL = process.env.DATABASE_URL || "";
