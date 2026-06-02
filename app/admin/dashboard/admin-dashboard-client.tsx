@@ -184,7 +184,7 @@ export default function AdminDashboardClient() {
 
       {/* Content */}
       <main className="relative z-10 pt-32 pb-24 container mx-auto px-6">
-        <Accordion type="multiple" defaultValue={["content"]} className="w-full space-y-8">
+        <Accordion type="multiple" className="w-full space-y-8">
           
           {/* TOP LEVEL 1: CONTENT */}
           <AccordionItem value="content" className="border-none">
