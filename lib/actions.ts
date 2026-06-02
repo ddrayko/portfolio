@@ -193,9 +193,10 @@ export async function getSiteUpdateData() {
           id: row.id.toString(),
           next_update_date: row.next_update_date?.toISOString() || null,
           updated_at: row.updated_at?.toISOString() || new Date().toISOString(),
-          changelog: row.changelog as any || [],
-          planned_features: row.planned_features as any || [],
-          show_last_update_prefix: row.show_last_update_prefix ?? true,
+          changelog: (row.changelog as any) || [],
+          planned_features: (row.planned_features as any) || [],
+          no_update_planned: (row.no_update_planned ?? 1) ? true : false,
+          show_last_update_prefix: (row.show_last_update_prefix ?? 1) ? true : false,
           hero_link_type: row.hero_link_type || "update",
           hero_custom_url: row.hero_custom_url || "",
         } as SiteUpdate
@@ -221,21 +222,24 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
   try {
     const [row] = await db.select().from(siteUpdates).limit(1)
     
-    // Convert dates if provided as strings
-    const updatePayload: any = { ...data }
-    if (data.next_update_date) updatePayload.next_update_date = new Date(data.next_update_date)
-    if (data.updated_at) updatePayload.updated_at = new Date(data.updated_at)
+    // Build clean payload: filter undefined/id, convert dates, handle SQLite types
+    const payload: Record<string, any> = {}
+    for (const [key, value] of Object.entries(data)) {
+      if (value === undefined || key === "id") continue
+      if ((key === "next_update_date" || key === "updated_at") && typeof value === "string") {
+        payload[key] = value ? new Date(value) : null
+      } else if (key === "no_update_planned" || key === "show_last_update_prefix") {
+        payload[key] = value ? 1 : 0
+      } else {
+        payload[key] = value
+      }
+    }
+    payload.updated_at = new Date()
 
     if (row) {
-      await db.update(siteUpdates).set({
-        ...updatePayload,
-        updated_at: new Date()
-      }).where(eq(siteUpdates.id, row.id))
+      await db.update(siteUpdates).set(payload).where(eq(siteUpdates.id, row.id))
     } else {
-      await db.insert(siteUpdates).values({
-        ...updatePayload,
-        updated_at: new Date()
-      })
+      await db.insert(siteUpdates).values(payload)
     }
 
     revalidatePath("/")

@@ -71,6 +71,7 @@ export const metadata: Metadata = {
 }
 
 import { Suspense } from "react"
+import { Toaster } from "sonner"
 
 import { OldVersionPopup } from "@/components/old-version-popup"
 import { BackToTop } from "@/components/back-to-top"
@@ -97,6 +98,7 @@ export default async function RootLayout({
         <BackToTop />
         <ConsoleEasterEgg />
         <OldVersionPopup versions={versions as any} />
+        <Toaster position="bottom-right" richColors />
       </body>
     </html>
   )

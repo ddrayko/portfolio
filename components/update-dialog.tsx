@@ -20,7 +20,7 @@ interface UpdateDialogProps {
 export function UpdateDialog({ open, onOpenChange, onSuccess }: UpdateDialogProps) {
     const [isLoading, setIsLoading] = useState(false)
     const [updateData, setUpdateData] = useState<SiteUpdate>({
-        next_update_date: "",
+        next_update_date: null,
         no_update_planned: false,
         planned_features: [],
         changelog: [],
