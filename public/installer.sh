@@ -1,12 +1,11 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env sh
+set -eu
 
 # ═══════════════════════════════════════════════════════════════
-# Drayko Portfolio — Self-Hosted Installer for Debian/Ubuntu
+# Drayko Portfolio — Self-Hosted Installer (POSIX sh)
 # Usage:
 #   curl -SLfs https://drayko.xyz/api/installer | sh
-#   curl -SLfs https://drayko.xyz/api/installer | bash -s -- --port 3456
-#   curl -SLfs https://drayko.xyz/installer.sh | sh   (if .sh is not blocked)
+#   curl -SLfs https://drayko.xyz/api/installer | sh -s -- --port 3456
 # ═══════════════════════════════════════════════════════════════
 
 REPO_URL="https://github.com/drayko/v6-portfolio.git"
@@ -17,14 +16,14 @@ RED='\033[0;31m'; GREEN='\033[0;32m'
 YELLOW='\033[1;33m'; BLUE='\033[0;34m'
 CYAN='\033[0;36m'; NC='\033[0m'
 
-log()   { echo -e "${GREEN}✔${NC} $1"; }
-warn()  { echo -e "${YELLOW}⚠${NC} $1"; }
-error() { echo -e "${RED}✘${NC} $1"; }
-info()  { echo -e "${BLUE}→${NC} $1"; }
-title() { echo -e "\n${CYAN}════ $1 ════${NC}\n"; }
+log()   { printf '%b\n' "${GREEN}✔${NC} $1"; }
+warn()  { printf '%b\n' "${YELLOW}⚠${NC} $1"; }
+error() { printf '%b\n' "${RED}✘${NC} $1"; }
+info()  { printf '%b\n' "${BLUE}→${NC} $1"; }
+title() { printf '\n%b\n' "${CYAN}════ $1 ════${NC}"; }
 
 # ── Cleanup trap ──────────────────────────────────────────────
-cleanup() { echo; info "Interrupted."; exit 1; }
+cleanup() { printf '\n'; info "Interrupted."; exit 1; }
 trap cleanup INT TERM
 
 # ── Help ──────────────────────────────────────────────────────
@@ -43,13 +42,47 @@ EOF
   exit 0
 }
 
+# ── Prompt helper ─────────────────────────────────────────────
+prompt_yesno() {
+  local _question="$1" _default="${2:-Y}"
+  printf "%s [%s] " "$_question" "$_default"
+  read -r _ans
+  if [ -z "$_ans" ]; then
+    _ans="$_default"
+  fi
+  case "$_ans" in
+    [Yy]|[Yy][Ee][Ss]) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+prompt_value() {
+  local _prompt="$1" _default="$2"
+  printf "%s [%s]: " "$_prompt" "$_default"
+  read -r _val
+  if [ -z "$_val" ]; then
+    _val="$_default"
+  fi
+  echo "$_val"
+}
+
+prompt_password() {
+  local _prompt="$1"
+  printf "%s: " "$_prompt"
+  stty -echo 2>/dev/null || true
+  read -r _pass
+  stty echo 2>/dev/null || true
+  printf '\n'
+  echo "$_pass"
+}
+
 # ── Parse args ────────────────────────────────────────────────
 NONINTERACTIVE=false
 DEV_PORT=3000
 DB_TYPE=""
 DOMAIN=""
 
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
   case "$1" in
     -y|--yes)       NONINTERACTIVE=true; shift ;;
     --port)         DEV_PORT="$2"; shift 2 ;;
@@ -62,7 +95,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # ── Root check ────────────────────────────────────────────────
-if [[ $EUID -eq 0 ]]; then
+if [ "$(id -u)" -eq 0 ]; then
   error "Do not run this script as root. Use a regular user with sudo."
   exit 1
 fi
@@ -74,12 +107,12 @@ fi
 title "Preflight checks"
 
 detect_os() {
-  if [[ -f /etc/os-release ]]; then
+  if [ -f /etc/os-release ]; then
     . /etc/os-release
-    OS_ID="$ID"
-    OS_NAME="$NAME"
-    OS_VERSION="$VERSION_ID"
-  elif [[ -f /etc/debian_version ]]; then
+    OS_ID="${ID:-}"
+    OS_NAME="${NAME:-}"
+    OS_VERSION="${VERSION_ID:-}"
+  elif [ -f /etc/debian_version ]; then
     OS_ID="debian"
     OS_NAME="Debian"
     OS_VERSION=$(cat /etc/debian_version)
@@ -89,13 +122,17 @@ detect_os() {
     OS_VERSION="unknown"
   fi
 
-  if [[ "$OS_ID" != "debian" && "$OS_ID" != "ubuntu" && "$OS_ID" != "linuxmint" ]]; then
-    warn "This script is designed for Debian/Ubuntu. Your OS: $OS_NAME"
-    if [[ "$NONINTERACTIVE" == false ]]; then
-      read -rp "Continue anyway? [y/N] " ans
-      if [[ ! "$ans" =~ ^[Yy]$ ]]; then exit 1; fi
-    fi
-  fi
+  case "$OS_ID" in
+    debian|ubuntu|linuxmint) ;;
+    *)
+      warn "This script is designed for Debian/Ubuntu. Your OS: $OS_NAME"
+      if [ "$NONINTERACTIVE" = false ]; then
+        if ! prompt_yesno "Continue anyway?" "N"; then
+          exit 1
+        fi
+      fi
+      ;;
+  esac
   log "OS: $OS_NAME $OS_VERSION"
 }
 
@@ -105,41 +142,40 @@ detect_os
 PREREQ_OK=true
 
 for cmd in curl git; do
-  if ! command -v "$cmd" &>/dev/null; then
+  if ! command -v "$cmd" >/dev/null 2>&1; then
     warn "$cmd is not installed"
     PREREQ_OK=false
   fi
 done
 
-if ! command -v node &>/dev/null; then
+if ! command -v node >/dev/null 2>&1; then
   warn "Node.js is not installed"
   PREREQ_OK=false
 else
   NODE_VERSION=$(node -v | sed 's/v//')
   NODE_MAJOR="${NODE_VERSION%%.*}"
   log "Node.js v$NODE_VERSION"
-  if [[ "$NODE_MAJOR" -lt 18 ]]; then
+  if [ "$NODE_MAJOR" -lt 18 ]; then
     warn "Node.js >= 18 is recommended (detected v$NODE_VERSION)"
   fi
 fi
 
-if ! command -v npm &>/dev/null; then
+if ! command -v npm >/dev/null 2>&1; then
   warn "npm is not installed"
   PREREQ_OK=false
 else
   log "npm $(npm -v)"
 fi
 
-if [[ "$PREREQ_OK" == false ]]; then
+if [ "$PREREQ_OK" = false ]; then
   title "Install prerequisites"
 
   echo "Missing tools: curl, git, nodejs, npm"
   echo "Install them with:"
   echo "  sudo apt update && sudo apt install -y curl git nodejs npm"
   echo ""
-  if [[ "$NONINTERACTIVE" == false ]]; then
-    read -rp "Install prerequisites now? [Y/n] " ans
-    if [[ ! "$ans" =~ ^[Nn]$ ]]; then
+  if [ "$NONINTERACTIVE" = false ]; then
+    if prompt_yesno "Install prerequisites now?" "Y"; then
       sudo apt update && sudo apt install -y curl git nodejs npm
     else
       error "Prerequisites missing. Aborting."
@@ -156,12 +192,12 @@ fi
 
 title "Project setup"
 
-if [[ -d "$PROJECT_DIR/.git" ]]; then
+if [ -d "$PROJECT_DIR/.git" ]; then
   log "Project already exists at $PROJECT_DIR"
   cd "$PROJECT_DIR"
   info "Pulling latest changes..."
   git pull --ff-only 2>/dev/null || warn "Could not pull (uncommitted changes?)"
-elif [[ -f "package.json" ]] && grep -q "drayko" package.json 2>/dev/null; then
+elif [ -f "package.json" ] && grep -q "drayko" package.json 2>/dev/null; then
   log "Running from repository directory: $(pwd)"
   PROJECT_DIR="$(pwd)"
 else
@@ -180,7 +216,7 @@ cd "$PROJECT_DIR"
 title "Database configuration"
 
 pick_database() {
-  if [[ -n "$DB_TYPE" ]]; then
+  if [ -n "$DB_TYPE" ]; then
     local t
     t=$(echo "$DB_TYPE" | tr '[:upper:]' '[:lower:]')
     case "$t" in
@@ -196,15 +232,18 @@ pick_database() {
   echo "  1) SQLite  — simple file-based, no server needed (easiest)"
   echo "  2) PostgreSQL — powerful, recommended for production"
   echo "  3) MySQL / MariaDB"
-  if [[ "$NONINTERACTIVE" == true ]]; then
+  if [ "$NONINTERACTIVE" = true ]; then
     DB_TYPE="sqlite"
     log "Non-interactive mode, defaulting to SQLite"
     return
   fi
-  read -rp "Choice [1/2/3] (default: 1): " ans
-  case "$ans" in
-    2|3)   [[ "$ans" == "2" ]] && DB_TYPE="postgresql" || DB_TYPE="mysql" ;;
-    *)     DB_TYPE="sqlite" ;;
+
+  local _choice
+  _choice=$(prompt_value "Choice" "1")
+  case "$_choice" in
+    2) DB_TYPE="postgresql" ;;
+    3) DB_TYPE="mysql" ;;
+    *) DB_TYPE="sqlite" ;;
   esac
 }
 
@@ -215,13 +254,11 @@ log "Database type: $DB_TYPE"
 setup_sqlite() {
   local db_path
   db_path="$PROJECT_DIR/data.db"
-  if [[ "$NONINTERACTIVE" == false ]]; then
-    read -rp "SQLite database path [${db_path}]: " ans
-    [[ -n "$ans" ]] && db_path="$ans"
+  if [ "$NONINTERACTIVE" = false ]; then
+    db_path=$(prompt_value "SQLite database path" "$db_path")
   fi
   log "SQLite database: $db_path"
 
-  # Ensure parent directory exists
   mkdir -p "$(dirname "$db_path")"
   touch "$db_path" 2>/dev/null || true
 
@@ -242,59 +279,51 @@ setup_postgresql() {
   local pg_pass=""
   local pg_db="drayko_portfolio"
 
-  # Check if psql is available
   local pg_installed=false
-  if command -v psql &>/dev/null; then
+  if command -v psql >/dev/null 2>&1; then
     pg_installed=true
     log "PostgreSQL client found"
   else
     warn "PostgreSQL is not installed"
-    if [[ "$NONINTERACTIVE" == false ]]; then
-      read -rp "Install PostgreSQL now? [Y/n] " ans
-      if [[ ! "$ans" =~ ^[Nn]$ ]]; then
+    if [ "$NONINTERACTIVE" = false ]; then
+      if prompt_yesno "Install PostgreSQL now?" "Y"; then
         install_postgresql
         pg_installed=true
       fi
-    else
-      read -rp "Install PostgreSQL? [y/N] " ans
-      if [[ "$ans" =~ ^[Yy]$ ]]; then
-        install_postgresql
-        pg_installed=true
-      fi
+    elif prompt_yesno "Install PostgreSQL?" "N"; then
+      install_postgresql
+      pg_installed=true
     fi
   fi
 
-  if [[ "$pg_installed" == true ]] && [[ "$NONINTERACTIVE" == false ]]; then
+  if [ "$pg_installed" = true ] && [ "$NONINTERACTIVE" = false ]; then
     echo ""
-    read -rp "PostgreSQL host [${pg_host}]: " ans
-    [[ -n "$ans" ]] && pg_host="$ans"
-    read -rp "PostgreSQL port [${pg_port}]: " ans
-    [[ -n "$ans" ]] && pg_port="$ans"
-    read -rp "Database name [${pg_db}]: " ans
-    [[ -n "$ans" ]] && pg_db="$ans"
-    read -rp "Username [${pg_user}]: " ans
-    [[ -n "$ans" ]] && pg_user="$ans"
-    read -rsp "Password (leave empty to skip): " pg_pass
-    echo ""
+    pg_host=$(prompt_value "PostgreSQL host" "$pg_host")
+    pg_port=$(prompt_value "PostgreSQL port" "$pg_port")
+    pg_db=$(prompt_value "Database name" "$pg_db")
+    pg_user=$(prompt_value "Username" "$pg_user")
+    pg_pass=$(prompt_password "Password (leave empty to skip)")
   fi
 
-  # Try to create database and user if running locally
-  if [[ "$pg_host" == "localhost" || "$pg_host" == "127.0.0.1" ]] && command -v psql &>/dev/null; then
-    if [[ -z "$pg_pass" ]]; then
-      info "Attempting to create database '$pg_db' with peer authentication..."
-      sudo -u postgres psql -c "CREATE DATABASE $pg_db;" 2>/dev/null || warn "Database '$pg_db' may already exist"
-    else
-      info "Creating user '$pg_user' and database '$pg_db'..."
-      sudo -u postgres psql <<-EOSQL 2>/dev/null || warn "User/database may already exist"
-        CREATE USER $pg_user WITH PASSWORD '$pg_pass';
-        CREATE DATABASE $pg_db OWNER $pg_user;
+  if [ "$pg_host" = "localhost" ] || [ "$pg_host" = "127.0.0.1" ]; then
+    if command -v psql >/dev/null 2>&1; then
+      if [ -z "$pg_pass" ]; then
+        info "Attempting to create database '$pg_db' with peer authentication..."
+        sudo -u postgres psql -c "CREATE DATABASE $pg_db;" 2>/dev/null || warn "Database '$pg_db' may already exist"
+      else
+        info "Creating user '$pg_user' and database '$pg_db'..."
+        sudo -u postgres psql <<-EOSQL 2>/dev/null || warn "User/database may already exist"
+          CREATE USER $pg_user WITH PASSWORD '$pg_pass';
+          CREATE DATABASE $pg_db OWNER $pg_user;
 EOSQL
+      fi
     fi
   fi
 
-  # Build connection URL
   local url="postgresql://${pg_user}"
-  [[ -n "$pg_pass" ]] && url="${url}:${pg_pass}"
+  if [ -n "$pg_pass" ]; then
+    url="${url}:${pg_pass}"
+  fi
   url="${url}@${pg_host}:${pg_port}/${pg_db}"
 
   cat > .env <<EOF
@@ -315,55 +344,49 @@ setup_mysql() {
   local my_db="drayko_portfolio"
 
   local my_installed=false
-  if command -v mysql &>/dev/null; then
+  if command -v mysql >/dev/null 2>&1; then
     my_installed=true
     log "MySQL/MariaDB client found"
   else
     warn "MySQL/MariaDB is not installed"
-    if [[ "$NONINTERACTIVE" == false ]]; then
-      read -rp "Install MariaDB now? [Y/n] " ans
-      if [[ ! "$ans" =~ ^[Nn]$ ]]; then
+    if [ "$NONINTERACTIVE" = false ]; then
+      if prompt_yesno "Install MariaDB now?" "Y"; then
         install_mariadb
         my_installed=true
       fi
-    else
-      read -rp "Install MariaDB? [y/N] " ans
-      if [[ "$ans" =~ ^[Yy]$ ]]; then
-        install_mariadb
-        my_installed=true
-      fi
+    elif prompt_yesno "Install MariaDB?" "N"; then
+      install_mariadb
+      my_installed=true
     fi
   fi
 
-  if [[ "$my_installed" == true ]] && [[ "$NONINTERACTIVE" == false ]]; then
+  if [ "$my_installed" = true ] && [ "$NONINTERACTIVE" = false ]; then
     echo ""
-    read -rp "MySQL/MariaDB host [${my_host}]: " ans
-    [[ -n "$ans" ]] && my_host="$ans"
-    read -rp "Port [${my_port}]: " ans
-    [[ -n "$ans" ]] && my_port="$ans"
-    read -rp "Database name [${my_db}]: " ans
-    [[ -n "$ans" ]] && my_db="$ans"
-    read -rp "Username [${my_user}]: " ans
-    [[ -n "$ans" ]] && my_user="$ans"
-    read -rsp "Password (leave empty to skip): " my_pass
-    echo ""
+    my_host=$(prompt_value "MySQL/MariaDB host" "$my_host")
+    my_port=$(prompt_value "Port" "$my_port")
+    my_db=$(prompt_value "Database name" "$my_db")
+    my_user=$(prompt_value "Username" "$my_user")
+    my_pass=$(prompt_password "Password (leave empty to skip)")
   fi
 
-  # Try to create database and user if running locally
-  if [[ "$my_host" == "localhost" || "$my_host" == "127.0.0.1" ]] && command -v mysql &>/dev/null; then
-    if [[ -n "$my_pass" ]]; then
-      info "Creating user '$my_user' and database '$my_db'..."
-      sudo mysql <<-EOSQL 2>/dev/null || warn "User/database may already exist"
-        CREATE USER IF NOT EXISTS '$my_user'@'localhost' IDENTIFIED BY '$my_pass';
-        CREATE DATABASE IF NOT EXISTS $my_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        GRANT ALL PRIVILEGES ON $my_db.* TO '$my_user'@'localhost';
-        FLUSH PRIVILEGES;
+  if [ "$my_host" = "localhost" ] || [ "$my_host" = "127.0.0.1" ]; then
+    if command -v mysql >/dev/null 2>&1; then
+      if [ -n "$my_pass" ]; then
+        info "Creating user '$my_user' and database '$my_db'..."
+        sudo mysql <<-EOSQL 2>/dev/null || warn "User/database may already exist"
+          CREATE USER IF NOT EXISTS '$my_user'@'localhost' IDENTIFIED BY '$my_pass';
+          CREATE DATABASE IF NOT EXISTS $my_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+          GRANT ALL PRIVILEGES ON $my_db.* TO '$my_user'@'localhost';
+          FLUSH PRIVILEGES;
 EOSQL
+      fi
     fi
   fi
 
   local url="mysql://${my_user}"
-  [[ -n "$my_pass" ]] && url="${url}:${my_pass}"
+  if [ -n "$my_pass" ]; then
+    url="${url}:${my_pass}"
+  fi
   url="${url}@${my_host}:${my_port}/${my_db}"
 
   cat > .env <<EOF
@@ -391,8 +414,7 @@ install_mariadb() {
   sudo systemctl start mariadb
   log "MariaDB installed and started"
 
-  # Run secure installation interactively
-  if [[ "$NONINTERACTIVE" == false ]]; then
+  if [ "$NONINTERACTIVE" = false ]; then
     echo ""
     info "Running MariaDB secure installation..."
     echo "Follow the prompts to set a root password and secure your installation."
@@ -417,10 +439,9 @@ info "Running npm install..."
 npm install 2>&1 | tail -3
 log "Dependencies installed"
 
-if [[ "$NONINTERACTIVE" == false ]]; then
+if [ "$NONINTERACTIVE" = false ]; then
   echo ""
-  read -rp "Build the project now? (required for production) [Y/n] " build_ans
-  if [[ ! "$build_ans" =~ ^[Nn]$ ]]; then
+  if prompt_yesno "Build the project now? (required for production)" "Y"; then
     title "Build"
     info "Running next build..."
     npm run build 2>&1 | tail -5
@@ -439,9 +460,8 @@ fi
 
 title "Database migration"
 
-if [[ "$NONINTERACTIVE" == false ]]; then
-  read -rp "Push schema to database (create tables)? [Y/n] " push_ans
-  if [[ ! "$push_ans" =~ ^[Nn]$ ]]; then
+if [ "$NONINTERACTIVE" = false ]; then
+  if prompt_yesno "Push schema to database (create tables)?" "Y"; then
     info "Running db:push..."
     npx drizzle-kit push 2>&1 | tail -5
     log "Database tables created"
@@ -460,20 +480,10 @@ title "Production service"
 
 SERVICE_NAME="drayko-portfolio"
 
-if [[ "$NONINTERACTIVE" == true ]]; then
-  install_systemd_service
-else
-  read -rp "Install as a systemd service? (auto-start on boot) [Y/n] " svc_ans
-  if [[ ! "$svc_ans" =~ ^[Nn]$ ]]; then
-    install_systemd_service
-  fi
-fi
-
 install_systemd_service() {
-  local node_path
-  node_path="$(command -v node)"
-  local npm_path
-  npm_path="$(command -v npm)"
+  local _node_path _npm_path
+  _node_path=$(command -v node)
+  _npm_path=$(command -v npm)
 
   sudo tee "/etc/systemd/system/${SERVICE_NAME}.service" >/dev/null <<EOF
 [Unit]
@@ -484,7 +494,7 @@ After=network.target
 Type=exec
 User=$USER
 WorkingDirectory=$PROJECT_DIR
-ExecStart=${node_path} ${npm_path} exec next start -- -p ${DEV_PORT}
+ExecStart=${_node_path} ${_npm_path} exec next start -- -p ${DEV_PORT}
 Restart=always
 RestartSec=10
 Environment=NODE_ENV=production
@@ -499,14 +509,22 @@ EOF
   log "Service '$SERVICE_NAME' started on port $DEV_PORT"
 }
 
+if [ "$NONINTERACTIVE" = true ]; then
+  install_systemd_service
+else
+  if prompt_yesno "Install as a systemd service? (auto-start on boot)" "Y"; then
+    install_systemd_service
+  fi
+fi
+
 # ═══════════════════════════════════════════════════════════════
 # NGINX (optional)
 # ═══════════════════════════════════════════════════════════════
 
-if [[ -n "$DOMAIN" ]]; then
+if [ -n "$DOMAIN" ]; then
   title "Nginx reverse proxy"
 
-  if command -v nginx &>/dev/null; then
+  if command -v nginx >/dev/null 2>&1; then
     info "Configuring nginx for $DOMAIN ..."
 
     sudo tee "/etc/nginx/sites-available/${SERVICE_NAME}" >/dev/null <<EOF
@@ -544,7 +562,7 @@ fi
 
 title "Setup complete"
 
-echo -e "${GREEN}Drayko Portfolio has been installed!${NC}"
+printf '%b\n' "${GREEN}Drayko Portfolio has been installed!${NC}"
 echo ""
 echo "  Directory: $PROJECT_DIR"
 echo "  DB type:   $DB_TYPE"
@@ -567,18 +585,18 @@ else
   echo "    cd $PROJECT_DIR && npm run build && npm start"
 fi
 
-if [[ -n "$DOMAIN" ]]; then
+if [ -n "$DOMAIN" ]; then
   echo ""
   echo "  Your domain: http://$DOMAIN"
 fi
 
 echo ""
-echo -e "${YELLOW}Next steps:${NC}"
+printf '%b\n' "${YELLOW}Next steps:${NC}"
 echo "  1. Create an admin account at http://localhost:$DEV_PORT/admin"
 echo "  2. Review and customize the site content"
 echo ""
-if [[ -n "$DOMAIN" ]]; then
+if [ -n "$DOMAIN" ]; then
   echo "  3. Set up SSL with: sudo certbot --nginx -d $DOMAIN"
 fi
 echo ""
-echo -e "${CYAN}Thank you for using Drayko Portfolio!${NC}"
+printf '%b\n' "${CYAN}Thank you for using Drayko Portfolio!${NC}"
