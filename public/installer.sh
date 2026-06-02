@@ -592,6 +592,25 @@ EOF
 fi
 
 # ═══════════════════════════════════════════════════════════════
+# ADMIN ACCOUNT
+# ═══════════════════════════════════════════════════════════════
+
+title "Admin account"
+
+if [ "$NONINTERACTIVE" = false ]; then
+  if prompt_yesno "Create an admin account now?" "Y"; then
+    printf "Admin email: "
+    read -r ADMIN_EMAIL < /dev/tty 2>/dev/null || ADMIN_EMAIL=""
+    if [ -n "$ADMIN_EMAIL" ]; then
+      ADMIN_PASS=$(prompt_password "Password")
+      if [ -n "$ADMIN_PASS" ]; then
+        node "$PROJECT_DIR/scripts/create-admin.js" "$ADMIN_EMAIL" "$ADMIN_PASS"
+      fi
+    fi
+  fi
+fi
+
+# ═══════════════════════════════════════════════════════════════
 # SUMMARY
 # ═══════════════════════════════════════════════════════════════
 
@@ -627,11 +646,9 @@ fi
 
 echo ""
 printf '%b\n' "${YELLOW}Next steps:${NC}"
-echo "  1. Create an admin account at http://localhost:$DEV_PORT/admin"
-echo "  2. Review and customize the site content"
-echo ""
+echo "  1. Review and customize the site content"
 if [ -n "$DOMAIN" ]; then
-  echo "  3. Set up SSL with: sudo certbot --nginx -d $DOMAIN"
+  echo "  2. Set up SSL with: sudo certbot --nginx -d $DOMAIN"
 fi
 echo ""
 printf '%b\n' "${CYAN}Thank you for using Drayko Portfolio!${NC}"
