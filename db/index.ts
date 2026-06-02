@@ -1,39 +1,68 @@
-import postgres from 'postgres';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import * as schema from './schema';
+import { dbType, type DbType } from './config'
+import postgres from 'postgres'
+import { drizzle as drizzlePg } from 'drizzle-orm/postgres-js'
+import * as schema from './schema'
 
-const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+let _db: any = null
 
-let _db: any = null;
+function createPostgresInstance(url: string) {
+  const sql = postgres(url, { prepare: false })
+  return drizzlePg(sql, { schema })
+}
+
+function createSqliteInstance(url: string) {
+  try {
+    const Database = require('better-sqlite3')
+    const { drizzle: drizzleSqlite } = require('drizzle-orm/better-sqlite3')
+    const path = url.replace(/^sqlite:\/\//, '')
+    const sqliteDb = new Database(path)
+    return drizzleSqlite(sqliteDb, { schema })
+  } catch {
+    throw new Error(
+      'SQLite support requires "better-sqlite3". Run: npm install better-sqlite3 @types/better-sqlite3'
+    )
+  }
+}
 
 const createDbInstance = () => {
-    if (_db) return _db;
-    
-    if (!databaseUrl) {
-        if (process.env.NODE_ENV === 'development') {
-            console.warn("⚠️ DATABASE_URL or POSTGRES_URL is not set. Using mock database for local development.");
-            const mock: any = new Proxy(() => mock, {
-                get: (_, prop) => {
-                    if (prop === 'then') return (onFullfilled: any) => onFullfilled([]);
-                    return mock;
-                },
-                apply: () => mock,
-            });
-            return mock;
-        }
-        throw new Error("DATABASE_URL or POSTGRES_URL is not set. Please check your environment variables.");
-    }
-    
-    const sql = postgres(databaseUrl, { prepare: false });
-    _db = drizzle(sql, { schema });
-    return _db;
-};
+  if (_db) return _db
 
-// Use a Proxy to defer initialization until a method is accessed
-export const db = new Proxy({} as any, {
-    get(_, prop, receiver) {
-        // We initialize on any property access
-        const instance = createDbInstance();
-        return Reflect.get(instance, prop, receiver);
+  const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL
+
+  if (!databaseUrl) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn("⚠️ DATABASE_URL or POSTGRES_URL is not set. Using mock database for local development.")
+      const mock: any = new Proxy(() => mock, {
+        get: (_, prop) => {
+          if (prop === 'then') return (onFullfilled: any) => onFullfilled([])
+          return mock
+        },
+        apply: () => mock,
+      })
+      return mock
     }
-});
+    throw new Error("DATABASE_URL or POSTGRES_URL is not set. Please check your environment variables.")
+  }
+
+  switch (dbType) {
+    case 'sqlite':
+      _db = createSqliteInstance(databaseUrl)
+      break
+    case 'postgresql':
+    default:
+      _db = createPostgresInstance(databaseUrl)
+      break
+  }
+
+  return _db
+}
+
+export const db = new Proxy({} as any, {
+  get(_, prop, receiver) {
+    const instance = createDbInstance()
+    return Reflect.get(instance, prop, receiver)
+  },
+})
+
+export { dbType }
+export type { DbType }
