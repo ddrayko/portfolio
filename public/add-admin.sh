@@ -37,6 +37,15 @@ fi
 
 cd "$PROJECT_DIR"
 
+# ── Pull latest changes ────────────────────────────────────────
+info "Updating scripts..."
+git fetch origin 2>/dev/null || true
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
+MERGE_BASE=$(git merge-base HEAD "origin/$CURRENT_BRANCH" 2>/dev/null || true)
+if [ -n "$MERGE_BASE" ]; then
+  git pull --ff-only 2>/dev/null && log "Scripts updated" || true
+fi
+
 # ── Get email ─────────────────────────────────────────────────
 EMAIL="${1:-}"
 if [ -z "$EMAIL" ]; then
