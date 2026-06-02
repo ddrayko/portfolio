@@ -96,8 +96,12 @@ done
 
 # ── Root check ────────────────────────────────────────────────
 if [ "$(id -u)" -eq 0 ]; then
-  error "Do not run this script as root. Use a regular user with sudo."
-  exit 1
+  warn "Running as root is not recommended (npm/systemd security)."
+  if [ "$NONINTERACTIVE" = false ]; then
+    if ! prompt_yesno "Continue as root?" "N"; then
+      exit 1
+    fi
+  fi
 fi
 
 # ═══════════════════════════════════════════════════════════════
