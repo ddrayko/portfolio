@@ -4,8 +4,9 @@ set -euo pipefail
 # ═══════════════════════════════════════════════════════════════
 # Drayko Portfolio — Self-Hosted Installer for Debian/Ubuntu
 # Usage:
-#   curl -SLfs https://drayko.xyz/installer.sh | sh
-#   curl -SLfs https://drayko.xyz/installer.sh | bash -s -- --port 3456
+#   curl -SLfs https://drayko.xyz/api/installer | sh
+#   curl -SLfs https://drayko.xyz/api/installer | bash -s -- --port 3456
+#   curl -SLfs https://drayko.xyz/installer.sh | sh   (if .sh is not blocked)
 # ═══════════════════════════════════════════════════════════════
 
 REPO_URL="https://github.com/drayko/v6-portfolio.git"
@@ -29,7 +30,7 @@ trap cleanup INT TERM
 # ── Help ──────────────────────────────────────────────────────
 show_help() {
   cat <<EOF
-Usage: curl -SLfs https://drayko.xyz/installer.sh | sh [-- <options>]
+Usage: curl -SLfs https://drayko.xyz/api/installer | sh [-- <options>]
 
 Options:
   -y, --yes          Non-interactive mode (accepts all defaults)
