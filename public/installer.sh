@@ -6,9 +6,11 @@ set -eu
 # Usage:
 #   curl -SLfs https://drayko.xyz/api/installer | sh
 #   curl -SLfs https://drayko.xyz/api/installer | sh -s -- --port 3456
+#   curl -SLfs https://drayko.xyz/api/installer | sh -s -- --repo https://github.com/user/repo.git
 # ═══════════════════════════════════════════════════════════════
 
-REPO_URL="https://github.com/drayko/v6-portfolio.git"
+REPO_URL="https://codeberg.org/ddrayko/v6-portfolio.git"
+REPO_SSH="ssh://git@codeberg.org/ddrayko/v6-portfolio.git"
 PROJECT_DIR="$HOME/drayko-portfolio"
 
 # ── Colors ────────────────────────────────────────────────────
@@ -37,6 +39,7 @@ Options:
   --dir <path>       Install directory (default: ~/drayko-portfolio)
   --db <type>        Database type: postgresql | sqlite | mysql
   --domain <domain>  Domain for nginx config
+  --repo <url>       Repository URL (default: codeberg.org/ddrayko/v6-portfolio)
   --help             Show this help
 EOF
   exit 0
@@ -94,6 +97,7 @@ while [ $# -gt 0 ]; do
     --dir)          PROJECT_DIR="$2"; shift 2 ;;
     --db)           DB_TYPE="$2"; shift 2 ;;
     --domain)       DOMAIN="$2"; shift 2 ;;
+    --repo)         REPO_URL="$2"; shift 2 ;;
     --help)         show_help ;;
     *)              shift ;;
   esac
@@ -211,9 +215,25 @@ elif [ -f "package.json" ] && grep -q "drayko" package.json 2>/dev/null; then
   PROJECT_DIR="$(pwd)"
 else
   info "Cloning repository into $PROJECT_DIR ..."
-  git clone "$REPO_URL" "$PROJECT_DIR"
-  cd "$PROJECT_DIR"
-  log "Repository cloned"
+  if git clone "$REPO_URL" "$PROJECT_DIR" 2>/dev/null; then
+    cd "$PROJECT_DIR"
+    log "Repository cloned"
+  else
+    warn "HTTPS clone failed (private repo?). Trying SSH..."
+    if git clone "$REPO_SSH" "$PROJECT_DIR" 2>/dev/null; then
+      cd "$PROJECT_DIR"
+      log "Repository cloned via SSH"
+    else
+      error "Failed to clone repository."
+      echo ""
+      echo "Make sure you have access to:"
+      echo "  $REPO_URL"
+      echo ""
+      echo "Or specify a custom URL with:"
+      echo "  curl -SLfs https://drayko.xyz/api/installer | sh -s -- --repo https://your-repo-url.git"
+      exit 1
+    fi
+  fi
 fi
 
 cd "$PROJECT_DIR"
