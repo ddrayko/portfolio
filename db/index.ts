@@ -14,7 +14,7 @@ function createSqliteInstance(url: string) {
   try {
     const Database = require('better-sqlite3')
     const { drizzle: drizzleSqlite } = require('drizzle-orm/better-sqlite3')
-    const path = url.replace(/^sqlite:\/\//, '')
+    const path = url.replace(/^sqlite:\/\//, '').replace(/^file:/, '')
     const sqliteDb = new Database(path)
     return drizzleSqlite(sqliteDb, { schema })
   } catch {

@@ -19,11 +19,14 @@ function detectDialect(): 'postgresql' | 'sqlite' | 'mysql' {
 
 const dialect = detectDialect()
 
+// drizzle-kit needs the raw file path for SQLite (no sqlite:// prefix)
+const dbUrl = dialect === 'sqlite' ? url.replace(/^sqlite:\/\//, '').replace(/^file:/, '') : url
+
 export default defineConfig({
   schema: dialect === 'sqlite' ? './db/schema-sqlite.ts' : './db/schema-pg.ts',
   out: './drizzle',
   dialect,
   dbCredentials: {
-    url,
+    url: dbUrl,
   },
 })
