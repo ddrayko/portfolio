@@ -11,6 +11,28 @@ import { isLocalRequest } from "@/lib/server-utils"
 
 export const dynamic = "force-dynamic"
 
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "System Roadmap",
+  description:
+    "Follow the evolution of Drayko's portfolio platform. View upcoming features, planned updates, and full version changelog.",
+  keywords: [
+    "Drayko roadmap",
+    "portfolio changelog",
+    "website updates",
+    "planned features",
+    "version history",
+    "portfolio evolution",
+    "development roadmap",
+  ],
+  openGraph: {
+    title: "System Roadmap | Drayko",
+    description:
+      "Follow the evolution of Drayko's portfolio platform with upcoming features and version changelog.",
+  },
+}
+
 export default async function UpdatePage() {
     // Platform Status check (Skipped if local)
     const isLocal = await isLocalRequest()

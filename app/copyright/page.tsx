@@ -1,5 +1,25 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ChevronLeft, Copyright } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Copyright",
+  description:
+    "Copyright information and license details for Drayko's portfolio website and its open-source project code.",
+  keywords: [
+    "copyright",
+    "Drayko copyright",
+    "open source license",
+    "portfolio license",
+    "free software",
+    "MIT license",
+  ],
+  openGraph: {
+    title: "Copyright | Drayko",
+    description:
+      "Copyright information and license details for Drayko's portfolio website.",
+  },
+}
 
 export default function CopyrightPage() {
     return (

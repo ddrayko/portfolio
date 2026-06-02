@@ -1,5 +1,26 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ChevronLeft, Shield } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Privacy policy of Drayko's portfolio website. Learn how your data is collected, used, and protected when visiting drayko.xyz.",
+  keywords: [
+    "privacy policy",
+    "data protection",
+    "Drayko privacy",
+    "portfolio privacy",
+    "GDPR",
+    "data privacy",
+    "website privacy",
+  ],
+  openGraph: {
+    title: "Privacy Policy | Drayko",
+    description:
+      "Privacy policy of Drayko's portfolio website. Learn how your data is collected and protected.",
+  },
+}
 
 export default function PrivacyPage() {
     return (

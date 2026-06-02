@@ -16,6 +16,29 @@ import { versions as versionsTable } from "@/db/schema"
 
 export const dynamic = "force-dynamic"
 
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Drayko - Creative Developer & Designer",
+  description:
+    "Discover the portfolio of Drayko, a Creative Developer & Designer building high-performance web applications with Next.js, React, and TypeScript.",
+  keywords: [
+    "Drayko portfolio",
+    "creative developer",
+    "web developer portfolio",
+    "Next.js projects",
+    "React projects",
+    "full-stack developer",
+    "UI/UX designer",
+    "web development showcase",
+  ],
+  openGraph: {
+    title: "Drayko - Creative Developer & Designer",
+    description:
+      "Discover the portfolio of Drayko, a Creative Developer & Designer building high-performance web applications.",
+  },
+}
+
 export default async function HomePage() {
   // Platform Status check (Skipped if local)
   const isLocal = await isLocalRequest()

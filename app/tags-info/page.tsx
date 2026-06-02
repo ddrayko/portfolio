@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ChevronLeft, Tags, Rocket, CheckCircle2, Archive, Timer, Code2, AlertCircle } from "lucide-react"
 import { getMaintenanceMode } from "@/lib/actions"
@@ -5,6 +6,27 @@ import { redirect } from "next/navigation"
 import { isLocalRequest } from "@/lib/server-utils"
 
 export const dynamic = "force-dynamic"
+
+export const metadata: Metadata = {
+  title: "Tags Info",
+  description:
+    "Understand the meaning behind project status tags on Drayko's portfolio. Learn about Active, Paused, Completed, and Archived project statuses.",
+  keywords: [
+    "project tags",
+    "status tags",
+    "project status",
+    "active project",
+    "archived project",
+    "development status",
+    "portfolio tags",
+    "Drayko tags",
+  ],
+  openGraph: {
+    title: "Tags Info | Drayko",
+    description:
+      "Understand the meaning behind project status tags on Drayko's portfolio.",
+  },
+}
 
 export default async function TagsInfoPage() {
     // Platform Status check (Skipped if local)

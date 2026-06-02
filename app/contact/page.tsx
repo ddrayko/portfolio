@@ -10,6 +10,28 @@ export const dynamic = 'force-dynamic'
 
 export const revalidate = 0
 
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Get in touch with Drayko for project collaborations, freelance opportunities, or any technical questions. Response within 24 hours.",
+  keywords: [
+    "contact Drayko",
+    "hire web developer",
+    "freelance developer",
+    "web development collaboration",
+    "contact creative developer",
+    "Drayko email",
+    "project inquiry",
+  ],
+  openGraph: {
+    title: "Contact | Drayko",
+    description:
+      "Get in touch with Drayko for project collaborations or freelance opportunities.",
+  },
+}
+
 export default async function ContactPage() {
     // Platform Status check (Skipped if local)
     const isLocal = await isLocalRequest()

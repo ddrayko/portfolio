@@ -7,6 +7,28 @@ import { MomentTimeline } from "@/components/moment-timeline"
 
 export const dynamic = "force-dynamic"
 
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Journey",
+  description:
+    "Explore the professional journey and career timeline of Drayko, from education to work experience and key milestones in web development.",
+  keywords: [
+    "Drayko journey",
+    "developer career timeline",
+    "web developer experience",
+    "professional journey",
+    "Drayko background",
+    "developer milestones",
+    "coding career path",
+  ],
+  openGraph: {
+    title: "Journey | Drayko",
+    description:
+      "Explore the professional journey and career timeline of Drayko, from education to work experience.",
+  },
+}
+
 export default async function ParcoursPage() {
     // Platform Status check (Skipped if local)
     const isLocal = await isLocalRequest()

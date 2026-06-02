@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ChevronLeft, History, Package, Hammer, Archive } from "lucide-react"
 import { getProjectBySlug } from "@/lib/actions"
@@ -5,12 +6,45 @@ import { notFound, redirect } from "next/navigation"
 import { ChangelogList } from "@/components/changelog-list"
 import { getMaintenanceMode } from "@/lib/actions"
 import { isLocalRequest } from "@/lib/server-utils"
+import { db } from "@/db"
+import { projects as projectsTable } from "@/db/schema"
+import { eq } from "drizzle-orm"
 
 export const dynamic = "force-dynamic"
 
 interface ProjectUpdatePageProps {
     params: {
         slug: string
+    }
+}
+
+export async function generateMetadata({ params }: ProjectUpdatePageProps): Promise<Metadata> {
+    const { slug } = await params
+    const [project] = await db.select().from(projectsTable).where(eq(projectsTable.slug, slug)).limit(1)
+
+    if (!project) {
+        return {
+            title: "Project Not Found",
+            description: "The requested project update page could not be found.",
+        }
+    }
+
+    return {
+        title: `${project.title} Updates`,
+        description: `View the version history and changelog for ${project.title}, a project by Drayko. Current status: ${project.is_completed ? "Completed" : project.in_development ? "In Development" : project.is_archived ? "Archived" : "Active"}.`,
+        keywords: [
+            `${project.title} changelog`,
+            `${project.title} updates`,
+            "project roadmap",
+            "development progress",
+            "version history",
+            "software changelog",
+            `${project.title} development`,
+        ],
+        openGraph: {
+            title: `${project.title} Updates | Drayko`,
+            description: `View the version history and changelog for ${project.title}.`,
+        },
     }
 }
 

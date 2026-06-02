@@ -10,11 +10,63 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" })
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://drayko.xyz"),
-  title: "Drayko - Creative Developer",
-  description: "Portfolio of Drayko, a Creative Developer & Designer specializing in high-performance digital experiences.",
+  title: {
+    default: "Drayko - Creative Developer & Designer",
+    template: "%s | Drayko",
+  },
+  description:
+    "Portfolio of Drayko, a Creative Developer & Designer specializing in high-performance web applications, UI/UX design, and digital experiences.",
+  keywords: [
+    "creative developer",
+    "web developer",
+    "UI/UX designer",
+    "full-stack developer",
+    "portfolio",
+    "frontend developer",
+    "Next.js developer",
+    "React developer",
+    "TypeScript",
+    "web design",
+    "digital experiences",
+    "Drayko",
+    "web development portfolio",
+    "creative coding",
+    "high-performance web",
+    "freelance developer",
+  ],
+  authors: [{ name: "Drayko" }],
+  creator: "Drayko",
   icons: {
     icon: "/assets/logo/fav.png",
     apple: "/assets/logo/fav.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://drayko.xyz",
+    siteName: "Drayko Portfolio",
+    title: "Drayko - Creative Developer & Designer",
+    description:
+      "Portfolio of Drayko, a Creative Developer & Designer specializing in high-performance web applications and digital experiences.",
+    images: [
+      {
+        url: "/assets/logo/fav.png",
+        width: 1200,
+        height: 630,
+        alt: "Drayko Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Drayko - Creative Developer & Designer",
+    description:
+      "Portfolio of Drayko, a Creative Developer & Designer specializing in high-performance web applications and digital experiences.",
+    images: ["/assets/logo/fav.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 }
 

@@ -1,5 +1,25 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ChevronLeft, Scale } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Terms of service for Drayko's portfolio website. Read the conditions governing the use of drayko.xyz and its content.",
+  keywords: [
+    "terms of service",
+    "terms of use",
+    "Drayko terms",
+    "portfolio terms",
+    "website terms",
+    "legal terms",
+  ],
+  openGraph: {
+    title: "Terms of Service | Drayko",
+    description:
+      "Terms of service for Drayko's portfolio website. Read the conditions governing the use of drayko.xyz.",
+  },
+}
 
 export default function TermsPage() {
     return (

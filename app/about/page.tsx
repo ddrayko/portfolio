@@ -6,6 +6,28 @@ import { isLocalRequest } from "@/lib/server-utils"
 
 export const dynamic = "force-dynamic"
 
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn about Drayko, a Creative Developer & Designer passionate about crafting high-performance digital experiences at the intersection of design and engineering.",
+  keywords: [
+    "about Drayko",
+    "creative developer",
+    "web developer story",
+    "developer philosophy",
+    "UI/UX designer about",
+    "full-stack developer background",
+    "Drayko journey",
+  ],
+  openGraph: {
+    title: "About | Drayko",
+    description:
+      "Learn about Drayko, a Creative Developer passionate about crafting high-performance digital experiences.",
+  },
+}
+
 export default async function AboutPage() {
     // Platform Status check (Skipped if local)
     const isLocal = await isLocalRequest()
