@@ -7,6 +7,19 @@ import { revalidatePath } from "next/cache"
 import type { Project, SiteUpdate, Moment, Version } from "./types"
 import bcrypt from "bcryptjs"
 
+/**
+ * Serialize a value to a SQLite-compatible type.
+ * better-sqlite3 only accepts: number, string, bigint, Buffer, null
+ * Drizzle's customType.toDriver is NOT called by the better-sqlite3 adapter on bind.
+ */
+function toSql(value: unknown): string | number | null {
+  if (value == null) return null
+  if (typeof value === "boolean") return value ? 1 : 0
+  if (typeof value === "string" || typeof value === "number") return value
+  if (value instanceof Date) return value.toISOString()
+  return JSON.stringify(value)
+}
+
 export async function createProject(data: Partial<Project>) {
   try {
     const { id: _, created_at: __, updated_at: ___, ...insertData } = data as any
@@ -16,10 +29,13 @@ export async function createProject(data: Partial<Project>) {
       insertData.slug = insertData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
     }
 
-    const [newProject] = await db.insert(projects).values({
-      ...insertData,
-      created_at: new Date()
-    }).returning()
+    const values: Record<string, any> = {}
+    for (const [k, v] of Object.entries(insertData)) {
+      values[k] = toSql(v)
+    }
+    values.created_at = new Date().toISOString()
+
+    const [newProject] = await db.insert(projects).values(values).returning()
     
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
@@ -33,8 +49,12 @@ export async function createProject(data: Partial<Project>) {
 export async function updateProject(id: string, data: Partial<Project>) {
   try {
     const { id: _, created_at: __, updated_at: ___, ...updateData } = data as any
+    const values: Record<string, any> = {}
+    for (const [k, v] of Object.entries(updateData)) {
+      values[k] = toSql(v)
+    }
     await db.update(projects)
-      .set(updateData)
+      .set(values)
       .where(eq(projects.id, parseInt(id)))
     
     revalidatePath("/")
@@ -118,10 +138,10 @@ export async function updateMaintenanceMode(isMaintenance: boolean, message?: st
     if (progress !== undefined) data.maintenance_progress = progress
 
     await db.insert(settings)
-      .values({ key: "general", value: data })
+      .values({ key: "general", value: toSql(data) })
       .onConflictDoUpdate({
         target: settings.key,
-        set: { value: data, updated_at: new Date() }
+        set: { value: toSql(data), updated_at: new Date().toISOString() }
       })
 
     revalidatePath("/")
@@ -165,11 +185,12 @@ export async function getAvailability() {
 
 export async function updateAvailability(isAvailable: boolean) {
   try {
+    const value = toSql({ isAvailable })
     await db.insert(settings)
-      .values({ key: "availability", value: { isAvailable } })
+      .values({ key: "availability", value })
       .onConflictDoUpdate({
         target: settings.key,
-        set: { value: { isAvailable }, updated_at: new Date() }
+        set: { value, updated_at: new Date().toISOString() }
       })
 
     revalidatePath("/")
@@ -293,10 +314,12 @@ export async function getMoments() {
 export async function createMoment(data: Partial<Moment>) {
   try {
     const { id: _, created_at: __, ...insertData } = data as any
-    const [newMoment] = await db.insert(moments).values({
-      ...insertData,
-      created_at: new Date()
-    }).returning()
+    const values: Record<string, any> = {}
+    for (const [k, v] of Object.entries(insertData)) {
+      values[k] = toSql(v)
+    }
+    values.created_at = new Date().toISOString()
+    const [newMoment] = await db.insert(moments).values(values).returning()
 
     revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
@@ -310,8 +333,12 @@ export async function createMoment(data: Partial<Moment>) {
 export async function updateMoment(id: string, data: Partial<Moment>) {
   try {
     const { id: _, created_at: __, ...updateData } = data as any
+    const values: Record<string, any> = {}
+    for (const [k, v] of Object.entries(updateData)) {
+      values[k] = toSql(v)
+    }
     await db.update(moments)
-      .set(updateData)
+      .set(values)
       .where(eq(moments.id, parseInt(id)))
 
     revalidatePath("/journey")
@@ -355,10 +382,12 @@ export async function getVersions() {
 export async function createVersion(data: Partial<Version>) {
   try {
     const { id: _, created_at: __, ...insertData } = data as any
-    const [newVersion] = await db.insert(versions).values({
-      ...insertData,
-      created_at: new Date()
-    }).returning()
+    const values: Record<string, any> = {}
+    for (const [k, v] of Object.entries(insertData)) {
+      values[k] = toSql(v)
+    }
+    values.created_at = new Date().toISOString()
+    const [newVersion] = await db.insert(versions).values(values).returning()
 
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
@@ -372,8 +401,12 @@ export async function createVersion(data: Partial<Version>) {
 export async function updateVersion(id: string, data: Partial<Version>) {
   try {
     const { id: _, created_at: __, ...updateData } = data as any
+    const values: Record<string, any> = {}
+    for (const [k, v] of Object.entries(updateData)) {
+      values[k] = toSql(v)
+    }
     await db.update(versions)
-      .set(updateData)
+      .set(values)
       .where(eq(versions.id, parseInt(id)))
 
     revalidatePath("/")
@@ -399,10 +432,8 @@ export async function deleteVersion(id: string) {
 
 export async function setCurrentVersion(id: string) {
   try {
-    // Set all to false
-    await db.update(versions).set({ is_current: false })
-    // Set the specific one to true
-    await db.update(versions).set({ is_current: true }).where(eq(versions.id, parseInt(id)))
+    await db.update(versions).set({ is_current: toSql(false) })
+    await db.update(versions).set({ is_current: toSql(true) }).where(eq(versions.id, parseInt(id)))
 
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
