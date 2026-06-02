@@ -222,19 +222,22 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
   try {
     const [row] = await db.select().from(siteUpdates).limit(1)
     
-    // Build clean payload: filter undefined/id, convert dates, handle SQLite types
-    const payload: Record<string, any> = {}
+    // Build payload with SQLite-compatible values only (strings, numbers, null)
+    // Drizzle's better-sqlite3 adapter does NOT call customType.toDriver on bind
+    const payload: Record<string, string | number | null> = {}
     for (const [key, value] of Object.entries(data)) {
       if (value === undefined || key === "id") continue
-      if ((key === "next_update_date" || key === "updated_at") && typeof value === "string") {
-        payload[key] = value ? new Date(value) : null
+      if (key === "next_update_date" || key === "updated_at") {
+        payload[key] = value ? typeof value === "string" ? value : value.toISOString() : null
       } else if (key === "no_update_planned" || key === "show_last_update_prefix") {
         payload[key] = value ? 1 : 0
+      } else if (Array.isArray(value)) {
+        payload[key] = JSON.stringify(value)
       } else {
-        payload[key] = value
+        payload[key] = value as string | number
       }
     }
-    payload.updated_at = new Date()
+    payload.updated_at = new Date().toISOString()
 
     if (row) {
       await db.update(siteUpdates).set(payload).where(eq(siteUpdates.id, row.id))
