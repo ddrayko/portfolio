@@ -42,11 +42,16 @@ EOF
   exit 0
 }
 
-# ── Prompt helper ─────────────────────────────────────────────
+# ── Prompt helper (read from /dev/tty to work with curl | sh) ─
+TTY=/dev/tty
+if [ ! -r "$TTY" ]; then
+  TTY=/dev/null
+fi
+
 prompt_yesno() {
-  local _question="$1" _default="${2:-Y}"
-  printf "%s [%s] " "$_question" "$_default"
-  read -r _ans
+  local _question="$1" _default="${2:-Y}" _ans
+  printf "%s [%s] " "$_question" "$_default" >&2
+  read -r _ans < "$TTY" 2>/dev/null || _ans=""
   if [ -z "$_ans" ]; then
     _ans="$_default"
   fi
@@ -57,9 +62,9 @@ prompt_yesno() {
 }
 
 prompt_value() {
-  local _prompt="$1" _default="$2"
-  printf "%s [%s]: " "$_prompt" "$_default"
-  read -r _val
+  local _prompt="$1" _default="$2" _val
+  printf "%s [%s]: " "$_prompt" "$_default" >&2
+  read -r _val < "$TTY" 2>/dev/null || _val=""
   if [ -z "$_val" ]; then
     _val="$_default"
   fi
@@ -67,12 +72,12 @@ prompt_value() {
 }
 
 prompt_password() {
-  local _prompt="$1"
-  printf "%s: " "$_prompt"
-  stty -echo 2>/dev/null || true
-  read -r _pass
-  stty echo 2>/dev/null || true
-  printf '\n'
+  local _prompt="$1" _pass
+  printf "%s: " "$_prompt" >&2
+  stty -echo < "$TTY" 2>/dev/null || true
+  read -r _pass < "$TTY" 2>/dev/null || _pass=""
+  stty echo < "$TTY" 2>/dev/null || true
+  printf '\n' >&2
   echo "$_pass"
 }
 
