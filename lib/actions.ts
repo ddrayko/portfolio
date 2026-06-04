@@ -8,16 +8,32 @@ import type { Project, SiteUpdate, Moment, Version } from "./types"
 import bcrypt from "bcryptjs"
 
 /**
- * Serialize a value to a SQLite-compatible type.
+ * Serialize a primitive value to a SQLite-compatible type.
  * better-sqlite3 only accepts: number, string, bigint, Buffer, null
- * Drizzle's customType.toDriver is NOT called by the better-sqlite3 adapter on bind.
+ * Arrays/objects are passed through for jsonText custom type's toDriver to handle.
  */
-function toSql(value: unknown): string | number | null {
+function toSql(value: unknown): unknown {
   if (value == null) return null
   if (typeof value === "boolean") return value ? 1 : 0
   if (typeof value === "string" || typeof value === "number") return value
   if (value instanceof Date) return value.toISOString()
-  return JSON.stringify(value)
+  return value
+}
+
+/**
+ * Safely parse a field that may be a JSON string or already-parsed value.
+ * Handles existing double-encoded data from the previous toSql behavior.
+ */
+function parseJSONField<T>(value: unknown): T {
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value)
+      return parsed as T
+    } catch {
+      return value as T
+    }
+  }
+  return value as T
 }
 
 export async function createProject(data: Partial<Project>) {
@@ -116,12 +132,12 @@ export async function getMaintenanceMode() {
   try {
     const [row] = await db.select().from(settings).where(eq(settings.key, "general")).limit(1)
     if (row) {
-      const data = row.value as any
+      const data = parseJSONField<any>(row.value) || {}
       return {
         success: true,
         isMaintenance: data.maintenance_mode || false,
         message: data.maintenance_message || "",
-        progress: (data as any).maintenance_progress || 0
+        progress: data.maintenance_progress || 0
       }
     }
     return { success: true, isMaintenance: false, message: "", progress: 0 }
@@ -138,10 +154,10 @@ export async function updateMaintenanceMode(isMaintenance: boolean, message?: st
     if (progress !== undefined) data.maintenance_progress = progress
 
     await db.insert(settings)
-      .values({ key: "general", value: toSql(data) })
+      .values({ key: "general", value: data })
       .onConflictDoUpdate({
         target: settings.key,
-        set: { value: toSql(data), updated_at: new Date().toISOString() }
+        set: { value: data, updated_at: new Date().toISOString() }
       })
 
     revalidatePath("/")
@@ -160,6 +176,8 @@ export async function getProjectBySlug(slug: string) {
         return {
             ...project,
             id: project.id.toString(),
+            tags: parseJSONField<string[]>(project.tags),
+            changelog: parseJSONField<any[]>(project.changelog),
             created_at: project.created_at?.toISOString()
         } as unknown as Project
     }
@@ -174,7 +192,8 @@ export async function getAvailability() {
   try {
     const [row] = await db.select().from(settings).where(eq(settings.key, "availability")).limit(1)
     if (row) {
-      return { success: true, isAvailable: (row.value as any).isAvailable }
+      const value = parseJSONField<any>(row.value)
+      return { success: true, isAvailable: value?.isAvailable }
     }
     return { success: true, isAvailable: true }
   } catch (error: any) {
@@ -185,7 +204,7 @@ export async function getAvailability() {
 
 export async function updateAvailability(isAvailable: boolean) {
   try {
-    const value = toSql({ isAvailable })
+    const value = { isAvailable }
     await db.insert(settings)
       .values({ key: "availability", value })
       .onConflictDoUpdate({
@@ -214,8 +233,8 @@ export async function getSiteUpdateData() {
           id: row.id.toString(),
           next_update_date: row.next_update_date?.toISOString() || null,
           updated_at: row.updated_at?.toISOString() || new Date().toISOString(),
-          changelog: (row.changelog as any) || [],
-          planned_features: (row.planned_features as any) || [],
+          changelog: parseJSONField<any[]>(row.changelog) || [],
+          planned_features: parseJSONField<string[]>(row.planned_features) || [],
           no_update_planned: (row.no_update_planned ?? 1) ? true : false,
           show_last_update_prefix: (row.show_last_update_prefix ?? 1) ? true : false,
           hero_link_type: row.hero_link_type || "update",
@@ -243,19 +262,15 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
   try {
     const [row] = await db.select().from(siteUpdates).limit(1)
     
-    // Build payload with SQLite-compatible values only (strings, numbers, null)
-    // Drizzle's better-sqlite3 adapter does NOT call customType.toDriver on bind
-    const payload: Record<string, string | number | null> = {}
+    const payload: Record<string, any> = {}
     for (const [key, value] of Object.entries(data)) {
       if (value === undefined || key === "id") continue
       if (key === "next_update_date" || key === "updated_at") {
         payload[key] = value ? typeof value === "string" ? value : value.toISOString() : null
       } else if (key === "no_update_planned" || key === "show_last_update_prefix") {
         payload[key] = value ? 1 : 0
-      } else if (Array.isArray(value)) {
-        payload[key] = JSON.stringify(value)
       } else {
-        payload[key] = value as string | number
+        payload[key] = value
       }
     }
     payload.updated_at = new Date().toISOString()
@@ -284,6 +299,8 @@ export async function getProjects() {
       data: data.map((p: any) => ({ 
         ...p, 
         id: p.id.toString(), 
+        tags: parseJSONField<string[]>(p.tags),
+        changelog: parseJSONField<any[]>(p.changelog),
         created_at: p.created_at?.toISOString() || new Date().toISOString(),
         updated_at: new Date().toISOString()
       })) as unknown as Project[]
