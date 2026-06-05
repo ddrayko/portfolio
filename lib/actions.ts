@@ -49,7 +49,7 @@ export async function createProject(data: Partial<Project>) {
     for (const [k, v] of Object.entries(insertData)) {
       values[k] = toSql(v)
     }
-    values.created_at = new Date().toISOString()
+    values.created_at = new Date()
 
     const [newProject] = await db.insert(projects).values(values).returning()
     
@@ -157,7 +157,7 @@ export async function updateMaintenanceMode(isMaintenance: boolean, message?: st
       .values({ key: "general", value: data })
       .onConflictDoUpdate({
         target: settings.key,
-        set: { value: data, updated_at: new Date().toISOString() }
+        set: { value: data, updated_at: new Date() }
       })
 
     revalidatePath("/")
@@ -209,7 +209,7 @@ export async function updateAvailability(isAvailable: boolean) {
       .values({ key: "availability", value })
       .onConflictDoUpdate({
         target: settings.key,
-        set: { value, updated_at: new Date().toISOString() }
+        set: { value, updated_at: new Date() }
       })
 
     revalidatePath("/")
@@ -266,14 +266,14 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
     for (const [key, value] of Object.entries(data)) {
       if (value === undefined || key === "id") continue
       if (key === "next_update_date" || key === "updated_at") {
-        payload[key] = value ? typeof value === "string" ? value : value.toISOString() : null
+        payload[key] = value ? new Date(value) : null
       } else if (key === "no_update_planned" || key === "show_last_update_prefix") {
         payload[key] = value ? 1 : 0
       } else {
         payload[key] = value
       }
     }
-    payload.updated_at = new Date().toISOString()
+    payload.updated_at = new Date()
 
     if (row) {
       await db.update(siteUpdates).set(payload).where(eq(siteUpdates.id, row.id))
@@ -335,7 +335,7 @@ export async function createMoment(data: Partial<Moment>) {
     for (const [k, v] of Object.entries(insertData)) {
       values[k] = toSql(v)
     }
-    values.created_at = new Date().toISOString()
+    values.created_at = new Date()
     const [newMoment] = await db.insert(moments).values(values).returning()
 
     revalidatePath("/journey")
@@ -403,7 +403,7 @@ export async function createVersion(data: Partial<Version>) {
     for (const [k, v] of Object.entries(insertData)) {
       values[k] = toSql(v)
     }
-    values.created_at = new Date().toISOString()
+    values.created_at = new Date()
     const [newVersion] = await db.insert(versions).values(values).returning()
 
     revalidatePath("/")
