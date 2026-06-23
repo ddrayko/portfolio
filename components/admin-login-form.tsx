@@ -39,9 +39,9 @@ export default function AdminLoginForm() {
         <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-secondary/10 rounded-full blur-[100px] animate-float" />
       </div>
 
-      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-colors group z-50">
+      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-colors group z-50" aria-label="Back to portfolio homepage">
         <div className="p-2 rounded-xl glass border-white/10 group-hover:border-primary/50 transition-all">
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-4 w-4" aria-hidden="true" />
         </div>
         Back to Portfolio
       </Link>
@@ -65,11 +65,13 @@ export default function AdminLoginForm() {
                 <Input
                   id="email"
                   type="email"
+                  autoComplete="email"
                   className="rounded-2xl h-14 bg-white/5 border-white/10 focus:border-primary/50 focus:ring-primary/20 transition-all font-medium"
                   placeholder="admin@drayko.dev"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </div>
 
@@ -78,11 +80,13 @@ export default function AdminLoginForm() {
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   className="rounded-2xl h-14 bg-white/5 border-white/10 focus:border-primary/50 focus:ring-primary/20 transition-all font-medium"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  aria-required="true"
                 />
               </div>
             </div>
