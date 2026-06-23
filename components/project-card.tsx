@@ -105,9 +105,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 `} />
                 </div>
                 <span className={`text-[10px] font-black uppercase tracking-[0.2em] transition-colors duration-500
-                ${isFinished ? "text-emerald-500/30" : isArchived ? "text-indigo-500/30" : "text-muted-foreground/30 group-hover:text-primary/40"}
-              `}>
-                  Project without visual
+                  ${isFinished ? "text-emerald-500/30" : isArchived ? "text-indigo-500/30" : "text-muted-foreground/30 group-hover:text-primary/40"}
+                `}>
+                  No preview available
                 </span>
               </div>
             </div>
@@ -229,8 +229,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div className="flex flex-col gap-4 pt-6 mt-auto">
               <div className="flex gap-4">
                 {isInDev ? (
-                  <Button disabled className="flex-1 rounded-full bg-white/5 text-muted-foreground border border-white/10 cursor-not-allowed">
-                    <Construction className="mr-2 h-4 w-4" />
+                  <Button disabled className="flex-1 rounded-full bg-white/5 text-muted-foreground border border-white/10 cursor-not-allowed" aria-label="Coming soon">
+                    <Construction className="mr-2 h-4 w-4" aria-hidden="true" />
                     Coming Soon
                   </Button>
                 ) : (
@@ -238,8 +238,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     <Button asChild size="sm" className={`flex-1 rounded-full font-bold tracking-tight transition-all duration-500 hover:scale-110 active:scale-95 shadow-lg
                     ${isFinished ? "bg-emerald-500 text-white hover:bg-emerald-400 hover:shadow-emerald-500/20" : isArchived ? "bg-indigo-500 text-white hover:bg-indigo-400 hover:shadow-indigo-500/20" : "bg-white text-black hover:bg-primary hover:text-white hover:shadow-primary/20"}
                   `}>
-                      <Link href={project.project_url} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="mr-2 h-4 w-4" />
+                      <Link href={project.project_url} target="_blank" rel="noopener noreferrer" aria-label={`Live demo of ${project.title}`}>
+                        <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
                         Live Demo
                       </Link>
                     </Button>
@@ -253,8 +253,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     size="sm"
                     className={`flex-1 rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground font-bold tracking-tight transition-all duration-500 hover:scale-110 active:scale-95`}
                   >
-                    <Link href={project.github_url} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
+                    <Link href={project.github_url} target="_blank" rel="noopener noreferrer" aria-label={`Source code of ${project.title}`}>
+                      <Github className="mr-2 h-4 w-4" aria-hidden="true" />
                       Code
                     </Link>
                   </Button>
@@ -270,8 +270,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   (project.slug === "drayko-xyz" || project.title === "drayko.xyz")
                     ? "/update"
                     : `/${project.slug || project.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')}/update`
-                }>
-                  <History className="mr-2 h-3.5 w-3.5" />
+                } aria-label={`View updates for ${project.title}`}>
+                  <History className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
                   View Updates
                 </Link>
               </Button>
