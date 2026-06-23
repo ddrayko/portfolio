@@ -53,15 +53,16 @@ export function DeleteAdminDialog({ open, onOpenChange, adminId, adminEmail, onD
             onClick={handleDelete}
             disabled={isDeleting}
             className="bg-destructive text-white hover:bg-destructive/90"
+            aria-label={`Delete admin ${adminEmail}`}
           >
             {isDeleting ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
                 Deleting...
               </>
             ) : (
               <>
-                <Trash2 className="mr-2 h-4 w-4" />
+                <Trash2 className="mr-2 h-4 w-4" aria-hidden="true" />
                 Delete
               </>
             )}
