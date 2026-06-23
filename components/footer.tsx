@@ -34,34 +34,34 @@ export function Footer() {
                     <div className="grid grid-cols-2 gap-8 col-span-2">
                         <div className="space-y-4">
                             <h5 className="font-bold text-sm uppercase tracking-widest text-primary">Explore</h5>
-                            <ul className="space-y-3 text-muted-foreground font-medium">
+                            <ul className="space-y-3 text-muted-foreground font-medium" aria-label="Explore navigation">
                                 <li className="transition-transform hover:translate-x-1">
                                     {isHomePage ? (
-                                        <ScrollButton targetId="projects" variant="link" className="p-0 h-auto text-base text-muted-foreground hover:text-foreground hover:no-underline underline-offset-0">Projects</ScrollButton>
+                                        <ScrollButton targetId="projects" variant="link" className="p-0 h-auto text-base text-muted-foreground hover:text-foreground hover:no-underline underline-offset-0" aria-label="Scroll to projects section">Projects</ScrollButton>
                                     ) : (
-                                        <Link href="/#projects" className="hover:text-foreground">Projects</Link>
+                                        <Link href="/#projects" className="hover:text-foreground" aria-label="View projects">Projects</Link>
                                     )}
                                 </li>
                                 <li className="transition-transform hover:translate-x-1">
                                     {isHomePage ? (
-                                        <ScrollButton targetId="tech-stack" variant="link" className="p-0 h-auto text-base text-muted-foreground hover:text-foreground hover:no-underline underline-offset-0">Tech Stack</ScrollButton>
+                                        <ScrollButton targetId="tech-stack" variant="link" className="p-0 h-auto text-base text-muted-foreground hover:text-foreground hover:no-underline underline-offset-0" aria-label="Scroll to tech stack section">Tech Stack</ScrollButton>
                                     ) : (
-                                        <Link href="/#tech-stack" className="hover:text-foreground">Tech Stack</Link>
+                                        <Link href="/#tech-stack" className="hover:text-foreground" aria-label="View tech stack">Tech Stack</Link>
                                     )}
                                 </li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="/tags-info" className="hover:text-foreground">Tags Info</Link></li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="/about" className="hover:text-foreground">About Me</Link></li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="/journey" className="hover:text-foreground">Journey</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="/tags-info" className="hover:text-foreground" aria-label="Learn about project tags">Tags Info</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="/about" className="hover:text-foreground" aria-label="About Drayko">About Me</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="/journey" className="hover:text-foreground" aria-label="View professional journey">Journey</Link></li>
                             </ul>
                         </div>
                         <div className="space-y-4">
                             <h5 className="font-bold text-sm uppercase tracking-widest text-primary">Social</h5>
-                            <ul className="space-y-3 text-muted-foreground font-medium">
+                            <ul className="space-y-3 text-muted-foreground font-medium" aria-label="Social links">
                                 <li>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <span className="text-muted-foreground/40 transition-all inline-flex items-center gap-2 grayscale cursor-default">
-                                                <Github className="h-4 w-4" />
+                                                <Github className="h-4 w-4" aria-hidden="true" />
                                                 <span className="line-through">GitHub</span>
                                             </span>
                                         </TooltipTrigger>
@@ -70,9 +70,9 @@ export function Footer() {
                                         </TooltipContent>
                                     </Tooltip>
                                 </li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="https://codeberg.org/ddrayko" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2"><Code2 className="h-4 w-4" /> Codeberg</Link></li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="https://gitlab.com/drayko_dev" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2"><Gitlab className="h-4 w-4" /> GitLab</Link></li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="/contact" className="hover:text-foreground transition-all flex items-center gap-2"><MessageSquare className="h-4 w-4" /> Contact</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="https://codeberg.org/ddrayko" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Codeberg profile"><Code2 className="h-4 w-4" aria-hidden="true" /> Codeberg</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="https://gitlab.com/drayko_dev" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="GitLab profile"><Gitlab className="h-4 w-4" aria-hidden="true" /> GitLab</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="/contact" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Contact page"><MessageSquare className="h-4 w-4" aria-hidden="true" /> Contact</Link></li>
                             </ul>
                         </div>
                     </div>
