@@ -28,7 +28,7 @@ export function ChangelogList({ entries }: ChangelogListProps) {
     }
 
     return (
-        <div className="space-y-8 relative before:absolute before:inset-y-0 before:left-8 md:before:left-1/2 before:w-[1px] before:bg-white/5">
+        <div className="space-y-8 relative before:absolute before:inset-y-0 before:left-8 md:before:left-1/2 before:w-[1px] before:bg-white/5" role="list" aria-label="Version changelog timeline">
             {entries.length === 0 ? (
                 <div className="glass p-12 rounded-[2.5rem] border-white/5 text-center text-muted-foreground font-medium italic">
                     No transformation records found.
@@ -39,9 +39,8 @@ export function ChangelogList({ entries }: ChangelogListProps) {
                     const isLeft = idx % 2 === 0
 
                     return (
-                        <div key={entry.id} className="relative flex w-full group py-4">
-                            {/* Timeline Dot */}
-                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-20 group-hover:scale-150 transition-transform duration-500 shadow-[0_0_15px_rgba(var(--primary),0.5)] top-1/2 -translate-y-1/2" />
+                        <div key={entry.id} className="relative flex w-full group py-4" role="listitem">
+                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-20 group-hover:scale-150 transition-transform duration-500 shadow-[0_0_15px_rgba(var(--primary),0.5)] top-1/2 -translate-y-1/2" aria-hidden="true" />
 
                             {isLeft ? (
                                 <>
@@ -61,8 +60,8 @@ export function ChangelogList({ entries }: ChangelogListProps) {
                                             <ul className="space-y-3">
                                                 {entry.changes.map((change, cIdx) => (
                                                     <li key={cIdx} className="flex gap-3 text-sm text-foreground/80 font-medium leading-relaxed">
-                                                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary mt-0.5" />
-                                                        {change}
+                                                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary mt-0.5" aria-hidden="true" />
+                                                        <span>{change}</span>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -89,8 +88,8 @@ export function ChangelogList({ entries }: ChangelogListProps) {
                                             <ul className="space-y-3">
                                                 {entry.changes.map((change, cIdx) => (
                                                     <li key={cIdx} className="flex gap-3 text-sm text-foreground/80 font-medium leading-relaxed">
-                                                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary mt-0.5" />
-                                                        {change}
+                                                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary mt-0.5" aria-hidden="true" />
+                                                        <span>{change}</span>
                                                     </li>
                                                 ))}
                                             </ul>
