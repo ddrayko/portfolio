@@ -216,7 +216,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section id="projects" className="py-32 bg-muted/30 backdrop-blur-sm border-y border-white/5">
+        <section id="projects" className="py-32 bg-muted/30 backdrop-blur-sm border-y border-white/5 scroll-mt-24">
           <div className="container mx-auto px-6">
             <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
               <div className="space-y-4 max-w-2xl">
