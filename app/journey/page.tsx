@@ -52,16 +52,16 @@ export default async function ParcoursPage() {
                 <div className="absolute bottom-[20%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "-4s" }} />
             </div>
 
-            <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md bg-background/60 reveal-down">
+            <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md bg-background/60 reveal-down" role="banner">
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-all group">
+                    <Link href="/" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-all group" aria-label="Back to homepage">
                         <div className="p-2 rounded-xl glass border-white/10 group-hover:border-primary/50 transition-all">
-                            <ChevronLeft className="h-4 w-4" />
+                            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                         </div>
                         Back to Home
                     </Link>
                     <div className="flex items-center gap-2">
-                        <Map className="h-5 w-5 text-primary" />
+                        <Map className="h-5 w-5 text-primary" aria-hidden="true" />
                         <span className="font-bold tracking-tight text-foreground uppercase">My Journey</span>
                     </div>
                 </div>
