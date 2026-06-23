@@ -12,7 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/terms",
     "/journey",
     "/tags-info",
-    "/copyright"
+    "/copyright",
+    "/update"
   ]
 
   return routes.map((route) => ({

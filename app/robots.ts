@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/maintenance", "/update"],
+      disallow: ["/admin", "/maintenance"],
     },
     sitemap: "https://drayko.xyz/sitemap.xml",
   }
