@@ -71,9 +71,11 @@ function TechCard({ tech }: { tech: TechItem }) {
       <div className="relative w-12 h-12 flex items-center justify-center p-1 group-hover/card:scale-125 transition-all duration-500">
         <Image
           src={tech.logo}
-          alt={tech.name}
+          alt={`${tech.name} logo`}
           width={48}
           height={48}
+          loading="lazy"
+          decoding="async"
           className={`w-full h-full object-contain transition-all duration-500 group-hover/card:scale-110 ${["Vercel", "AWS", "UniFi OS Server", "pnpm", "Express", "Better Auth", "Auth0", "Tailscale", "MacOS"].includes(tech.name) ? "brightness-0 dark:invert" : ""}`}
         />
       </div>
@@ -100,7 +102,7 @@ export function TechStack() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="tech-stack" className="w-full relative flex flex-col justify-center bg-muted/20 border-y border-white/5">
+      <section ref={sectionRef} id="tech-stack" className="w-full relative flex flex-col justify-center bg-muted/20 border-y border-white/5 scroll-mt-24" aria-label="Technology stack">
       <div className="container mx-auto px-6 pt-16 lg:pt-24 pb-8">
         <div className="flex flex-col items-center text-center mb-4 space-y-4">
           <div className="text-primary font-bold tracking-widest text-sm uppercase reveal-up">Expertise</div>
