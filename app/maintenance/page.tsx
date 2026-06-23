@@ -1,8 +1,15 @@
 import { Construction, Command } from "lucide-react"
 import { getMaintenanceMode } from "@/lib/actions"
 import { redirect } from "next/navigation"
+import type { Metadata } from "next"
 
 export const dynamic = "force-dynamic"
+
+export const metadata: Metadata = {
+  title: "Maintenance",
+  description: "Drayko's portfolio is currently undergoing scheduled maintenance. Check back soon for updates and improvements.",
+  robots: { index: false, follow: false },
+}
 
 export default async function MaintenancePage() {
     const { isMaintenance, message, progress } = await getMaintenanceMode()
