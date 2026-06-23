@@ -162,20 +162,20 @@ export default function AdminDashboardClient() {
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20 rotate-3">
-              <LayoutDashboard className="h-6 w-6" />
+              <LayoutDashboard className="h-6 w-6" aria-hidden="true" />
             </div>
             <h1 className="text-xl font-bold tracking-tight text-gradient hidden sm:block">Control Center</h1>
           </div>
 
           <div className="flex items-center gap-4">
-            <Button asChild variant="ghost" size="sm" className="hidden sm:flex rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground transition-all">
+            <Button asChild variant="ghost" size="sm" className="hidden sm:flex rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground transition-all" aria-label="View live site">
               <Link href="/">
-                <Home className="mr-2 h-4 w-4" />
+                <Home className="mr-2 h-4 w-4" aria-hidden="true" />
                 Live Site
               </Link>
             </Button>
-            <Button onClick={handleLogout} variant="destructive" size="sm" className="rounded-full shadow-lg shadow-destructive/20">
-              <LogOut className="mr-2 h-4 w-4" />
+            <Button onClick={handleLogout} variant="destructive" size="sm" className="rounded-full shadow-lg shadow-destructive/20" aria-label="Logout and exit admin panel">
+              <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
               Exit
             </Button>
           </div>
@@ -188,10 +188,11 @@ export default function AdminDashboardClient() {
           
           {/* TOP LEVEL 1: CONTENT */}
           <AccordionItem value="content" className="border-none">
+            <h2 className="sr-only">Content Management</h2>
             <AccordionTrigger className="bg-white/40 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2rem] hover:no-underline hover:bg-white/60 dark:hover:bg-white/10 group transition-all data-[state=open]:rounded-b-none border border-black/5 dark:border-white/10 shadow-sm">
               <div className="flex items-center gap-6 text-left">
                 <div className="p-4 rounded-2xl bg-primary/10 text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-primary-foreground transition-all duration-500 shadow-inner">
-                  <Database className="h-8 w-8" />
+                  <Database className="h-8 w-8" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-primary/70 mb-1">Portfolio & Assets</p>
@@ -210,8 +211,8 @@ export default function AdminDashboardClient() {
                         Update your latest achievements and keep your professional presence sharp.
                       </p>
                     </div>
-                    <Button onClick={() => setAddProjectOpen(true)} className="rounded-xl h-12 px-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 group self-start md:self-auto transition-all">
-                      <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
+                    <Button onClick={() => setAddProjectOpen(true)} className="rounded-xl h-12 px-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 group self-start md:self-auto transition-all" aria-label="Add new project">
+                      <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" aria-hidden="true" />
                       New Project
                     </Button>
                   </div>
@@ -254,8 +255,8 @@ export default function AdminDashboardClient() {
                         Document your professional evolution, education, and career milestones.
                       </p>
                     </div>
-                    <Button onClick={() => setAddMomentOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group self-start md:self-auto">
-                      <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
+                    <Button onClick={() => setAddMomentOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group self-start md:self-auto" aria-label="Add new moment">
+                      <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" aria-hidden="true" />
                       Add Moment
                     </Button>
                   </div>
@@ -294,10 +295,11 @@ export default function AdminDashboardClient() {
 
           {/* TOP LEVEL 2: SYSTEM */}
           <AccordionItem value="system" className="border-none">
+            <h2 className="sr-only">System Management</h2>
             <AccordionTrigger className="bg-white/40 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2rem] hover:no-underline hover:bg-white/60 dark:hover:bg-white/10 group transition-all data-[state=open]:rounded-b-none border border-black/5 dark:border-white/10 shadow-sm">
               <div className="flex items-center gap-6 text-left">
                 <div className="p-4 rounded-2xl bg-primary/10 text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-primary-foreground transition-all duration-500 shadow-inner">
-                  <Shield className="h-8 w-8" />
+                  <Shield className="h-8 w-8" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-primary/70 mb-1">Infrastructure & Control</p>
@@ -312,7 +314,7 @@ export default function AdminDashboardClient() {
                 <AccordionItem value="communications" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
                   <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                     <div className="flex items-center gap-4">
-                      <Sparkles className="h-5 w-5 text-primary" />
+                      <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />
                       <span className="text-xl font-bold">Hero Communications</span>
                     </div>
                   </AccordionTrigger>
@@ -443,8 +445,8 @@ export default function AdminDashboardClient() {
                             </SelectContent>
                           </Select>
                         </div>
-                        <Button onClick={() => setAddVersionOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group shrink-0">
-                          <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
+                        <Button onClick={() => setAddVersionOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group shrink-0" aria-label="Add new version">
+                          <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" aria-hidden="true" />
                           Add Version
                         </Button>
                       </div>
@@ -495,8 +497,8 @@ export default function AdminDashboardClient() {
                           Secure your dashboard by managing authorized personnel.
                         </p>
                       </div>
-                      <Button onClick={() => setAddAdminOpen(true)} variant="outline" className="rounded-xl h-12 px-6 border border-black/10 glass hover:bg-black/10 transition-all self-start md:self-auto">
-                        <UserPlus className="mr-2 h-4 w-4" />
+                      <Button onClick={() => setAddAdminOpen(true)} variant="outline" className="rounded-xl h-12 px-6 border border-black/10 glass hover:bg-black/10 transition-all self-start md:self-auto" aria-label="Register new administrator">
+                        <UserPlus className="mr-2 h-4 w-4" aria-hidden="true" />
                         Register Admin
                       </Button>
                     </div>
