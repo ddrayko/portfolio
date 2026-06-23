@@ -20,12 +20,12 @@ export function CopyEmail({ email }: { email: string }) {
         >
             {copied ? (
                 <>
-                    <Check className="h-4 w-4 text-green-500" />
-                    Copied!
+                    <Check className="h-4 w-4 text-green-500" aria-hidden="true" />
+                    <span aria-live="polite">Copied!</span>
                 </>
             ) : (
                 <>
-                    <Copy className="h-4 w-4" />
+                    <Copy className="h-4 w-4" aria-hidden="true" />
                     Copy
                 </>
             )}
