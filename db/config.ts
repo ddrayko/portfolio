@@ -7,6 +7,7 @@ export function detectDbType(): DbType {
     if (['sqlite', 'sqlite3'].includes(t)) return 'sqlite'
     if (t === 'mysql') return 'mysql'
     if (t === 'libsql') return 'libsql'
+    console.warn(`[db/config] Unknown DB_TYPE "${process.env.DB_TYPE}", auto-detecting from URL`)
   }
 
   const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || ''
@@ -16,6 +17,7 @@ export function detectDbType(): DbType {
   if (url.startsWith('mysql://')) return 'mysql'
   if (url.startsWith('libsql://')) return 'libsql'
 
+  console.warn('[db/config] No DATABASE_URL found, defaulting to postgresql')
   return 'postgresql'
 }
 
