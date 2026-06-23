@@ -48,7 +48,7 @@ export function MomentTimeline({ moments }: MomentTimelineProps) {
     }
 
     return (
-        <div className="space-y-12 relative before:absolute before:inset-y-0 before:left-8 md:before:left-1/2 before:w-[1px] before:bg-white/5 pb-12">
+        <div className="space-y-12 relative before:absolute before:inset-y-0 before:left-8 md:before:left-1/2 before:w-[1px] before:bg-white/5 pb-12" role="list" aria-label="Professional journey timeline">
             {moments.length === 0 ? (
                 <div className="glass p-12 rounded-[2.5rem] border-white/5 text-center text-muted-foreground font-medium italic">
                     No journey records found.
@@ -59,9 +59,8 @@ export function MomentTimeline({ moments }: MomentTimelineProps) {
                     const IconComp = ICON_MAP[moment.icon || "milestone"] || Milestone
 
                     return (
-                        <div key={moment.id} className="relative flex w-full group py-4 reveal-up">
-                            {/* Timeline Dot */}
-                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-background border-2 border-white/10 z-20 group-hover:border-primary transition-all duration-500 shadow-xl top-1/2 -translate-y-1/2 flex items-center justify-center">
+                        <div key={moment.id} className="relative flex w-full group py-4 reveal-up" role="listitem" aria-label={`${moment.type}: ${moment.title}`}>
+                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-background border-2 border-white/10 z-20 group-hover:border-primary transition-all duration-500 shadow-xl top-1/2 -translate-y-1/2 flex items-center justify-center" aria-hidden="true">
                                 <div className="w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-transform" />
                             </div>
 
@@ -75,7 +74,7 @@ export function MomentTimeline({ moments }: MomentTimelineProps) {
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
                                                         <div className="p-2.5 rounded-xl bg-primary/10 text-primary group-hover/card:scale-110 transition-transform">
-                                                            <IconComp className="h-5 w-5" />
+                                                            <IconComp className="h-5 w-5" aria-hidden="true" />
                                                         </div>
                                                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">{moment.type}</span>
                                                     </div>
@@ -105,7 +104,7 @@ export function MomentTimeline({ moments }: MomentTimelineProps) {
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
                                                         <div className="p-2.5 rounded-xl bg-primary/10 text-primary group-hover/card:scale-110 transition-transform">
-                                                            <IconComp className="h-5 w-5" />
+                                                            <IconComp className="h-5 w-5" aria-hidden="true" />
                                                         </div>
                                                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">{moment.type}</span>
                                                     </div>
