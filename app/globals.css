@@ -444,3 +444,37 @@
   border-color: rgba(var(--primary), 0.4);
 }
 
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  .scroll-margin-section {
+    scroll-margin-top: 6rem;
+  }
+}
+
+@media print {
+  .noise-overlay,
+  .animate-pulse-glow,
+  .mesh-bg,
+  .glass::before {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .glass {
+    background: white !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+  }
+}
+
