@@ -98,23 +98,23 @@ export default async function HomePage() {
         <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-secondary/10 rounded-full blur-[100px] animate-float" />
       </div>
 
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md bg-background/60 reveal-down">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md bg-background/60 reveal-down" role="banner">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2 group cursor-pointer transition-transform hover:scale-105">
+          <div className="flex items-center gap-2 group cursor-pointer transition-transform hover:scale-105" aria-label="Drayko home">
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20 rotate-3 group-hover:rotate-0 transition-all duration-500">
-              <Command className="h-6 w-6" />
+              <Command className="h-6 w-6" aria-hidden="true" />
             </div>
             <span className="text-xl font-bold tracking-tight text-gradient">
               Drayko
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-            <ScrollButton targetId="projects" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]">Projects</ScrollButton>
-            <ScrollButton targetId="tech-stack" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]">Tech</ScrollButton>
-            <Link href="/about" className="hover:text-foreground transition-all hover:translate-y-[-2px]">About</Link>
-            <Link href="/journey" className="hover:text-foreground transition-all hover:translate-y-[-2px]">Journey</Link>
-            <Link href="#contact" className="hover:text-foreground transition-all hover:translate-y-[-2px]">Contact</Link>
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground" aria-label="Main navigation">
+            <ScrollButton targetId="projects" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Scroll to projects">Projects</ScrollButton>
+            <ScrollButton targetId="tech-stack" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Scroll to tech stack">Tech</ScrollButton>
+            <Link href="/about" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="About Drayko">About</Link>
+            <Link href="/journey" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="View professional journey">Journey</Link>
+            <Link href="#contact" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Contact section">Contact</Link>
           </nav>
 
           <div className="flex items-center gap-4">
