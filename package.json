@@ -6,6 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "start": "next start",
     "sync-themes": "xcopy /Y styles\\special-themes\\*.css public\\styles\\special-themes\\",
     "db:push": "drizzle-kit push",
