@@ -3,6 +3,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 :root {
   --background: oklch(0.99 0.01 220);
   --foreground: oklch(0.15 0.05 220);
@@ -121,6 +132,12 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: oklch(0.6 0.05 240 / 0.15) transparent;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 4px);
   }
 }
 
