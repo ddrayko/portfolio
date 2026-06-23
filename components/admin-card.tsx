@@ -22,11 +22,11 @@ export function AdminCard({ admin, onDeleted }: AdminCardProps) {
 
   return (
     <>
-      <Card>
+      <Card role="article" aria-label={`Admin: ${admin.email}`}>
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
             <div className="rounded-full bg-primary/10 p-2">
-              <Mail className="h-5 w-5 text-primary" />
+              <Mail className="h-5 w-5 text-primary" aria-hidden="true" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium truncate">{admin.email}</p>
@@ -37,8 +37,8 @@ export function AdminCard({ admin, onDeleted }: AdminCardProps) {
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="destructive" size="sm" onClick={() => setDeleteOpen(true)} className="w-full">
-            <Trash2 className="mr-2 h-4 w-4" />
+          <Button variant="destructive" size="sm" onClick={() => setDeleteOpen(true)} className="w-full" aria-label={`Remove admin ${admin.email}`}>
+            <Trash2 className="mr-2 h-4 w-4" aria-hidden="true" />
             Remove Admin
           </Button>
         </CardFooter>
