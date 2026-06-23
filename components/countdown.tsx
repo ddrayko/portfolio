@@ -162,15 +162,15 @@ export function Countdown({ targetDate }: CountdownProps) {
                     font-weight: 900 !important;
                 }
             `}} />
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full" role="timer" aria-label={`Countdown: ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds remaining`}>
                 {units.map((unit) => (
                     <div key={unit.label} className="glass bg-white/5 border-white/10 p-4 md:p-6 rounded-3xl space-y-2 relative overflow-hidden group">
                         <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                         <div className="relative z-10">
                             <div className="text-3xl md:text-5xl font-black tracking-tighter font-display tabular-nums h-[1.2em] flex items-center justify-center">
-                                <div ref={refs[unit.key]}>{timeLeft[unit.key]}</div>
+                                <div ref={refs[unit.key]} aria-label={`${timeLeft[unit.key]} ${unit.label}`}>{timeLeft[unit.key]}</div>
                             </div>
-                            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary/70">
+                            <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary/70" aria-hidden="true">
                                 {unit.label}
                             </div>
                         </div>
