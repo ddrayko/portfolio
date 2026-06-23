@@ -33,22 +33,22 @@ export default function PrivacyPage() {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "-2s" }} />
             </div>
 
-            <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md bg-background/60">
+            <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md bg-background/60 reveal-down">
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-all group">
                         <div className="p-2 rounded-xl glass border-white/10 group-hover:border-primary/50 transition-all">
-                            <ChevronLeft className="h-4 w-4" />
+                            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                         </div>
                         Back to Home
                     </Link>
                     <div className="flex items-center gap-2">
-                        <Shield className="h-5 w-5 text-primary" />
+                        <Shield className="h-5 w-5 text-primary" aria-hidden="true" />
                         <span className="font-bold tracking-tight">Privacy Policy</span>
                     </div>
                 </div>
             </header>
 
-            <main className="relative z-10 pt-32 pb-24 container max-w-4xl mx-auto px-6">
+            <main className="relative z-10 pt-32 pb-24 container max-w-4xl mx-auto px-6 reveal-up">
                 <div className="glass p-10 md:p-16 rounded-[2.5rem] border-white/5 space-y-12 shadow-2xl">
                     <section className="space-y-4">
                         <h1 className="text-4xl md:text-5xl font-black tracking-tight font-display text-gradient">PRIVACY POLICY</h1>
