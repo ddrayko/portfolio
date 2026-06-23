@@ -55,23 +55,23 @@ export default async function ContactPage() {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-400/10 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "-2s" }} />
             </div>
 
-            <header className="fixed top-0 left-0 right-0 z-50 border-b border-black/5 backdrop-blur-md bg-white/60">
+            <header className="fixed top-0 left-0 right-0 z-50 border-b border-black/5 backdrop-blur-md bg-white/60" role="banner">
                 <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary transition-all group">
+                    <Link href="/" className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary transition-all group" aria-label="Back to homepage">
                         <div className="p-2 rounded-xl glass bg-white/50 border-black/5 group-hover:border-primary/50 transition-all">
-                            <ChevronLeft className="h-4 w-4" />
+                            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                         </div>
                         Back to Home
                     </Link>
                     <div className="flex items-center gap-2">
-                        <Mail className="h-5 w-5 text-primary" />
+                        <Mail className="h-5 w-5 text-primary" aria-hidden="true" />
                         <span className="font-bold tracking-tight text-slate-900">Direct Contact</span>
                     </div>
                 </div>
             </header>
 
             <main className="relative z-10 pt-32 pb-24 container max-w-4xl mx-auto px-6 flex items-center justify-center min-h-[85vh]">
-                <div className="w-full glass bg-white/80 p-8 md:p-12 rounded-[3.5rem] border-black/5 shadow-2xl animate-scale-in text-center space-y-12">
+                <div className="w-full glass bg-white/80 p-8 md:p-12 rounded-[3.5rem] border-black/5 shadow-2xl animate-scale-in text-center space-y-12" role="main">
                     
                     <div className="space-y-6">
                         <div className="w-24 h-24 rounded-[2.5rem] bg-primary/10 flex items-center justify-center text-primary shadow-glow shadow-primary/5 mx-auto transform -rotate-6 hover:rotate-0 transition-transform duration-500">
