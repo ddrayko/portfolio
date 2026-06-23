@@ -99,13 +99,29 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://img.drayko.xyz" />
         <link rel="preconnect" href="https://img.drayko.xyz" />
       </head>
-      <body className="font-sans antialiased selection:bg-primary/30 selection:text-primary transition-colors duration-300" suppressHydrationWarning>
+      <body className="font-sans antialiased selection:bg-primary/30 selection:text-primary transition-colors duration-300 scroll-smooth" suppressHydrationWarning>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-4 focus:bg-primary focus:text-primary-foreground focus:rounded-2xl focus:font-bold focus:shadow-2xl focus:outline-none">
           Skip to main content
         </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Drayko",
+              "url": "https://drayko.xyz",
+              "jobTitle": "Creative Developer & Designer",
+              "sameAs": [
+                "https://codeberg.org/ddrayko",
+                "https://gitlab.com/drayko_dev"
+              ]
+            })
+          }}
+        />
         <div className="relative flex min-h-screen flex-col">
           <Suspense fallback={null}>
-            <main className="flex-1">{children}</main>
+            <main id="main-content" className="flex-1">{children}</main>
           </Suspense>
           <Footer />
         </div>
