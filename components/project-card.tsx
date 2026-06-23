@@ -32,9 +32,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div className="relative w-full aspect-video bg-muted overflow-hidden">
               <Image
                 src={project.image_url || "/placeholder.svg"}
-                alt={project.title}
+                alt={`${project.title} - Project screenshot`}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                loading="lazy"
+                decoding="async"
                 className={`object-cover group-hover:scale-110 transition-transform duration-1000 ease-out 
                 ${isInDev ? "grayscale brightness-50" : ""}
                 ${isFinished ? "brightness-110 contrast-110" : isArchived ? "brightness-100" : ""}
