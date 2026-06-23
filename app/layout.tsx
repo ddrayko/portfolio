@@ -95,7 +95,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} light`}>
+      <head>
+        <link rel="dns-prefetch" href="https://img.drayko.xyz" />
+        <link rel="preconnect" href="https://img.drayko.xyz" />
+      </head>
       <body className="font-sans antialiased selection:bg-primary/30 selection:text-primary transition-colors duration-300" suppressHydrationWarning>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-4 focus:bg-primary focus:text-primary-foreground focus:rounded-2xl focus:font-bold focus:shadow-2xl focus:outline-none">
+          Skip to main content
+        </a>
         <div className="relative flex min-h-screen flex-col">
           <Suspense fallback={null}>
             <main className="flex-1">{children}</main>
