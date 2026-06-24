@@ -38,7 +38,7 @@ function parseJSONField<T>(value: unknown): T {
 
 export async function createProject(data: Partial<Project>) {
   try {
-    const { id: _, created_at: __, updated_at: ___, ...insertData } = data as any
+    const { id: _, created_at: __, updated_at: ___, ...insertData } = data
     
     // Generate slug from title if not provided
     if (!insertData.slug && insertData.title) {
@@ -72,7 +72,7 @@ export async function updateProject(id: string, data: Partial<Project>) {
     const numericId = validateId(id)
     if (numericId === null) return { success: false, error: "Invalid ID" }
 
-    const { id: _, created_at: __, updated_at: ___, ...updateData } = data as any
+    const { id: _, created_at: __, updated_at: ___, ...updateData } = data
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(updateData)) {
       values[k] = toSql(v)
@@ -342,7 +342,7 @@ export async function getMoments() {
 
 export async function createMoment(data: Partial<Moment>) {
   try {
-    const { id: _, created_at: __, ...insertData } = data as any
+    const { id: _, created_at: __, ...insertData } = data
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(insertData)) {
       values[k] = toSql(v)
@@ -364,7 +364,7 @@ export async function updateMoment(id: string, data: Partial<Moment>) {
     const numericId = validateId(id)
     if (numericId === null) return { success: false, error: "Invalid ID" }
 
-    const { id: _, created_at: __, ...updateData } = data as any
+    const { id: _, created_at: __, ...updateData } = data
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(updateData)) {
       values[k] = toSql(v)
@@ -415,7 +415,7 @@ export async function getVersions() {
 
 export async function createVersion(data: Partial<Version>) {
   try {
-    const { id: _, created_at: __, ...insertData } = data as any
+    const { id: _, created_at: __, ...insertData } = data
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(insertData)) {
       values[k] = toSql(v)
@@ -437,7 +437,7 @@ export async function updateVersion(id: string, data: Partial<Version>) {
     const numericId = validateId(id)
     if (numericId === null) return { success: false, error: "Invalid ID" }
 
-    const { id: _, created_at: __, ...updateData } = data as any
+    const { id: _, created_at: __, ...updateData } = data
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(updateData)) {
       values[k] = toSql(v)
