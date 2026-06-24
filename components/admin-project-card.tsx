@@ -74,7 +74,7 @@ export function AdminProjectCard({ project, onDeleted, onUpdated }: AdminProject
               )}
             </div>
             <p className="text-sm text-muted-foreground line-clamp-2 font-medium">
-              {project.description}
+              {project.description || "No description."}
             </p>
           </div>
 
