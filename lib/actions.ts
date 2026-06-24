@@ -86,7 +86,7 @@ export async function updateProject(id: string, data: Partial<Project>) {
     return { success: true }
   } catch (error: any) {
     console.error("Error updating project:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -100,7 +100,7 @@ export async function deleteProject(id: string) {
     return { success: true }
   } catch (error: any) {
     console.error("Error deleting project:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -114,7 +114,7 @@ export async function createAdmin(email: string, password: string) {
     return { success: true }
   } catch (error: any) {
     console.error("Error creating admin:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -126,7 +126,7 @@ export async function deleteAdmin(id: string) {
     return { success: true }
   } catch (error: any) {
     console.error("Error deleting admin:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -177,7 +177,7 @@ export async function updateMaintenanceMode(isMaintenance: boolean, message?: st
     return { success: true }
   } catch (error: any) {
     console.error("Error updating maintenance mode:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -230,7 +230,7 @@ export async function updateAvailability(isAvailable: boolean) {
     return { success: true }
   } catch (error: any) {
     console.error("Error updating availability:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -266,7 +266,7 @@ export async function getSiteUpdateData() {
     }
   } catch (error: any) {
     console.error("Error fetching site update data:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -299,7 +299,7 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
     return { success: true }
   } catch (error: any) {
     console.error("Error updating site update data:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -355,7 +355,7 @@ export async function createMoment(data: Partial<Moment>) {
     return { success: true, moment: newMoment }
   } catch (error: any) {
     console.error("Error creating moment:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -378,7 +378,7 @@ export async function updateMoment(id: string, data: Partial<Moment>) {
     return { success: true }
   } catch (error: any) {
     console.error("Error updating moment:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -392,7 +392,7 @@ export async function deleteMoment(id: string) {
     return { success: true }
   } catch (error: any) {
     console.error("Error deleting moment:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -428,7 +428,7 @@ export async function createVersion(data: Partial<Version>) {
     return { success: true, version: newVersion }
   } catch (error: any) {
     console.error("Error creating version:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -451,7 +451,7 @@ export async function updateVersion(id: string, data: Partial<Version>) {
     return { success: true }
   } catch (error: any) {
     console.error("Error updating version:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
@@ -465,7 +465,7 @@ export async function deleteVersion(id: string) {
     return { success: true }
   } catch (error: any) {
     console.error("Error deleting version:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: "An unexpected error occurred" }
   }
 }
 
