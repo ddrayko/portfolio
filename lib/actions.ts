@@ -162,7 +162,7 @@ export async function getMaintenanceMode() {
 
 export async function updateMaintenanceMode(isMaintenance: boolean, message?: string, progress?: number) {
   try {
-    const data: any = { maintenance_mode: isMaintenance }
+    const data: Record<string, unknown> = { maintenance_mode: isMaintenance }
     if (message !== undefined) data.maintenance_message = message
     if (progress !== undefined) data.maintenance_progress = progress
 
