@@ -15,10 +15,12 @@ interface VersionSelectorProps {
 }
 
 export function VersionSelector({ versions }: VersionSelectorProps) {
+  const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
   const [currentBrowsedVersionId, setCurrentBrowsedVersionId] = useState<string | null>(null)
 
   useEffect(() => {
+    setMounted(true)
     if (!versions || versions.length === 0) return
 
     const hostname = window.location.hostname
@@ -43,7 +45,9 @@ export function VersionSelector({ versions }: VersionSelectorProps) {
 
   if (!versions || versions.length === 0) return null
 
-  // Fallback for initial render before useEffect sets the state
+  // Guard SSR hydration mismatch
+  if (!mounted) return <div className="w-24 h-10" />
+
   const displayedVersionId = currentBrowsedVersionId || versions.find(v => v.is_current)?.id || versions[0]?.id
   const currentVersion = versions.find(v => v.id === displayedVersionId)
 
