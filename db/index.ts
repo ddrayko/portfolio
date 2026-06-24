@@ -3,7 +3,7 @@ import postgres from 'postgres'
 import { drizzle as drizzlePg } from 'drizzle-orm/postgres-js'
 import * as schema from './schema'
 
-let _db: any = null
+let _db: ReturnType<typeof createPostgresInstance> | ReturnType<typeof createSqliteInstance> | null = null
 
 function createPostgresInstance(url: string) {
   const sql = postgres(url, { prepare: false })
