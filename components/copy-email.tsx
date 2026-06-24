@@ -1,15 +1,17 @@
 "use client"
 
 import { Copy, Check } from "lucide-react"
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 export function CopyEmail({ email }: { email: string }) {
     const [copied, setCopied] = useState(false)
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
     const handleCopy = async () => {
+        clearTimeout(timeoutRef.current)
         await navigator.clipboard.writeText(email)
         setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
+        timeoutRef.current = setTimeout(() => setCopied(false), 2000)
     }
 
     return (
