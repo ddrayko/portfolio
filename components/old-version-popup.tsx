@@ -22,11 +22,12 @@ export function OldVersionPopup({ versions }: OldVersionPopupProps) {
         return
       }
 
+      const normalizedHostname = hostname.replace(/^www\./, '')
       // Find the version matching the current environment
       const currentEnvVersion = versions.find(v => {
         try {
           const vUrl = new URL(v.link)
-          return vUrl.hostname === hostname
+          return vUrl.hostname.replace(/^www\./, '') === normalizedHostname
         } catch {
           return false
         }
