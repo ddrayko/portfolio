@@ -23,6 +23,7 @@ export function TagFilter({ tags, selectedTag, onTagSelect }: TagFilterProps) {
   return (
     <div className="flex flex-wrap gap-3 justify-center items-center py-8" role="group" aria-label="Filter projects by tag">
       <button
+        type="button"
         aria-label="Show all projects"
         onClick={() => onTagSelect(null)}
         onKeyDown={(e) => handleKeyDown(e, null)}
@@ -39,6 +40,7 @@ export function TagFilter({ tags, selectedTag, onTagSelect }: TagFilterProps) {
       {tags.map((tag) => (
         <button
           key={tag}
+          type="button"
           aria-label={`Filter by tag: ${tag}`}
           onClick={() => onTagSelect(tag)}
           onKeyDown={(e) => handleKeyDown(e, tag)}
