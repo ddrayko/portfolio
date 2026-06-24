@@ -56,9 +56,9 @@ export async function createProject(data: Partial<Project>) {
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true, project: newProject }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating project:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: (error as Error).message }
   }
 }
 
@@ -85,7 +85,7 @@ export async function updateProject(id: string, data: Partial<Project>) {
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating project:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -99,7 +99,7 @@ export async function deleteProject(id: string) {
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting project:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -113,7 +113,7 @@ export async function createAdmin(email: string, password: string) {
       password: hashedPassword,
     })
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating admin:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -125,7 +125,7 @@ export async function deleteAdmin(id: string) {
     if (numericId === null) return { success: false, error: "Invalid ID" }
     await db.delete(admins).where(eq(admins.id, numericId))
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting admin:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -135,9 +135,9 @@ export async function getAdmins() {
   try {
     const data = await db.select().from(admins).orderBy(desc(admins.created_at))
     return { success: true, data: data.map((admin: any) => ({ ...admin, id: admin.id.toString(), created_at: admin.created_at?.toISOString() })) }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching admins:", error)
-    return { success: false, error: error.message, data: [] }
+    return { success: false, error: (error as Error).message, data: [] }
   }
 }
 
@@ -154,9 +154,9 @@ export async function getMaintenanceMode() {
       }
     }
     return { success: true, isMaintenance: false, message: "", progress: 0 }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching maintenance mode:", error)
-    return { success: false, error: error.message, isMaintenance: false, message: "", progress: 0 }
+    return { success: false, error: (error as Error).message, isMaintenance: false, message: "", progress: 0 }
   }
 }
 
@@ -176,7 +176,7 @@ export async function updateMaintenanceMode(isMaintenance: boolean, message?: st
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating maintenance mode:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -209,7 +209,7 @@ export async function getAvailability() {
       return { success: true, isAvailable: value?.isAvailable }
     }
     return { success: true, isAvailable: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching availability:", error)
     return { success: false, isAvailable: true }
   }
@@ -229,7 +229,7 @@ export async function updateAvailability(isAvailable: boolean) {
     revalidatePath("/contact")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating availability:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -265,7 +265,7 @@ export async function getSiteUpdateData() {
         updated_at: new Date().toISOString()
       } as SiteUpdate
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching site update data:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -298,7 +298,7 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
     revalidatePath("/update")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating site update data:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -318,9 +318,9 @@ export async function getProjects() {
         updated_at: new Date().toISOString()
       })) as unknown as Project[]
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching projects:", error)
-    return { success: false, error: error.message, data: [] }
+    return { success: false, error: (error as Error).message, data: [] }
   }
 }
 
@@ -335,9 +335,9 @@ export async function getMoments() {
         created_at: m.created_at?.toISOString() || new Date().toISOString()
       })) as Moment[]
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching moments:", error)
-    return { success: false, error: error.message, data: [] }
+    return { success: false, error: (error as Error).message, data: [] }
   }
 }
 
@@ -354,7 +354,7 @@ export async function createMoment(data: Partial<Moment>) {
     revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
     return { success: true, moment: newMoment }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating moment:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -377,7 +377,7 @@ export async function updateMoment(id: string, data: Partial<Moment>) {
     revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating moment:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -391,7 +391,7 @@ export async function deleteMoment(id: string) {
     revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting moment:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -408,9 +408,9 @@ export async function getVersions() {
         created_at: v.created_at?.toISOString() || new Date().toISOString()
       })) as Version[]
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching versions:", error)
-    return { success: false, error: error.message, data: [] }
+    return { success: false, error: (error as Error).message, data: [] }
   }
 }
 
@@ -427,7 +427,7 @@ export async function createVersion(data: Partial<Version>) {
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true, version: newVersion }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating version:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -450,7 +450,7 @@ export async function updateVersion(id: string, data: Partial<Version>) {
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating version:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -464,7 +464,7 @@ export async function deleteVersion(id: string) {
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting version:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
@@ -480,8 +480,8 @@ export async function setCurrentVersion(id: string) {
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error setting current version:", error)
-    return { success: false, error: error.message }
+    return { success: false, error: (error as Error).message }
   }
 }
