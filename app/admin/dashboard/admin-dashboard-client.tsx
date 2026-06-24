@@ -46,6 +46,8 @@ export default function AdminDashboardClient() {
     const result = await getProjects()
     if (result.success) {
       setProjects(result.data)
+    } else {
+      console.error("Failed to fetch projects:", result.error)
     }
     setIsLoading(false)
   }
@@ -55,6 +57,8 @@ export default function AdminDashboardClient() {
     const result = await getMoments()
     if (result.success) {
       setMoments(result.data)
+    } else {
+      console.error("Failed to fetch moments:", result.error)
     }
     setIsMomentsLoading(false)
   }
@@ -64,6 +68,8 @@ export default function AdminDashboardClient() {
     const result = await getVersions()
     if (result.success) {
       setVersions(result.data)
+    } else {
+      console.error("Failed to fetch versions:", result.error)
     }
     setIsVersionsLoading(false)
   }
@@ -72,6 +78,8 @@ export default function AdminDashboardClient() {
     const result = await getAdmins()
     if (result.success) {
       setAdmins(result.data as Admin[])
+    } else {
+      console.error("Failed to fetch admins:", result.error)
     }
   }
 
@@ -79,6 +87,8 @@ export default function AdminDashboardClient() {
     const result = await getSiteUpdateData()
     if (result.success && result.data) {
       setUpdateData(result.data)
+    } else {
+      console.error("Failed to fetch update data:", result.error)
     }
   }
 
@@ -88,6 +98,8 @@ export default function AdminDashboardClient() {
       setMaintenanceMode(result.isMaintenance)
       setMaintenanceMessage(result.message || "")
       setMaintenanceProgress(result.progress || 0)
+    } else {
+      console.error("Failed to fetch maintenance mode:", result.error)
     }
   }
 
@@ -95,6 +107,8 @@ export default function AdminDashboardClient() {
     const result = await getAvailability()
     if (result.success && result.isAvailable !== undefined) {
       setIsAvailable(result.isAvailable)
+    } else {
+      console.error("Failed to fetch availability:", result.error)
     }
   }
 
