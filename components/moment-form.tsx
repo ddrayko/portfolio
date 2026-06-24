@@ -86,7 +86,7 @@ export function MomentForm({ moment, onSuccess }: MomentFormProps) {
           </div>
           <div className="space-y-2">
             <Label className="text-[10px] uppercase tracking-widest text-muted-foreground ml-1">Type</Label>
-            <Select value={type} onValueChange={(val: any) => setType(val)}>
+            <Select value={type} onValueChange={(val) => setType(val)}>
               <SelectTrigger className="h-10 rounded-xl border-white/10 bg-white/5">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
