@@ -34,9 +34,9 @@ const createDbInstance = () => {
       console.warn("⚠️ DATABASE_URL or POSTGRES_URL is not set. Using mock database for local development.")
       const mockResult = { rows: [], command: '', rowCount: 0 }
       const mockQuery = () => Promise.resolve(mockResult)
-      const mock: any = new Proxy(() => Promise.resolve([]), {
+      const mock = new Proxy(() => Promise.resolve([]), {
         get: (_, prop) => {
-          if (prop === 'then') return (onFullfilled: any) => onFullfilled([])
+          if (prop === 'then') return (onFullfilled: (value: unknown) => void) => onFullfilled([])
           if (typeof prop === 'string' && ['select', 'insert', 'update', 'delete', 'from', 'where', 'orderBy', 'limit', 'values', 'set', 'returning', 'onConflictDoUpdate'].includes(prop)) {
             return mock
           }
