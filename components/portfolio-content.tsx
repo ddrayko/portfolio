@@ -32,7 +32,7 @@ export function PortfolioContent({ projects }: PortfolioContentProps) {
       const matchesSearch =
         !searchQuery ||
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (project.description?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
         project.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
 
       return matchesTag && matchesSearch
