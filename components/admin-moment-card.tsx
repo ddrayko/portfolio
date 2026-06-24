@@ -22,17 +22,13 @@ const ICON_MAP: Record<string, any> = {
 }
 
 const formatDate = (dateStr: string) => {
-  try {
-    const date = new Date(dateStr);
-    if (isNaN(date.getTime())) return dateStr;
-    return date.toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
-    }).replace(/\//g, ' / ');
-  } catch {
-    return dateStr;
-  }
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  return date.toLocaleDateString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric'
+  }).replace(/\//g, ' / ');
 };
 
 export function AdminMomentCard({ moment, onDeleted, onUpdated }: AdminMomentCardProps) {
