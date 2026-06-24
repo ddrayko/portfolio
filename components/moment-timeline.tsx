@@ -17,17 +17,13 @@ const ICON_MAP: Record<string, any> = {
 }
 
 const formatDate = (dateStr: string) => {
-    try {
-        const date = new Date(dateStr);
-        if (isNaN(date.getTime())) return dateStr;
-        return date.toLocaleDateString('en-US', {
-            month: '2-digit',
-            day: '2-digit',
-            year: 'numeric'
-        }).replace(/\//g, ' / ');
-    } catch {
-        return dateStr;
-    }
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr;
+    return date.toLocaleDateString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric'
+    }).replace(/\//g, ' / ');
 };
 
 export function MomentTimeline({ moments }: MomentTimelineProps) {
@@ -108,7 +104,7 @@ export function MomentTimeline({ moments }: MomentTimelineProps) {
                                                         </div>
                                                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">{moment.type}</span>
                                                     </div>
-                                                    <span className="text-xs font-bold text-muted-foreground bg-white/5 px-3 py-1 rounded-full">{moment.date}</span>
+                                                    <span className="text-xs font-bold text-muted-foreground bg-white/5 px-3 py-1 rounded-full">{formatDate(moment.date)}</span>
                                                 </div>
                                                 
                                                 <h3 className="text-2xl font-bold tracking-tight text-foreground/90 group-hover/card:text-primary transition-colors">{moment.title}</h3>
