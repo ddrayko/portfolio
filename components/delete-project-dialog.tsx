@@ -38,6 +38,8 @@ export function DeleteProjectDialog({
     if (result.success) {
       onDeleted?.(projectId)
       onOpenChange(false)
+    } else {
+      console.error("Failed to delete project:", result.error)
     }
 
     setIsDeleting(false)
