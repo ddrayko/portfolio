@@ -60,9 +60,9 @@ export function Footer() {
                                 <li>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
-                                            <span className="text-muted-foreground/40 transition-all inline-flex items-center gap-2 grayscale cursor-default">
+                                            <span className="text-muted-foreground/40 transition-all inline-flex items-center gap-2 grayscale cursor-default" aria-label="GitHub account migrated to Codeberg">
                                                 <Github className="h-4 w-4" aria-hidden="true" />
-                                                <span className="line-through">GitHub</span>
+                                                <span className="line-through" aria-hidden="true">GitHub</span>
                                             </span>
                                         </TooltipTrigger>
                                         <TooltipContent side="top" className="max-w-xs text-center">
