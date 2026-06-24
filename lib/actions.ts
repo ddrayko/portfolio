@@ -77,6 +77,7 @@ export async function updateProject(id: string, data: Partial<Project>) {
     for (const [k, v] of Object.entries(updateData)) {
       values[k] = toSql(v)
     }
+    values.updated_at = new Date()
     await db.update(projects)
       .set(values)
       .where(eq(projects.id, numericId))
