@@ -47,6 +47,7 @@ export function VersionForm({ version, onSuccess }: VersionFormProps) {
       router.refresh()
       onSuccess?.()
     } catch (err) {
+      console.error("Error saving version:", err)
       setError("An unexpected error occurred")
       setIsLoading(false)
     }
