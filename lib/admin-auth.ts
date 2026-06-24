@@ -11,8 +11,6 @@ import bcrypt from "bcryptjs"
 const ADMIN_SESSION_COOKIE = "admin_session"
 
 export async function verifyAdminCredentials(email: string, password: string): Promise<boolean> {
-  console.log("[Auth] Verifying credentials for:", email)
-
   try {
     const [admin] = await db.select()
       .from(admins)
@@ -20,27 +18,23 @@ export async function verifyAdminCredentials(email: string, password: string): P
       .limit(1)
 
     if (!admin) {
-      console.log("[Auth] Admin not found")
       return false
     }
 
     const isValid = await bcrypt.compare(password, admin.password)
 
     if (!isValid) {
-      console.log("[Auth] Verification failed: Invalid password")
       return false
     }
 
-    console.log("[Auth] Verification successful")
     return true
-  } catch (error) {
-    console.error("[Auth] Verification error:", error)
+  } catch (error: unknown) {
+    console.error("[Auth] Verification error:", (error as Error).message)
     return false
   }
 }
 
 export async function createAdminSession() {
-  console.log("[Auth] Creating admin session")
   const cookieStore = await cookies()
   const sessionToken = crypto.randomUUID()
 
@@ -48,28 +42,22 @@ export async function createAdminSession() {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: "lax",
-    maxAge: 60 * 60 * 24, // 24 hours
+    maxAge: 60 * 60 * 24,
     path: "/",
   })
 
-  console.log("[Auth] Session created successfully")
   return true
 }
 
 export async function loginAdmin(email: string, password: string) {
-  console.log("[Auth] Login attempt for:", email)
-
   const isValid = await verifyAdminCredentials(email, password)
 
   if (!isValid) {
-    console.log("[Auth] Invalid credentials")
     return { success: false, error: "Invalid email or password" }
   }
 
-  console.log("[Auth] Credentials valid, creating session")
   await createAdminSession()
 
-  console.log("[Auth] Redirecting to dashboard")
   redirect("/admin/dashboard")
 }
 
