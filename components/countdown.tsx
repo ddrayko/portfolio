@@ -10,9 +10,13 @@ interface CountdownProps {
     targetDate: string
 }
 
+interface OdometerInstance {
+    update(value: number): void
+}
+
 declare global {
     interface Window {
-        Odometer: any
+        Odometer: new (options: { el: HTMLElement; value: number; format: string; theme: string }) => OdometerInstance
     }
 }
 
@@ -26,7 +30,7 @@ export function Countdown({ targetDate }: CountdownProps) {
         seconds: number
     } | null>(null)
 
-    const odometers = useRef<{ [key: string]: any }>({})
+    const odometers = useRef<{ [key: string]: OdometerInstance }>({})
     const odometerLoaded = useRef(false)
     const refs = {
         days: useRef<HTMLDivElement>(null),
