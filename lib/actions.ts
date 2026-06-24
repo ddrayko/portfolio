@@ -4,7 +4,7 @@ import { db } from "@/db"
 import { projects, admins, settings, siteUpdates, moments, versions } from "@/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
-import type { Project, SiteUpdate, Moment, Version } from "./types"
+import type { Project, SiteUpdate, Moment, Version, ChangelogEntry } from "./types"
 import bcrypt from "bcryptjs"
 
 /**
@@ -134,7 +134,7 @@ export async function deleteAdmin(id: string) {
 export async function getAdmins() {
   try {
     const data = await db.select().from(admins).orderBy(desc(admins.created_at))
-    return { success: true, data: data.map((admin: any) => ({ ...admin, id: admin.id.toString(), created_at: admin.created_at?.toISOString() })) }
+    return { success: true, data: data.map((admin) => ({ ...admin, id: admin.id.toString(), created_at: admin.created_at?.toISOString() })) }
   } catch (error: unknown) {
     console.error("Error fetching admins:", error)
     return { success: false, error: (error as Error).message, data: [] }
@@ -145,7 +145,7 @@ export async function getMaintenanceMode() {
   try {
     const [row] = await db.select().from(settings).where(eq(settings.key, "general")).limit(1)
     if (row) {
-      const data = parseJSONField<any>(row.value) || {}
+      const data = parseJSONField<Record<string, unknown>>(row.value) || {}
       return {
         success: true,
         isMaintenance: data.maintenance_mode || false,
@@ -190,7 +190,7 @@ export async function getProjectBySlug(slug: string) {
             ...project,
             id: project.id.toString(),
             tags: parseJSONField<string[]>(project.tags),
-            changelog: parseJSONField<any[]>(project.changelog),
+            changelog: parseJSONField<ChangelogEntry[]>(project.changelog),
             created_at: project.created_at?.toISOString()
         } as unknown as Project
     }
@@ -205,7 +205,7 @@ export async function getAvailability() {
   try {
     const [row] = await db.select().from(settings).where(eq(settings.key, "availability")).limit(1)
     if (row) {
-      const value = parseJSONField<any>(row.value)
+      const value = parseJSONField<{ isAvailable: boolean }>(row.value)
       return { success: true, isAvailable: value?.isAvailable }
     }
     return { success: true, isAvailable: true }
@@ -246,7 +246,7 @@ export async function getSiteUpdateData() {
           id: row.id.toString(),
           next_update_date: row.next_update_date?.toISOString() || null,
           updated_at: row.updated_at?.toISOString() || new Date().toISOString(),
-          changelog: parseJSONField<any[]>(row.changelog) || [],
+          changelog: parseJSONField<ChangelogEntry[]>(row.changelog) || [],
           planned_features: parseJSONField<string[]>(row.planned_features) || [],
           no_update_planned: (row.no_update_planned ?? 1) ? true : false,
           show_last_update_prefix: (row.show_last_update_prefix ?? 1) ? true : false,
@@ -309,11 +309,11 @@ export async function getProjects() {
     const data = await db.select().from(projects).orderBy(desc(projects.created_at))
     return { 
       success: true, 
-      data: data.map((p: any) => ({ 
+      data: data.map((p) => ({ 
         ...p, 
         id: p.id.toString(), 
         tags: parseJSONField<string[]>(p.tags),
-        changelog: parseJSONField<any[]>(p.changelog),
+        changelog: parseJSONField<ChangelogEntry[]>(p.changelog),
         created_at: p.created_at?.toISOString() || new Date().toISOString(),
         updated_at: new Date().toISOString()
       })) as unknown as Project[]
@@ -329,7 +329,7 @@ export async function getMoments() {
     const data = await db.select().from(moments).orderBy(desc(moments.date))
     return {
       success: true,
-      data: data.map((m: any) => ({
+      data: data.map((m) => ({
         ...m,
         id: m.id.toString(),
         created_at: m.created_at?.toISOString() || new Date().toISOString()
@@ -402,7 +402,7 @@ export async function getVersions() {
     const data = await db.select().from(versions).orderBy(desc(versions.created_at))
     return {
       success: true,
-      data: data.map((v: any) => ({
+      data: data.map((v) => ({
         ...v,
         id: v.id.toString(),
         created_at: v.created_at?.toISOString() || new Date().toISOString()
