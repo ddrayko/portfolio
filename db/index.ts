@@ -62,7 +62,9 @@ const createDbInstance = () => {
   return _db
 }
 
-export const db = new Proxy({} as any, {
+type DbInstance = ReturnType<typeof createDbInstance>
+
+export const db = new Proxy({} as unknown as DbInstance, {
   get(_, prop, receiver) {
     const instance = createDbInstance()
     return Reflect.get(instance, prop, receiver)
