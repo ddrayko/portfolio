@@ -81,9 +81,9 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/5 text-sm text-muted-foreground font-medium gap-4">
                     <p>&copy; 2025 - {currentYear} Drayko. All rights reserved.</p>
                     <div className="flex gap-8">
-                        <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
-                        <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
-                        <Link href="/copyright" className="hover:text-foreground transition-colors">Copyright</Link>
+                        <Link href="/privacy" className="hover:text-foreground transition-colors" aria-label="Privacy Policy">Privacy Policy</Link>
+                        <Link href="/terms" className="hover:text-foreground transition-colors" aria-label="Terms of Service">Terms of Service</Link>
+                        <Link href="/copyright" className="hover:text-foreground transition-colors" aria-label="Copyright information">Copyright</Link>
                     </div>
                 </div>
             </div>
