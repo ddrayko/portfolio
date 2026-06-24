@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin", "/maintenance"],
     },
-    sitemap: "https://drayko.xyz/sitemap.xml",
+    sitemap: `${process.env.NEXT_PUBLIC_BASE_URL || "https://drayko.xyz"}/sitemap.xml`,
   }
 }
