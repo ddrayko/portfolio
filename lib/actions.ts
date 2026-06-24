@@ -62,8 +62,16 @@ export async function createProject(data: Partial<Project>) {
   }
 }
 
+function validateId(id: string): number | null {
+  const parsed = parseInt(id)
+  return isNaN(parsed) ? null : parsed
+}
+
 export async function updateProject(id: string, data: Partial<Project>) {
   try {
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
+
     const { id: _, created_at: __, updated_at: ___, ...updateData } = data as any
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(updateData)) {
@@ -71,7 +79,7 @@ export async function updateProject(id: string, data: Partial<Project>) {
     }
     await db.update(projects)
       .set(values)
-      .where(eq(projects.id, parseInt(id)))
+      .where(eq(projects.id, numericId))
     
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
@@ -84,7 +92,9 @@ export async function updateProject(id: string, data: Partial<Project>) {
 
 export async function deleteProject(id: string) {
   try {
-    await db.delete(projects).where(eq(projects.id, parseInt(id)))
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
+    await db.delete(projects).where(eq(projects.id, numericId))
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
@@ -110,7 +120,9 @@ export async function createAdmin(email: string, password: string) {
 
 export async function deleteAdmin(id: string) {
   try {
-    await db.delete(admins).where(eq(admins.id, parseInt(id)))
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
+    await db.delete(admins).where(eq(admins.id, numericId))
     return { success: true }
   } catch (error: any) {
     console.error("Error deleting admin:", error)
@@ -349,6 +361,9 @@ export async function createMoment(data: Partial<Moment>) {
 
 export async function updateMoment(id: string, data: Partial<Moment>) {
   try {
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
+
     const { id: _, created_at: __, ...updateData } = data as any
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(updateData)) {
@@ -356,7 +371,7 @@ export async function updateMoment(id: string, data: Partial<Moment>) {
     }
     await db.update(moments)
       .set(values)
-      .where(eq(moments.id, parseInt(id)))
+      .where(eq(moments.id, numericId))
 
     revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
@@ -369,7 +384,9 @@ export async function updateMoment(id: string, data: Partial<Moment>) {
 
 export async function deleteMoment(id: string) {
   try {
-    await db.delete(moments).where(eq(moments.id, parseInt(id)))
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
+    await db.delete(moments).where(eq(moments.id, numericId))
     revalidatePath("/journey")
     revalidatePath("/admin/dashboard")
     return { success: true }
@@ -417,6 +434,9 @@ export async function createVersion(data: Partial<Version>) {
 
 export async function updateVersion(id: string, data: Partial<Version>) {
   try {
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
+
     const { id: _, created_at: __, ...updateData } = data as any
     const values: Record<string, any> = {}
     for (const [k, v] of Object.entries(updateData)) {
@@ -424,7 +444,7 @@ export async function updateVersion(id: string, data: Partial<Version>) {
     }
     await db.update(versions)
       .set(values)
-      .where(eq(versions.id, parseInt(id)))
+      .where(eq(versions.id, numericId))
 
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
@@ -437,7 +457,9 @@ export async function updateVersion(id: string, data: Partial<Version>) {
 
 export async function deleteVersion(id: string) {
   try {
-    await db.delete(versions).where(eq(versions.id, parseInt(id)))
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
+    await db.delete(versions).where(eq(versions.id, numericId))
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
@@ -449,8 +471,10 @@ export async function deleteVersion(id: string) {
 
 export async function setCurrentVersion(id: string) {
   try {
+    const numericId = validateId(id)
+    if (numericId === null) return { success: false, error: "Invalid ID" }
     await db.update(versions).set({ is_current: toSql(false) })
-    await db.update(versions).set({ is_current: toSql(true) }).where(eq(versions.id, parseInt(id)))
+    await db.update(versions).set({ is_current: toSql(true) }).where(eq(versions.id, numericId))
 
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
