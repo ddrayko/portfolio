@@ -63,7 +63,7 @@ export function UpdateDialog({ open, onOpenChange, onSuccess }: UpdateDialogProp
 
     const addChangelogEntry = () => {
         const newEntry: ChangelogEntry = {
-            id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            id: crypto.randomUUID(),
             version: "",
             date: new Date().toISOString().split('T')[0],
             changes: [""]
