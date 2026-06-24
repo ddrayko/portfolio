@@ -65,7 +65,7 @@ export function VersionSelector({ versions }: VersionSelectorProps) {
           const isBrowsed = version.id === displayedVersionId
           return (
             <DropdownMenuItem key={version.id} asChild className="rounded-xl cursor-pointer focus:bg-primary/20 focus:text-primary transition-colors p-3 mb-1 last:mb-0">
-              <a href={version.link} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 w-full text-left">
+              <a href={version.link} target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="flex items-start gap-3 w-full text-left">
                 <div className="mt-0.5 shrink-0">
                   {isBrowsed ? (
                     <Sparkles className="h-4 w-4 text-primary animate-pulse" />
