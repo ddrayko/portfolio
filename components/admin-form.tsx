@@ -46,7 +46,7 @@ export function AdminForm({ onSuccess }: AdminFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" name="password" type="password" placeholder="Enter password" required />
+        <Input id="password" name="password" type="password" placeholder="Enter password" required minLength={8} />
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
