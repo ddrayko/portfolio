@@ -404,7 +404,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
 
       {/* Footer Save Area */}
       <div className="mt-auto pt-6 border-t border-white/5 bg-transparent">
-        {error && <p className="text-xs text-destructive font-bold mb-3 text-center mb-4">{error}</p>}
+        {error && <p className="text-xs text-destructive font-bold mb-4 text-center">{error}</p>}
         <Button
           onClick={() => {
             if (formRef.current) formRef.current.requestSubmit();
