@@ -68,7 +68,7 @@ export function VersionForm({ version, onSuccess }: VersionFormProps) {
 
         <div className="space-y-2">
           <Label htmlFor="link" className="text-[10px] uppercase tracking-widest text-foreground/70 ml-1">Version Link</Label>
-          <Input id="link" name="link" defaultValue={version?.link} required placeholder="https://v1.drayko.dev" className="h-10 rounded-xl border-white/10 bg-white/5 font-bold" />
+          <Input id="link" name="link" type="url" defaultValue={version?.link} required placeholder="https://v1.drayko.dev" className="h-10 rounded-xl border-white/10 bg-white/5 font-bold" />
         </div>
       </div>
 
