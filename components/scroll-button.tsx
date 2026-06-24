@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils"
 interface ScrollButtonProps {
   targetId: string
   children: React.ReactNode
-  variant?: "default" | "outline" | "ghost" | "link" | "secondary" | "destructive"
-  size?: "default" | "sm" | "lg" | "icon"
+  variant?: React.ComponentProps<typeof Button>["variant"]
+  size?: React.ComponentProps<typeof Button>["size"]
   className?: string
 }
 
@@ -36,7 +36,7 @@ export function ScrollButton({
   return (
     <Button 
       size={size} 
-      variant={variant as any} 
+      variant={variant} 
       className={cn("cursor-pointer select-text", className)} 
       onClick={handleScroll}
     >
