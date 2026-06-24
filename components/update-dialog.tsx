@@ -81,7 +81,7 @@ export function UpdateDialog({ open, onOpenChange, onSuccess }: UpdateDialogProp
         })
     }
 
-    const updateEntry = (id: string, field: keyof ChangelogEntry, value: any) => {
+    const updateEntry = <K extends keyof ChangelogEntry>(id: string, field: K, value: ChangelogEntry[K]) => {
         setUpdateData({
             ...updateData,
             changelog: updateData.changelog.map(entry =>
