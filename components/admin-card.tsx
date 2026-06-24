@@ -37,7 +37,7 @@ export function AdminCard({ admin, onDeleted }: AdminCardProps) {
           </div>
         </CardContent>
         <CardFooter>
-          <Button variant="destructive" size="sm" onClick={() => setDeleteOpen(true)} className="w-full" aria-label={`Remove admin ${admin.email}`}>
+          <Button type="button" variant="destructive" size="sm" onClick={() => setDeleteOpen(true)} className="w-full" aria-label={`Remove admin ${admin.email}`}>
             <Trash2 className="mr-2 h-4 w-4" aria-hidden="true" />
             Remove Admin
           </Button>
