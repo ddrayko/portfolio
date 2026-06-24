@@ -1,4 +1,5 @@
 import { pgTable, serial, text, timestamp, boolean, integer, jsonb } from "drizzle-orm/pg-core"
+import type { ChangelogEntry } from "@/lib/types"
 
 export const projects = pgTable("projects", {
   id: serial("id").primaryKey(),
@@ -6,7 +7,7 @@ export const projects = pgTable("projects", {
   slug: text("slug").notNull().unique(),
   description: text("description"),
   image_url: text("image_url"),
-  tags: text("tags").array(),
+  tags: text("tags").array().$type<string[]>(),
   project_url: text("project_url"),
   github_url: text("github_url"),
   in_development: boolean("in_development").default(false),
@@ -14,7 +15,7 @@ export const projects = pgTable("projects", {
   is_completed: boolean("is_completed").default(false),
   is_archived: boolean("is_archived").default(false),
   development_progress: integer("development_progress").default(0),
-  changelog: jsonb("changelog").$type<any[]>().default([]),
+  changelog: jsonb("changelog").$type<ChangelogEntry[]>().default([]),
   created_at: timestamp("created_at").defaultNow(),
 })
 
@@ -36,7 +37,7 @@ export const siteUpdates = pgTable("site_updates", {
   next_update_date: timestamp("next_update_date"),
   no_update_planned: boolean("no_update_planned").default(true),
   planned_features: jsonb("planned_features").$type<string[]>().default([]),
-  changelog: jsonb("changelog").$type<any[]>().default([]),
+  changelog: jsonb("changelog").$type<ChangelogEntry[]>().default([]),
   latest_update_text: text("latest_update_text"),
   show_last_update_prefix: boolean("show_last_update_prefix").default(true),
   hero_link_type: text("hero_link_type").default("update"),
