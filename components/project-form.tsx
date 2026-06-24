@@ -91,7 +91,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
     setChangelog(changelog.filter((entry) => entry.id !== id))
   }
 
-  const updateEntry = (id: string, field: keyof ChangelogEntry, value: any) => {
+  const updateEntry = <K extends keyof ChangelogEntry>(id: string, field: K, value: ChangelogEntry[K]) => {
     setChangelog(
       changelog.map((entry) => (entry.id === id ? { ...entry, [field]: value } : entry))
     )
