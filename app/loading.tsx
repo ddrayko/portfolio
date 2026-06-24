@@ -1,6 +1,6 @@
 export default function Loading() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="min-h-screen flex items-center justify-center bg-background" role="status" aria-live="polite">
             <div className="text-center space-y-8 reveal-up">
                 <div className="relative inline-flex">
                     <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
