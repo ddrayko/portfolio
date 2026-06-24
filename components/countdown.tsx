@@ -37,24 +37,19 @@ export function Countdown({ targetDate }: CountdownProps) {
 
     useEffect(() => {
         setIsClient(true)
-        console.log("Countdown component mounted on client")
 
         const loadOdometer = () => {
             if (odometerLoaded.current) return
             if (window.Odometer) {
-                console.log("Odometer already exists in window")
                 odometerLoaded.current = true
                 setIsOdometerReady(true)
                 return
             }
 
-            // Check if script already exists to avoid duplicates
             if (document.querySelector('script[src*="odometer"]')) {
-                console.log("Odometer script already present in DOM, waiting for load...")
                 return
             }
 
-            console.log("Loading Odometer script and styles...")
             const link = document.createElement('link')
             link.rel = 'stylesheet'
             link.href = 'https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css'
@@ -64,11 +59,10 @@ export function Countdown({ targetDate }: CountdownProps) {
             script.src = 'https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/odometer.min.js'
             script.async = true
             script.onload = () => {
-                console.log("Odometer.js script onload triggered")
                 odometerLoaded.current = true
                 setIsOdometerReady(true)
             }
-            script.onerror = (e) => console.error("Odometer.js script failed to load:", e)
+            script.onerror = (e) => console.error("Failed to load Odometer.js:", e)
             document.body.appendChild(script)
         }
 
@@ -117,7 +111,6 @@ export function Countdown({ targetDate }: CountdownProps) {
         Object.entries(refs).forEach(([key, ref]) => {
             if (ref.current) {
                 if (!odometers.current[key]) {
-                    console.log(`Initializing Odometer for ${key}`)
                     odometers.current[key] = new window.Odometer({
                         el: ref.current,
                         value: timeLeft[key as keyof typeof timeLeft],
