@@ -87,11 +87,11 @@ export function AdminProjectCard({ project, onDeleted, onUpdated }: AdminProject
           </div>
 
           <div className="flex gap-3 pt-4 mt-auto">
-            <Button variant="ghost" size="sm" onClick={() => setEditOpen(true)} className="flex-1 rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground font-bold transition-all">
+            <Button type="button" variant="ghost" size="sm" onClick={() => setEditOpen(true)} className="flex-1 rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground font-bold transition-all">
               <Pencil className="mr-2 h-4 w-4" />
               Edit
             </Button>
-            <Button variant="destructive" size="sm" onClick={() => setDeleteOpen(true)} className="flex-1 rounded-full shadow-lg shadow-destructive/20 font-bold transition-all">
+            <Button type="button" variant="destructive" size="sm" onClick={() => setDeleteOpen(true)} className="flex-1 rounded-full shadow-lg shadow-destructive/20 font-bold transition-all">
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
             </Button>
