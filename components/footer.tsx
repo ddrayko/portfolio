@@ -70,8 +70,8 @@ export function Footer() {
                                         </TooltipContent>
                                     </Tooltip>
                                 </li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="https://codeberg.org/ddrayko" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Codeberg profile"><Code2 className="h-4 w-4" aria-hidden="true" /> Codeberg</Link></li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="https://gitlab.com/drayko_dev" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="GitLab profile"><Gitlab className="h-4 w-4" aria-hidden="true" /> GitLab</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="https://codeberg.org/ddrayko" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Codeberg profile"><Code2 className="h-4 w-4" aria-hidden="true" /> Codeberg</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="https://gitlab.com/drayko_dev" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="GitLab profile"><Gitlab className="h-4 w-4" aria-hidden="true" /> GitLab</Link></li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="/contact" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Contact page"><MessageSquare className="h-4 w-4" aria-hidden="true" /> Contact</Link></li>
                             </ul>
                         </div>

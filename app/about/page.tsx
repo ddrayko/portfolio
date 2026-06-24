@@ -146,7 +146,7 @@ export default async function AboutPage() {
                                 <Link href="/contact" className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-bold text-sm tracking-wide hover:bg-primary/90 transition-all hover:scale-105 shadow-xl shadow-primary/20">
                                     Get in Touch
                                 </Link>
-                                <a href="https://github.com/ddrayko" target="_blank" rel="noopener noreferrer" className="px-8 py-3 rounded-full bg-background/50 border border-white/10 text-foreground font-bold text-sm tracking-wide hover:bg-white/10 transition-all hover:scale-105">
+                                <a href="https://github.com/ddrayko" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="px-8 py-3 rounded-full bg-background/50 border border-white/10 text-foreground font-bold text-sm tracking-wide hover:bg-white/10 transition-all hover:scale-105">
                                     GitHub
                                 </a>
                             </div>

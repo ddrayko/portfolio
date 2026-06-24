@@ -48,7 +48,7 @@ export function AdminVersionCard({ version, onDeleted, onUpdated }: AdminVersion
             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
               {version.description || "No description."}
             </p>
-            <a href={version.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline truncate block max-w-[200px]">
+            <a href={version.link} target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="text-xs text-primary underline truncate block max-w-[200px]">
               {version.link}
             </a>
           </div>
