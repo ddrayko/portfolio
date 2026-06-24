@@ -91,8 +91,8 @@ export function AdminVersionCard({ version, onDeleted, onUpdated }: AdminVersion
               <p className="text-sm text-muted-foreground">This action is irreversible.</p>
             </div>
             <div className="flex gap-3">
-              <Button variant="ghost" onClick={() => setDeleteOpen(false)} className="flex-1 rounded-xl">Cancel</Button>
-              <Button variant="destructive" onClick={handleDelete} disabled={isDeleting} className="flex-1 rounded-xl shadow-lg shadow-destructive/20">
+              <Button type="button" variant="ghost" aria-label="Cancel delete" onClick={() => setDeleteOpen(false)} className="flex-1 rounded-xl">Cancel</Button>
+              <Button type="button" variant="destructive" onClick={handleDelete} disabled={isDeleting} className="flex-1 rounded-xl shadow-lg shadow-destructive/20">
                 {isDeleting ? "Deleting..." : "Delete"}
               </Button>
             </div>
