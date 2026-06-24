@@ -20,6 +20,7 @@ export function ScrollButton({
   className
 }: ScrollButtonProps) {
   const handleScroll = () => {
+    if (typeof window === "undefined") return
     const element = document.getElementById(targetId)
     if (element) {
       const headerOffset = 80
