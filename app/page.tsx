@@ -1,7 +1,7 @@
 import { db } from "@/db"
 import { projects as projectsTable, siteUpdates } from "@/db/schema"
 import { desc } from "drizzle-orm"
-import type { Project, SiteUpdate } from "@/lib/types"
+import type { Project, SiteUpdate, ChangelogEntry } from "@/lib/types"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { TechStack } from "@/components/tech-stack"
 import { Button } from "@/components/ui/button"
@@ -78,8 +78,8 @@ export default async function HomePage() {
         id: rawUpdate.id.toString(),
         next_update_date: rawUpdate.next_update_date?.toISOString() || null,
         updated_at: rawUpdate.updated_at?.toISOString() || new Date().toISOString(),
-        changelog: rawUpdate.changelog as any || [],
-        planned_features: rawUpdate.planned_features as any || [],
+        changelog: (rawUpdate.changelog || []) as ChangelogEntry[],
+        planned_features: (rawUpdate.planned_features || []) as string[],
       } as SiteUpdate
     }
   } catch (e) {

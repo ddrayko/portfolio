@@ -2,7 +2,7 @@ import Link from "next/link"
 import { ChevronLeft, History, Rocket, Calendar } from "lucide-react"
 import { db } from "@/db"
 import { siteUpdates } from "@/db/schema"
-import type { SiteUpdate } from "@/lib/types"
+import type { SiteUpdate, ChangelogEntry } from "@/lib/types"
 import { Countdown } from "@/components/countdown"
 import { ChangelogList } from "@/components/changelog-list"
 import { getMaintenanceMode } from "@/lib/actions"
@@ -52,8 +52,8 @@ export default async function UpdatePage() {
             id: rawUpdate.id.toString(),
             next_update_date: rawUpdate.next_update_date?.toISOString() || null,
             updated_at: rawUpdate.updated_at?.toISOString() || new Date().toISOString(),
-            changelog: rawUpdate.changelog as any || [],
-            planned_features: rawUpdate.planned_features as any || [],
+            changelog: (rawUpdate.changelog || []) as ChangelogEntry[],
+            planned_features: (rawUpdate.planned_features || []) as string[],
         } as SiteUpdate
         : {
             next_update_date: null,
