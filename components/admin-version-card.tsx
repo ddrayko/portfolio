@@ -58,6 +58,7 @@ export function AdminVersionCard({ version, onDeleted, onUpdated }: AdminVersion
           <Button
             variant="ghost"
             size="icon"
+            aria-label={`Edit version ${version.name}`}
             onClick={() => setEditOpen(true)}
             className="h-8 w-8 rounded-lg bg-white/5 hover:bg-primary/20 hover:text-primary border border-white/5"
           >
@@ -66,6 +67,7 @@ export function AdminVersionCard({ version, onDeleted, onUpdated }: AdminVersion
           <Button
             variant="ghost"
             size="icon"
+            aria-label={`Delete version ${version.name}`}
             onClick={() => setDeleteOpen(true)}
             className="h-8 w-8 rounded-lg bg-white/5 hover:text-destructive hover:bg-destructive/10 border border-white/5"
           >

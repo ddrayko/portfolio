@@ -71,6 +71,7 @@ export function AdminMomentCard({ moment, onDeleted, onUpdated }: AdminMomentCar
           <Button
             variant="ghost"
             size="icon"
+            aria-label={`Edit moment ${moment.title}`}
             onClick={() => setEditOpen(true)}
             className="h-8 w-8 rounded-lg bg-white/5 hover:bg-primary/20 hover:text-primary border border-white/5"
           >
@@ -79,6 +80,7 @@ export function AdminMomentCard({ moment, onDeleted, onUpdated }: AdminMomentCar
           <Button
             variant="ghost"
             size="icon"
+            aria-label={`Delete moment ${moment.title}`}
             onClick={() => setDeleteOpen(true)}
             className="h-8 w-8 rounded-lg bg-white/5 hover:text-destructive hover:bg-destructive/10 border border-white/5"
           >
