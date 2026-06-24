@@ -147,7 +147,7 @@ export default async function ProjectUpdatePage({ params }: ProjectUpdatePagePro
                             </div>
 
                             <div className="flex flex-wrap gap-2">
-                                {project.tags.map(tag => (
+                                {project.tags?.map(tag => (
                                     <span key={tag} className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                                         {tag}
                                     </span>
