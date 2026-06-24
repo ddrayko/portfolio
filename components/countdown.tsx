@@ -72,12 +72,18 @@ export function Countdown({ targetDate }: CountdownProps) {
 
         // Polling as a fallback if onload doesn't fire
         const pollTimer = setInterval(() => {
-            if (window.Odometer && !isOdometerReady) {
-                console.log("Odometer found via polling")
+            if (window.Odometer) {
                 setIsOdometerReady(true)
             }
         }, 500)
 
+        return () => {
+            clearInterval(pollTimer)
+        }
+    }, [])
+
+    // Separate timer effect that does not depend on isOdometerReady
+    useEffect(() => {
         const calculateTimeLeft = () => {
             const difference = +new Date(targetDate) - +new Date()
 
@@ -96,11 +102,8 @@ export function Countdown({ targetDate }: CountdownProps) {
         calculateTimeLeft()
         const timer = setInterval(calculateTimeLeft, 1000)
 
-        return () => {
-            clearInterval(timer)
-            clearInterval(pollTimer)
-        }
-    }, [targetDate, isOdometerReady])
+        return () => clearInterval(timer)
+    }, [targetDate])
 
     // Initialize or Update Odometers when ready and values change
     useEffect(() => {
