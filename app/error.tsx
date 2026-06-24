@@ -40,8 +40,9 @@ export default function Error({
 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4">
                     <button
+                        type="button"
                         onClick={reset}
-                        className="group relative inline-flex items-center gap-3 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[0_10px_40px_-10px_rgba(220,38,38,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(220,38,38,0.6)]"
+                        className="group relative inline-flex items-center gap-3 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[0_10px_40px_-10px_rgba(220,38,38,0.5)] hover:shadow-[0_20px_50px_-10pxrgba(220,38,38,0.6)]"
                     >
                         <RefreshCcw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
                         Relaunch System
