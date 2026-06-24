@@ -3,7 +3,7 @@ import { MoveLeft } from 'lucide-react'
 
 export default function NotFound() {
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex items-center justify-center overflow-hidden relative selection:bg-primary/30 selection:text-primary">
+        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex items-center justify-center overflow-hidden relative selection:bg-primary/30 selection:text-primary" role="alert">
             {/* Ambient Orbs */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-[#38bdf8]/30 rounded-full blur-[120px] animate-pulse-glow" />
