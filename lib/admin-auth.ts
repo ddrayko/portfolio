@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers"
+import crypto from "crypto"
 import { redirect } from "next/navigation"
 import { db } from "@/db"
 import { admins } from "@/db/schema"
@@ -41,8 +42,7 @@ export async function verifyAdminCredentials(email: string, password: string): P
 export async function createAdminSession() {
   console.log("[Auth] Creating admin session")
   const cookieStore = await cookies()
-  // Create a simple session token
-  const sessionToken = Buffer.from(`admin_${Date.now()}`).toString("base64")
+  const sessionToken = crypto.randomUUID()
 
   cookieStore.set(ADMIN_SESSION_COOKIE, sessionToken, {
     httpOnly: true,
