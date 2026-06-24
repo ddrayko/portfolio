@@ -127,7 +127,7 @@ export default async function RootLayout({
         </div>
         <BackToTop />
         <ConsoleEasterEgg />
-        <OldVersionPopup versions={versions as any} />
+        <OldVersionPopup versions={versions} />
         <Toaster position="bottom-right" richColors />
       </body>
     </html>

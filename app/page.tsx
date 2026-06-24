@@ -1,7 +1,7 @@
 import { db } from "@/db"
 import { projects as projectsTable, siteUpdates } from "@/db/schema"
 import { desc } from "drizzle-orm"
-import type { Project, SiteUpdate, ChangelogEntry } from "@/lib/types"
+import type { Project, SiteUpdate, ChangelogEntry, Version } from "@/lib/types"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { TechStack } from "@/components/tech-stack"
 import { Button } from "@/components/ui/button"
@@ -50,7 +50,7 @@ export default async function HomePage() {
   }
 
   let projects: Project[] = []
-  let versions: any[] = []
+  let versions: Version[] = []
   let fetchError = false
   let updateData: SiteUpdate | null = null
 
@@ -68,7 +68,7 @@ export default async function HomePage() {
       ...v,
       id: v.id.toString(),
       created_at: v.created_at?.toISOString() || new Date().toISOString(),
-    }))
+    })) as Version[]
 
     // Fetch site update info
     const [rawUpdate] = await db.select().from(siteUpdates).limit(1)
@@ -118,7 +118,7 @@ export default async function HomePage() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <VersionSelector versions={versions as any} />
+            <VersionSelector versions={versions} />
           </div>
         </div>
       </header>
