@@ -27,6 +27,7 @@ export function Countdown({ targetDate }: CountdownProps) {
     } | null>(null)
 
     const odometers = useRef<{ [key: string]: any }>({})
+    const odometerLoaded = useRef(false)
     const refs = {
         days: useRef<HTMLDivElement>(null),
         hours: useRef<HTMLDivElement>(null),
@@ -39,8 +40,10 @@ export function Countdown({ targetDate }: CountdownProps) {
         console.log("Countdown component mounted on client")
 
         const loadOdometer = () => {
+            if (odometerLoaded.current) return
             if (window.Odometer) {
                 console.log("Odometer already exists in window")
+                odometerLoaded.current = true
                 setIsOdometerReady(true)
                 return
             }
@@ -62,6 +65,7 @@ export function Countdown({ targetDate }: CountdownProps) {
             script.async = true
             script.onload = () => {
                 console.log("Odometer.js script onload triggered")
+                odometerLoaded.current = true
                 setIsOdometerReady(true)
             }
             script.onerror = (e) => console.error("Odometer.js script failed to load:", e)
@@ -72,7 +76,8 @@ export function Countdown({ targetDate }: CountdownProps) {
 
         // Polling as a fallback if onload doesn't fire
         const pollTimer = setInterval(() => {
-            if (window.Odometer) {
+            if (window.Odometer && !odometerLoaded.current) {
+                odometerLoaded.current = true
                 setIsOdometerReady(true)
             }
         }, 500)
