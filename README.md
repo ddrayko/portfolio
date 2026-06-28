@@ -430,7 +430,3 @@ v6-portfolio/
 ## License
 
 This project is free software — see [COPYRIGHT.md](COPYRIGHT.md) for details.
-
----
-
-*Built with Next.js, PostgreSQL, and a lot of coffee.*
