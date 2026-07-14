@@ -11,24 +11,36 @@ export function DdosPopup() {
 
     const OVERLAY_ID = "ddos-incident-overlay"
 
+    const OVERLAY_CSS = [
+      "position:fixed",
+      "inset:0",
+      "top:0",
+      "left:0",
+      "right:0",
+      "bottom:0",
+      "width:100%",
+      "height:100%",
+      "z-index:2147483647",
+      "display:flex",
+      "align-items:center",
+      "justify-content:center",
+      "padding:1.5rem",
+      "margin:0",
+      "background:rgba(5,8,12,0.45)",
+      "backdrop-filter:blur(18px)",
+      "-webkit-backdrop-filter:blur(14px)",
+      "font-family:var(--font-sans, ui-sans-serif, system-ui, sans-serif)",
+      "overflow:auto",
+      "visibility:visible",
+      "opacity:1",
+      "pointer-events:auto",
+    ].join(";")
+
     const buildOverlay = (): HTMLElement => {
       const overlay = document.createElement("div")
       overlay.id = OVERLAY_ID
       overlay.setAttribute("data-anti-remove", "true")
-      overlay.style.cssText = [
-        "position:fixed",
-        "inset:0",
-        "z-index:2147483647",
-        "display:flex",
-        "align-items:center",
-        "justify-content:center",
-        "padding:1.5rem",
-        "background:rgba(5,8,12,0.45)",
-        "backdrop-filter:blur(18px)",
-        "-webkit-backdrop-filter:blur(14px)",
-        "font-family:var(--font-sans, ui-sans-serif, system-ui, sans-serif)",
-        "overflow:auto",
-      ].join(";")
+      overlay.style.cssText = OVERLAY_CSS
 
       overlay.innerHTML = `
         <div style="
@@ -106,30 +118,22 @@ export function DdosPopup() {
       return overlay
     }
 
-    const OVERLAY_STYLES: Partial<CSSStyleDeclaration> = {
-      display: "flex",
-      visibility: "visible",
-      opacity: "1",
-      pointerEvents: "auto",
-      position: "fixed",
-      zIndex: "2147483647",
-    }
+    let overlay: HTMLElement | null = null
 
     const ensureOverlay = () => {
-      let overlay = document.getElementById(OVERLAY_ID) as HTMLElement | null
-
+      // (Re)create the node if it doesn't exist yet.
       if (!overlay) {
         overlay = buildOverlay()
-        document.body.appendChild(overlay)
-      } else if (overlay.parentNode !== document.body) {
-        // Re-attached elsewhere (e.g. dragged out of body): put it back.
+      }
+
+      // Re-attach if it was detached (e.g. deleted in the inspector).
+      if (!overlay.isConnected || overlay.parentNode !== document.body) {
         document.body.appendChild(overlay)
       }
 
-      // Counter any inline-style tampering (display:none, visibility, etc.).
-      for (const [prop, value] of Object.entries(OVERLAY_STYLES)) {
-        overlay.style[prop as any] = value as string
-      }
+      // Re-apply the FULL style every cycle so any inline tampering
+      // (display:none, visibility, opacity, sizing, position…) is defeated.
+      overlay.style.cssText = OVERLAY_CSS
     }
 
     ensureOverlay()
@@ -147,7 +151,7 @@ export function DdosPopup() {
     }
     document.addEventListener("DOMNodeRemoved", onNodeRemoved, true)
 
-    // 3. Continuous re-insertion loop (~every frame) — strongest guarantee.
+    // 3. Continuous enforcement loop (~every frame) — strongest guarantee.
     let rafId = 0
     const loop = () => {
       ensureOverlay()
@@ -171,8 +175,7 @@ export function DdosPopup() {
       document.removeEventListener("DOMNodeRemoved", onNodeRemoved, true)
       window.clearInterval(interval)
       window.removeEventListener("keydown", onKeyDown, true)
-      const existing = document.getElementById(OVERLAY_ID)
-      if (existing) existing.remove()
+      if (overlay && overlay.isConnected) overlay.remove()
     }
   }, [pathname])
 
