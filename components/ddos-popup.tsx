@@ -7,7 +7,7 @@ export function DdosPopup() {
   const pathname = usePathname()
 
   useEffect(() => {
-    if (pathname === "/admin") return
+    if (pathname === "/admin" || pathname.startsWith("/admin/")) return
 
     const OVERLAY_ID = "ddos-incident-overlay"
 
