@@ -60,16 +60,6 @@ export const siteUpdates = sqliteTable("site_updates", {
   updated_at: timestampText("updated_at"),
 })
 
-export const moments = sqliteTable("moments", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  description: text("description"),
-  date: text("date").notNull(),
-  type: text("type").default("milestone"),
-  icon: text("icon"),
-  created_at: timestampText("created_at"),
-})
-
 export const versions = sqliteTable("versions", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),

@@ -36,20 +36,20 @@ flowchart LR
 
     subgraph NextJS["Next.js 16 App Router"]
         Layout["layout.tsx — fonts, footer, popups"]
-        Pages["13 routes: / /about /contact /journey /update /privacy /terms /copyright /tags-info /maintenance /[slug]/update /admin + dashboard"]
-        API["Server actions — CRUD projects, admins, moments, versions, settings, site updates"]
+        Pages["12 routes: / /about /contact /update /privacy /terms /copyright /tags-info /maintenance /[slug]/update /admin + dashboard"]
+        API["Server actions — CRUD projects, admins, versions, settings, site updates"]
     end
 
     subgraph Components["Components"]
-        Public["Public — ProjectCard, TechStack, PortfolioContent, MomentTimeline, TagFilter, VersionSelector"]
+        Public["Public — ProjectCard, TechStack, PortfolioContent, TagFilter, VersionSelector"]
         Admin["Admin — DashboardClient, Forms, Dialogs, Toggles"]
         UI["UI primitives — 20 Radix + shadcn/ui components"]
     end
 
     subgraph Data["Data Layer"]
         Drizzle["Drizzle ORM"]
-        DB[("PostgreSQL — 6 tables")]
-        Schema["projects · admins · settings · site_updates · moments · versions"]
+        DB[("PostgreSQL — 5 tables")]
+        Schema["projects · admins · settings · site_updates · versions"]
     end
 
     Client --> NextJS
@@ -69,7 +69,6 @@ flowchart LR
 | `/` | Dynamic | Homepage — hero (badge links to /update or custom URL), project grid, tech stack marquee, CTA |
 | `/about` | Dynamic | Developer story, philosophy cards, personal note |
 | `/contact` | Dynamic | Contact info, availability status, email copy |
-| `/journey` | Dynamic | Animated timeline of education, work, and milestones |
 | `/update` | Dynamic | System roadmap with countdown + changelog history |
 | `/[slug]/update` | Dynamic | Per-project changelog (auto: `/update` for drayko.xyz) |
 | `/admin` | Dynamic | Admin login form (cookie-based session) |
@@ -132,16 +131,6 @@ erDiagram
         timestamp updated_at
     }
 
-    moments {
-        serial id PK
-        text title
-        text description
-        text date
-        text type
-        text icon
-        timestamp created_at
-    }
-
     versions {
         serial id PK
         text name
@@ -165,8 +154,6 @@ flowchart LR
               about/page.tsx"]
         Contact["Contact Page
                 contact/page.tsx"]
-        Journey["Journey Page
-                journey/page.tsx"]
         Update["Update Page
                update/page.tsx"]
     end
@@ -184,11 +171,6 @@ flowchart LR
 
     Tech --> TechCard["TechCard
                        (47 technologies, 3 marquee rows)"]
-
-    Journey --> Timeline["MomentTimeline
-                         client component"]
-    Timeline --> MomentCard["Moment Card
-                             (education/work/milestone)"]
 
     Update --> Changelog["ChangelogList"]
     Update --> CountdownComponent["Countdown
@@ -209,8 +191,6 @@ flowchart LR
     
     Sections --> Section1["Projects
                            CRUD + cards"]
-    Sections --> Section2["Moments
-                           CRUD + cards"]
     Sections --> Section3["Versions
                            CRUD + cards"]
     Sections --> Section4["Admins
@@ -226,10 +206,6 @@ flowchart LR
                            (2 tabs: details + changelog)"]
     Section1 --> ProjCard["AdminProjectCard"]
     Section1 --> DeleteProj["DeleteProjectDialog"]
-
-    Section2 --> MomDialog["MomentDialog"]
-    Section2 --> MomForm["MomentForm"]
-    Section2 --> MomCard["AdminMomentCard"]
 
     Section3 --> VerDialog["VersionDialog"]
     Section3 --> VerForm["VersionForm"]
@@ -299,7 +275,7 @@ sequenceDiagram
 - **Maintenance Mode** — Server-side redirect with bypass for local requests
 
 ### Admin
-- **Full CRUD** — Projects, Moments, Versions, Admins
+- **Full CRUD** — Projects, Versions, Admins
 - **Project Editor** — Two-tab form (details + reorderable changelog)
 - **Site Updates** — Edit roadmap, changelog, planned features, badge text, and badge link destination (update page / custom URL)
 - **Maintenance Toggle** — Enable/disable site-wide with custom message and ETA
@@ -390,7 +366,6 @@ v6-portfolio/
 │   ├── page.tsx          # Homepage
 │   ├── about/
 │   ├── contact/
-│   ├── journey/
 │   ├── update/
 │   ├── admin/
 │   │   ├── page.tsx      # Login
@@ -402,7 +377,6 @@ v6-portfolio/
 │   ├── project-card.tsx
 │   ├── tech-stack.tsx
 │   ├── portfolio-content.tsx
-│   ├── moment-timeline.tsx
 │   └── ... (33 custom components)
 ├── db/
 │   ├── schema.ts         # 6 Drizzle tables

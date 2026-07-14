@@ -106,25 +106,57 @@ export function DdosPopup() {
       return overlay
     }
 
+    const OVERLAY_STYLES: Partial<CSSStyleDeclaration> = {
+      display: "flex",
+      visibility: "visible",
+      opacity: "1",
+      pointerEvents: "auto",
+      position: "fixed",
+      zIndex: "2147483647",
+    }
+
     const ensureOverlay = () => {
-      if (!document.getElementById(OVERLAY_ID)) {
-        document.body.appendChild(buildOverlay())
+      let overlay = document.getElementById(OVERLAY_ID) as HTMLElement | null
+
+      if (!overlay) {
+        overlay = buildOverlay()
+        document.body.appendChild(overlay)
+      } else if (overlay.parentNode !== document.body) {
+        // Re-attached elsewhere (e.g. dragged out of body): put it back.
+        document.body.appendChild(overlay)
+      }
+
+      // Counter any inline-style tampering (display:none, visibility, etc.).
+      for (const [prop, value] of Object.entries(OVERLAY_STYLES)) {
+        overlay.style[prop as any] = value as string
       }
     }
 
     ensureOverlay()
 
-    const observer = new MutationObserver(() => {
+    // 1. React to DOM mutations (covers deletion via inspector).
+    const observer = new MutationObserver(() => ensureOverlay())
+    observer.observe(document.body, { childList: true, subtree: true })
+
+    // 2. React specifically to our node being removed.
+    const onNodeRemoved = (e: Event) => {
+      const target = e.target as HTMLElement | null
+      if (target && target.id === OVERLAY_ID) {
+        requestAnimationFrame(ensureOverlay)
+      }
+    }
+    document.addEventListener("DOMNodeRemoved", onNodeRemoved, true)
+
+    // 3. Continuous re-insertion loop (~every frame) — strongest guarantee.
+    let rafId = 0
+    const loop = () => {
       ensureOverlay()
-    })
+      rafId = requestAnimationFrame(loop)
+    }
+    rafId = requestAnimationFrame(loop)
 
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true,
-    })
-
-    // Backup re-insertion in case the observer is tampered with.
-    const interval = window.setInterval(ensureOverlay, 500)
+    // 4. Interval backup in case rAF is throttled (e.g. background tab).
+    const interval = window.setInterval(ensureOverlay, 250)
 
     // Prevent any shortcut from closing it.
     const onKeyDown = (e: KeyboardEvent) => {
@@ -134,7 +166,9 @@ export function DdosPopup() {
     window.addEventListener("keydown", onKeyDown, true)
 
     return () => {
+      cancelAnimationFrame(rafId)
       observer.disconnect()
+      document.removeEventListener("DOMNodeRemoved", onNodeRemoved, true)
       window.clearInterval(interval)
       window.removeEventListener("keydown", onKeyDown, true)
       const existing = document.getElementById(OVERLAY_ID)

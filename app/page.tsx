@@ -113,7 +113,6 @@ export default async function HomePage() {
             <ScrollButton targetId="projects" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Scroll to projects">Projects</ScrollButton>
             <ScrollButton targetId="tech-stack" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Scroll to tech stack">Tech</ScrollButton>
             <Link href="/about" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="About Drayko">About</Link>
-            <Link href="/journey" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="View professional journey">Journey</Link>
             <Link href="#contact" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Contact section">Contact</Link>
           </nav>
 

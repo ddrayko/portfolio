@@ -9,7 +9,6 @@ export const {
   admins,
   settings,
   siteUpdates,
-  moments,
   versions,
 } = selectedSchema
 

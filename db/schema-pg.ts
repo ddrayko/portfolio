@@ -45,16 +45,6 @@ export const siteUpdates = pgTable("site_updates", {
   updated_at: timestamp("updated_at").defaultNow(),
 })
 
-export const moments = pgTable("moments", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description"),
-  date: text("date").notNull(),
-  type: text("type").$type<"education" | "work" | "milestone">().default("milestone"),
-  icon: text("icon"),
-  created_at: timestamp("created_at").defaultNow(),
-})
-
 export const versions = pgTable("versions", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),

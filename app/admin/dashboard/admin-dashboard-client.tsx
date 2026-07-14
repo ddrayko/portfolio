@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Shield, History as HistoryIcon, Sparkles, Map, Activity } from "lucide-react"
+import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Shield, History as HistoryIcon, Sparkles, Activity } from "lucide-react"
 import { AdminProjectCard } from "@/components/admin-project-card"
-import { AdminMomentCard } from "@/components/admin-moment-card"
 import { AdminVersionCard } from "@/components/admin-version-card"
 import { ProjectDialog } from "@/components/project-dialog"
-import { MomentDialog } from "@/components/moment-dialog"
 import { VersionDialog } from "@/components/version-dialog"
 import { AdminDialog } from "@/components/admin-dialog"
 import { AdminCard } from "@/components/admin-card"
@@ -15,23 +13,20 @@ import { UpdateDialog } from "@/components/update-dialog"
 import { BadgeDialog } from "@/components/badge-dialog"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { Project, Admin, SiteUpdate, Moment, Version } from "@/lib/types"
+import type { Project, Admin, SiteUpdate, Version } from "@/lib/types"
 import { logoutAdmin } from "@/lib/admin-auth"
-import { getAdmins, getMaintenanceMode, getAvailability, getProjects, getSiteUpdateData, getMoments, getVersions, setCurrentVersion } from "@/lib/actions"
+import { getAdmins, getMaintenanceMode, getAvailability, getProjects, getSiteUpdateData, getVersions, setCurrentVersion } from "@/lib/actions"
 import { MaintenanceToggle } from "@/components/maintenance-toggle"
 import { AvailabilityToggle } from "@/components/availability-toggle"
 import Link from "next/link"
 
 export default function AdminDashboardClient() {
   const [projects, setProjects] = useState<Project[]>([])
-  const [moments, setMoments] = useState<Moment[]>([])
   const [versions, setVersions] = useState<Version[]>([])
   const [admins, setAdmins] = useState<Admin[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [isMomentsLoading, setIsMomentsLoading] = useState(true)
   const [isVersionsLoading, setIsVersionsLoading] = useState(true)
   const [addProjectOpen, setAddProjectOpen] = useState(false)
-  const [addMomentOpen, setAddMomentOpen] = useState(false)
   const [addVersionOpen, setAddVersionOpen] = useState(false)
   const [addAdminOpen, setAddAdminOpen] = useState(false)
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false)
@@ -50,17 +45,6 @@ export default function AdminDashboardClient() {
       console.error("Failed to fetch projects:", result.error)
     }
     setIsLoading(false)
-  }
-
-  const fetchMoments = async () => {
-    setIsMomentsLoading(true)
-    const result = await getMoments()
-    if (result.success) {
-      setMoments(result.data)
-    } else {
-      console.error("Failed to fetch moments:", result.error)
-    }
-    setIsMomentsLoading(false)
   }
 
   const fetchVersions = async () => {
@@ -114,7 +98,6 @@ export default function AdminDashboardClient() {
 
   useEffect(() => {
     fetchProjects()
-    fetchMoments()
     fetchVersions()
     fetchAdmins()
     fetchUpdateData()
@@ -126,20 +109,12 @@ export default function AdminDashboardClient() {
     setProjects((prev) => prev.filter((p) => p.id !== projectId))
   }
 
-  const handleMomentDeleted = (momentId: string) => {
-    setMoments((prev) => prev.filter((m) => m.id !== momentId))
-  }
-
   const handleVersionDeleted = (versionId: string) => {
     setVersions((prev) => prev.filter((v) => v.id !== versionId))
   }
 
   const handleProjectUpdated = () => {
     fetchProjects()
-  }
-
-  const handleMomentUpdated = () => {
-    fetchMoments()
   }
 
   const handleVersionUpdated = () => {
@@ -257,51 +232,6 @@ export default function AdminDashboardClient() {
                     </div>
                   )}
                 </div>
-
-                <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-black/10 to-transparent rounded-full" />
-
-                {/* Moments Section */}
-                <div className="space-y-8">
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-8">
-                    <div className="space-y-2">
-                      <h2 className="text-2xl font-bold tracking-tight">MY JOURNEY (MOMENTS)</h2>
-                      <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                        Document your professional evolution, education, and career milestones.
-                      </p>
-                    </div>
-                    <Button onClick={() => setAddMomentOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group self-start md:self-auto" aria-label="Add new moment">
-                      <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" aria-hidden="true" />
-                      Add Moment
-                    </Button>
-                  </div>
-
-                  {isMomentsLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {[1, 2, 3].map(i => (
-                        <div key={i} className="h-32 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5 animate-pulse" />
-                      ))}
-                    </div>
-                  ) : moments.length === 0 ? (
-                    <div className="bg-black/5 dark:bg-white/5 p-12 rounded-3xl border border-black/5 dark:border-white/5 text-center space-y-4 shadow-inner">
-                      <div className="w-16 h-16 rounded-full bg-black/5 dark:bg-white/5 mx-auto flex items-center justify-center text-muted-foreground">
-                        <Map className="h-8 w-8" />
-                      </div>
-                      <p className="text-muted-foreground italic">No moments recorded yet.</p>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {moments.map((moment) => (
-                        <AdminMomentCard
-                          key={moment.id}
-                          moment={moment}
-                          onDeleted={handleMomentDeleted}
-                          onUpdated={handleMomentUpdated}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-
 
               </div>
             </AccordionContent>
@@ -537,7 +467,6 @@ export default function AdminDashboardClient() {
       </main>
 
       <ProjectDialog open={addProjectOpen} onOpenChange={setAddProjectOpen} onSuccess={fetchProjects} />
-      <MomentDialog open={addMomentOpen} onOpenChange={setAddMomentOpen} onSuccess={fetchMoments} />
       <VersionDialog open={addVersionOpen} onOpenChange={setAddVersionOpen} onSuccess={fetchVersions} />
       <AdminDialog open={addAdminOpen} onOpenChange={setAddAdminOpen} onSuccess={fetchAdmins} />
       <UpdateDialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen} onSuccess={fetchUpdateData} />

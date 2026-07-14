@@ -1,10 +1,10 @@
 "use server"
 
 import { db } from "@/db"
-import { projects, admins, settings, siteUpdates, moments, versions } from "@/db/schema"
+import { projects, admins, settings, siteUpdates, versions } from "@/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
-import type { Project, SiteUpdate, Moment, Version, ChangelogEntry } from "./types"
+import type { Project, SiteUpdate, Version, ChangelogEntry } from "./types"
 import bcrypt from "bcryptjs"
 
 /**
@@ -321,79 +321,6 @@ export async function getProjects() {
   } catch (error: unknown) {
     console.error("Error fetching projects:", error)
     return { success: false, error: (error as Error).message, data: [] }
-  }
-}
-
-export async function getMoments() {
-  try {
-    const data = await db.select().from(moments).orderBy(desc(moments.date))
-    return {
-      success: true,
-      data: data.map((m) => ({
-        ...m,
-        id: m.id.toString(),
-        created_at: m.created_at?.toISOString() || new Date().toISOString()
-      })) as Moment[]
-    }
-  } catch (error: unknown) {
-    console.error("Error fetching moments:", error)
-    return { success: false, error: (error as Error).message, data: [] }
-  }
-}
-
-export async function createMoment(data: Partial<Moment>) {
-  try {
-    const { id: _, created_at: __, ...insertData } = data
-    const values: Record<string, any> = {}
-    for (const [k, v] of Object.entries(insertData)) {
-      values[k] = toSql(v)
-    }
-    values.created_at = new Date()
-    const [newMoment] = await db.insert(moments).values(values).returning()
-
-    revalidatePath("/journey")
-    revalidatePath("/admin/dashboard")
-    return { success: true, moment: newMoment }
-  } catch (error: unknown) {
-    console.error("Error creating moment:", error)
-    return { success: false, error: "An unexpected error occurred" }
-  }
-}
-
-export async function updateMoment(id: string, data: Partial<Moment>) {
-  try {
-    const numericId = validateId(id)
-    if (numericId === null) return { success: false, error: "Invalid ID" }
-
-    const { id: _, created_at: __, ...updateData } = data
-    const values: Record<string, any> = {}
-    for (const [k, v] of Object.entries(updateData)) {
-      values[k] = toSql(v)
-    }
-    await db.update(moments)
-      .set(values)
-      .where(eq(moments.id, numericId))
-
-    revalidatePath("/journey")
-    revalidatePath("/admin/dashboard")
-    return { success: true }
-  } catch (error: unknown) {
-    console.error("Error updating moment:", error)
-    return { success: false, error: "An unexpected error occurred" }
-  }
-}
-
-export async function deleteMoment(id: string) {
-  try {
-    const numericId = validateId(id)
-    if (numericId === null) return { success: false, error: "Invalid ID" }
-    await db.delete(moments).where(eq(moments.id, numericId))
-    revalidatePath("/journey")
-    revalidatePath("/admin/dashboard")
-    return { success: true }
-  } catch (error: unknown) {
-    console.error("Error deleting moment:", error)
-    return { success: false, error: "An unexpected error occurred" }
   }
 }
 

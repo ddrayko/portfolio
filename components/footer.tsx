@@ -51,7 +51,6 @@ export function Footer() {
                                 </li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="/tags-info" className="hover:text-foreground" aria-label="Learn about project tags">Tags Info</Link></li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="/about" className="hover:text-foreground" aria-label="About Drayko">About Me</Link></li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="/journey" className="hover:text-foreground" aria-label="View professional journey">Journey</Link></li>
                             </ul>
                         </div>
                         <div className="space-y-4">

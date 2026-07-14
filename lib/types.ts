@@ -43,16 +43,6 @@ export interface SiteUpdate {
   updated_at: string;
 }
 
-export interface Moment {
-  id: string
-  title: string
-  description: string | null
-  date: string
-  type: "education" | "work" | "milestone"
-  icon: string | null
-  created_at: string
-}
-
 export interface Version {
   id: string
   name: string
