@@ -1,9 +1,14 @@
 "use client"
 
 import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 
 export function DdosPopup() {
+  const pathname = usePathname()
+
   useEffect(() => {
+    if (pathname === "/admin") return
+
     const OVERLAY_ID = "ddos-incident-overlay"
 
     const buildOverlay = (): HTMLElement => {
@@ -135,7 +140,7 @@ export function DdosPopup() {
       const existing = document.getElementById(OVERLAY_ID)
       if (existing) existing.remove()
     }
-  }, [])
+  }, [pathname])
 
   return null
 }
