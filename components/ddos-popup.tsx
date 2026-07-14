@@ -1,0 +1,141 @@
+"use client"
+
+import { useEffect } from "react"
+
+export function DdosPopup() {
+  useEffect(() => {
+    const OVERLAY_ID = "ddos-incident-overlay"
+
+    const buildOverlay = (): HTMLElement => {
+      const overlay = document.createElement("div")
+      overlay.id = OVERLAY_ID
+      overlay.setAttribute("data-anti-remove", "true")
+      overlay.style.cssText = [
+        "position:fixed",
+        "inset:0",
+        "z-index:2147483647",
+        "display:flex",
+        "align-items:center",
+        "justify-content:center",
+        "padding:1.5rem",
+        "background:rgba(5,8,12,0.45)",
+        "backdrop-filter:blur(18px)",
+        "-webkit-backdrop-filter:blur(14px)",
+        "font-family:var(--font-sans, ui-sans-serif, system-ui, sans-serif)",
+        "overflow:auto",
+      ].join(";")
+
+      overlay.innerHTML = `
+        <div style="
+          position:relative;
+          width:100%;
+          max-width:34rem;
+          background:rgba(255,255,255,0.04);
+          border:1px solid rgba(255,255,255,0.12);
+          border-radius:1.75rem;
+          padding:2rem;
+          box-shadow:0 30px 80px rgba(0,0,0,0.6);
+          color:#e5e7eb;
+          text-align:center;
+        ">
+          <div style="
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:3.5rem;
+            height:3.5rem;
+            margin-bottom:1.25rem;
+            border-radius:1rem;
+            background:rgba(239,68,68,0.12);
+            color:#f87171;
+          ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <path d="M12 9v4"/>
+              <path d="M12 17h.01"/>
+            </svg>
+          </div>
+
+          <p style="
+            font-size:0.7rem;
+            font-weight:700;
+            letter-spacing:0.15em;
+            text-transform:uppercase;
+            color:#f87171;
+            margin-bottom:0.5rem;
+          ">Service interruption</p>
+
+          <h2 style="
+            font-size:1.5rem;
+            font-weight:800;
+            line-height:1.2;
+            margin:0 0 1rem;
+            color:#ffffff;
+          ">Server disk destroyed by a DDoS attack</h2>
+
+          <div style="
+            text-align:left;
+            font-size:0.9rem;
+            line-height:1.6;
+            color:#9ca3af;
+            display:flex;
+            flex-direction:column;
+            gap:0.75rem;
+          ">
+            <p>After a sustained <strong style="color:#e5e7eb">DDoS attack</strong>, my web server's disk was permanently destroyed. I've since received a replacement, but I'm currently reinstalling and reconfiguring everything from scratch.</p>
+            <p>Rebuilding the entire database is a long and careful process — it takes time. I'm also actively <strong style="color:#e5e7eb">investigating the security incident</strong> to harden the infrastructure so this never happens again.</p>
+            <p>Thanks for your patience. Normal service will return as soon as possible.</p>
+          </div>
+
+          <div style="
+            margin-top:1.5rem;
+            padding-top:1.25rem;
+            border-top:1px solid rgba(255,255,255,0.08);
+            font-size:0.7rem;
+            letter-spacing:0.1em;
+            text-transform:uppercase;
+            color:#6b7280;
+          ">— Drayko</div>
+        </div>
+      `
+      return overlay
+    }
+
+    const ensureOverlay = () => {
+      if (!document.getElementById(OVERLAY_ID)) {
+        document.body.appendChild(buildOverlay())
+      }
+    }
+
+    ensureOverlay()
+
+    const observer = new MutationObserver(() => {
+      ensureOverlay()
+    })
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    })
+
+    // Backup re-insertion in case the observer is tampered with.
+    const interval = window.setInterval(ensureOverlay, 500)
+
+    // Prevent any shortcut from closing it.
+    const onKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    window.addEventListener("keydown", onKeyDown, true)
+
+    return () => {
+      observer.disconnect()
+      window.clearInterval(interval)
+      window.removeEventListener("keydown", onKeyDown, true)
+      const existing = document.getElementById(OVERLAY_ID)
+      if (existing) existing.remove()
+    }
+  }, [])
+
+  return null
+}
