@@ -30,12 +30,12 @@ export function DdosPopup() {
           position:relative;
           width:100%;
           max-width:34rem;
-          background:rgba(255,255,255,0.04);
-          border:1px solid rgba(255,255,255,0.12);
+          background:#ffffff;
+          border:1px solid rgba(0,0,0,0.06);
           border-radius:1.75rem;
           padding:2rem;
-          box-shadow:0 30px 80px rgba(0,0,0,0.6);
-          color:#e5e7eb;
+          box-shadow:0 30px 80px rgba(0,0,0,0.5);
+          color:#1f2937;
           text-align:center;
         ">
           <div style="
@@ -47,7 +47,7 @@ export function DdosPopup() {
             margin-bottom:1.25rem;
             border-radius:1rem;
             background:rgba(239,68,68,0.12);
-            color:#f87171;
+            color:#dc2626;
           ">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
@@ -61,7 +61,7 @@ export function DdosPopup() {
             font-weight:700;
             letter-spacing:0.15em;
             text-transform:uppercase;
-            color:#f87171;
+            color:#dc2626;
             margin-bottom:0.5rem;
           ">Service interruption</p>
 
@@ -70,31 +70,31 @@ export function DdosPopup() {
             font-weight:800;
             line-height:1.2;
             margin:0 0 1rem;
-            color:#ffffff;
+            color:#111827;
           ">Server disk destroyed by a DDoS attack</h2>
 
           <div style="
             text-align:left;
             font-size:0.9rem;
             line-height:1.6;
-            color:#9ca3af;
+            color:#4b5563;
             display:flex;
             flex-direction:column;
             gap:0.75rem;
           ">
-            <p>After a sustained <strong style="color:#e5e7eb">DDoS attack</strong>, my web server's disk was permanently destroyed. I've since received a replacement, but I'm currently reinstalling and reconfiguring everything from scratch.</p>
-            <p>Rebuilding the entire database is a long and careful process — it takes time. I'm also actively <strong style="color:#e5e7eb">investigating the security incident</strong> to harden the infrastructure so this never happens again.</p>
+            <p>After a sustained <strong style="color:#111827">DDoS attack</strong>, my web server's disk was permanently destroyed. I've since received a replacement, but I'm currently reinstalling and reconfiguring everything from scratch.</p>
+            <p>Rebuilding the entire database is a long and careful process — it takes time. I'm also actively <strong style="color:#111827">investigating the security incident</strong> to harden the infrastructure so this never happens again.</p>
             <p>Thanks for your patience. Normal service will return as soon as possible.</p>
           </div>
 
           <div style="
             margin-top:1.5rem;
             padding-top:1.25rem;
-            border-top:1px solid rgba(255,255,255,0.08);
+            border-top:1px solid rgba(0,0,0,0.08);
             font-size:0.7rem;
             letter-spacing:0.1em;
             text-transform:uppercase;
-            color:#6b7280;
+            color:#9ca3af;
           ">— Drayko</div>
         </div>
       `
