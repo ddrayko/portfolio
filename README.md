@@ -4,6 +4,9 @@
 
 > High-performance portfolio platform built with Next.js 16, Drizzle ORM, and PostgreSQL. Features a dynamic project showcase, interactive timeline, admin dashboard, versioning system, and real-time maintenance controls.
 
+> [!CAUTION]
+> This portfolio was built for a specific environment (**Vercel** deployment, **Supabase** database, dedicated environment variables, etc.). It is **not guaranteed** to work out of the box if cloned into a different setup. You will likely need to adjust parts of the code (configuration, environment variables, endpoints, etc.) to make it compatible with your own environment.
+
 ---
 
 ## Tech Stack
