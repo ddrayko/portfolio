@@ -7,6 +7,9 @@
 > [!CAUTION]
 > This portfolio was built for a specific environment (**Vercel** deployment, **Supabase** database, dedicated environment variables, etc.). It is **not guaranteed** to work out of the box if cloned into a different setup. You will likely need to adjust parts of the code (configuration, environment variables, endpoints, etc.) to make it compatible with your own environment.
 
+> [!IMPORTANT]
+> This project was originally built for my own personal use, so you might come across things like custom popups or specific messages tailored for my site. I'm currently working on **v7** of the portfolio, where everything will be manageable through an admin panel instead of being hardcoded directly in the codebase.
+
 ---
 
 ## Tech Stack
