@@ -10,6 +10,9 @@
 > [!CAUTION]
 > The installation scripts located at `public/installer.sh` and `public/update.sh` should **NOT** be used at this time, they still contain a significant number of bugs. This should be fully resolved in **v7**.
 
+> [!WARNING]
+> If you clone the current state of `main`, a popup will be displayed when the site is deployed. See the **IMPORTANT** section above for more details.
+
 > [!IMPORTANT]
 > This project was originally built for my own personal use, so you might come across things like custom popups or specific messages tailored for my site. I'm currently working on **v7** of the portfolio, where everything will be manageable through an admin panel instead of being hardcoded directly in the codebase.
 
