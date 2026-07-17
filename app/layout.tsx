@@ -113,7 +113,7 @@ export default async function RootLayout({
               "url": "https://drayko.xyz",
               "jobTitle": "Creative Developer & Designer",
               "sameAs": [
-                "https://codeberg.org/ddrayko",
+                "https://github.com/ddrayko",
                 "https://gitlab.com/drayko_dev"
               ]
             })

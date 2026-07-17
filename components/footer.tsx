@@ -1,9 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { Command, Github, Gitlab, MessageSquare, Code2 } from "lucide-react"
+import { Command, Github, Gitlab, MessageSquare } from "lucide-react"
 import { ScrollButton } from "@/components/scroll-button"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { usePathname } from "next/navigation"
 
 export function Footer() {
@@ -56,20 +55,7 @@ export function Footer() {
                         <div className="space-y-4">
                             <h5 className="font-bold text-sm uppercase tracking-widest text-primary">Social</h5>
                             <ul className="space-y-3 text-muted-foreground font-medium" aria-label="Social links">
-                                <li>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <span className="text-muted-foreground/40 transition-all inline-flex items-center gap-2 grayscale cursor-default" aria-label="GitHub account migrated to Codeberg">
-                                                <Github className="h-4 w-4" aria-hidden="true" />
-                                                <span className="line-through" aria-hidden="true">GitHub</span>
-                                            </span>
-                                        </TooltipTrigger>
-                                        <TooltipContent side="top" className="max-w-xs text-center">
-                                            <p>Account migrated to <strong>Codeberg</strong> — new direction, away from Microsoft's AI policies.</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="https://codeberg.org/ddrayko" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Codeberg profile"><Code2 className="h-4 w-4" aria-hidden="true" /> Codeberg</Link></li>
+                                <li className="transition-transform hover:translate-x-1"><Link href="https://github.com/ddrayko" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="GitHub profile"><Github className="h-4 w-4" aria-hidden="true" /> GitHub</Link></li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="https://gitlab.com/drayko_dev" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="GitLab profile"><Gitlab className="h-4 w-4" aria-hidden="true" /> GitLab</Link></li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="/contact" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Contact page"><MessageSquare className="h-4 w-4" aria-hidden="true" /> Contact</Link></li>
                             </ul>
