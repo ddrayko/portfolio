@@ -81,7 +81,6 @@ import { Suspense } from "react"
 import { Toaster } from "sonner"
 
 import { OldVersionPopup } from "@/components/old-version-popup"
-import { DdosPopup } from "@/components/ddos-popup"
 import { BackToTop } from "@/components/back-to-top"
 import { ConsoleEasterEgg } from "@/components/console-easter-egg"
 import { getVersions } from "@/lib/actions"
@@ -129,7 +128,6 @@ export default async function RootLayout({
         <BackToTop />
         <ConsoleEasterEgg />
         <OldVersionPopup versions={versions} />
-        <DdosPopup />
         <Toaster position="bottom-right" richColors />
       </body>
     </html>
