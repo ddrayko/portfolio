@@ -55,6 +55,7 @@ export const siteUpdates = sqliteTable("site_updates", {
   changelog: jsonText("changelog").$type<any[]>(),
   latest_update_text: text("latest_update_text"),
   show_last_update_prefix: integer("show_last_update_prefix").default(1),
+  show_badge: integer("show_badge").default(1),
   hero_link_type: text("hero_link_type").default("update"),
   hero_custom_url: text("hero_custom_url"),
   updated_at: timestampText("updated_at"),

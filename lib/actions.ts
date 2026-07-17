@@ -250,6 +250,7 @@ export async function getSiteUpdateData() {
           planned_features: parseJSONField<string[]>(row.planned_features) || [],
           no_update_planned: (row.no_update_planned ?? 1) ? true : false,
           show_last_update_prefix: (row.show_last_update_prefix ?? 1) ? true : false,
+          show_badge: (row.show_badge ?? 1) ? true : false,
           hero_link_type: row.hero_link_type || "update",
           hero_custom_url: row.hero_custom_url || "",
         } as SiteUpdate
@@ -280,7 +281,7 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
       if (value === undefined || key === "id") continue
       if (key === "next_update_date" || key === "updated_at") {
         payload[key] = value ? new Date(value) : null
-      } else if (key === "no_update_planned" || key === "show_last_update_prefix") {
+      } else if (key === "no_update_planned" || key === "show_last_update_prefix" || key === "show_badge") {
         payload[key] = value ? 1 : 0
       } else {
         payload[key] = value

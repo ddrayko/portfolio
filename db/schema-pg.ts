@@ -40,6 +40,7 @@ export const siteUpdates = pgTable("site_updates", {
   changelog: jsonb("changelog").$type<ChangelogEntry[]>().default([]),
   latest_update_text: text("latest_update_text"),
   show_last_update_prefix: boolean("show_last_update_prefix").default(true),
+  show_badge: boolean("show_badge").default(true),
   hero_link_type: text("hero_link_type").default("update"),
   hero_custom_url: text("hero_custom_url"),
   updated_at: timestamp("updated_at").defaultNow(),

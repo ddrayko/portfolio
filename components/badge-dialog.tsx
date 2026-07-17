@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Sparkles, Save, ChevronDown, Globe, Route } from "lucide-react"
+import { Sparkles, Save, ChevronDown, Globe, Route, Eye, EyeOff } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { getSiteUpdateData, updateSiteUpdateData } from "@/lib/actions"
 import { toast } from "sonner"
@@ -25,6 +25,7 @@ export function BadgeDialog({ open, onOpenChange, onSuccess }: BadgeDialogProps)
     const [isLoading, setIsLoading] = useState(false)
     const [text, setText] = useState("")
     const [showPrefix, setShowPrefix] = useState(true)
+    const [showBadge, setShowBadge] = useState(true)
     const [linkType, setLinkType] = useState("update")
     const [customUrl, setCustomUrl] = useState("")
     const [selectOpen, setSelectOpen] = useState(false)
@@ -51,6 +52,7 @@ export function BadgeDialog({ open, onOpenChange, onSuccess }: BadgeDialogProps)
         if (result.success && result.data) {
             setText(result.data.latest_update_text || "")
             setShowPrefix(result.data.show_last_update_prefix ?? true)
+            setShowBadge(result.data.show_badge ?? true)
             setLinkType(result.data.hero_link_type || "update")
             setCustomUrl(result.data.hero_custom_url || "")
         }
@@ -64,6 +66,7 @@ export function BadgeDialog({ open, onOpenChange, onSuccess }: BadgeDialogProps)
             const result = await updateSiteUpdateData({
                 latest_update_text: text,
                 show_last_update_prefix: showPrefix,
+                show_badge: showBadge,
                 hero_link_type: linkType,
                 hero_custom_url: linkType === "custom" ? customUrl : "",
             })
@@ -88,31 +91,31 @@ export function BadgeDialog({ open, onOpenChange, onSuccess }: BadgeDialogProps)
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-2xl w-[95vw] p-0 overflow-hidden bg-background border-border/80 rounded-[2.5rem] shadow-2xl flex flex-col">
-                <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden">
-                    <div className="p-10 space-y-8">
+            <DialogContent className="max-w-2xl w-[95vw] p-0 bg-background border-border/80 rounded-2xl sm:rounded-[2.5rem] shadow-2xl flex flex-col max-h-[90dvh]">
+                <form onSubmit={handleSubmit} className="flex flex-col max-h-[90dvh]">
+                    <div className="overflow-y-auto p-6 sm:p-10 space-y-6 sm:space-y-8">
                         <DialogHeader className="space-y-4">
                             <div className="flex items-center gap-4">
-                                <div className="p-4 rounded-2xl bg-primary/10 text-primary">
-                                    <Sparkles className="h-8 w-8" />
+                                <div className="p-3 sm:p-4 rounded-2xl bg-primary/10 text-primary shrink-0">
+                                    <Sparkles className="h-6 w-6 sm:h-8 sm:w-8" />
                                 </div>
-                                <div className="space-y-1 text-left">
-                                    <DialogTitle className="text-3xl font-black tracking-tight font-display text-gradient uppercase">Hero Communication</DialogTitle>
-                                    <DialogDescription className="text-foreground/70 font-medium">
+                                <div className="space-y-1 text-left min-w-0">
+                                    <DialogTitle className="text-xl sm:text-3xl font-black tracking-tight font-display text-gradient uppercase">Hero Communication</DialogTitle>
+                                    <DialogDescription className="text-foreground/70 font-medium text-xs sm:text-sm">
                                         Update the headline that appears in the landing page badge.
                                     </DialogDescription>
                                 </div>
                             </div>
                         </DialogHeader>
 
-                        <div className="space-y-6">
-                            <div className="p-8 rounded-[2rem] bg-muted/40 border border-border/80 space-y-4">
+                        <div className="space-y-4 sm:space-y-6">
+                            <div className="p-4 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] bg-muted/40 border border-border/80 space-y-4">
                                 <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Badge Headline Content</Label>
                                 <Input
                                     placeholder="e.g. New interface v3 is out! 🚀"
                                     value={text}
                                     onChange={(e) => setText(e.target.value)}
-                                    className="rounded-2xl border-border/80 bg-background h-16 text-xl font-bold px-6 focus:ring-primary shadow-inner"
+                                    className="rounded-xl sm:rounded-2xl border-border/80 bg-background h-12 sm:h-16 text-base sm:text-xl font-bold px-4 sm:px-6 focus:ring-primary shadow-inner"
                                 />
                                 <div className="flex items-start gap-3 px-2 pt-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
@@ -122,91 +125,109 @@ export function BadgeDialog({ open, onOpenChange, onSuccess }: BadgeDialogProps)
                                 </div>
                             </div>
 
-                            <div className="p-8 rounded-[2rem] bg-muted/40 border border-border/80 flex items-center justify-between gap-4">
-                                <div className="space-y-1">
-                                    <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Prefix Visibility</Label>
-                                    <p className="text-sm font-bold text-foreground">Show "Last update :" prefix</p>
-                                    <p className="text-xs text-muted-foreground italic">Toggle the visibility of the "Last update :" text before your message.</p>
+                            <div className="p-4 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] bg-muted/40 border border-border/80 flex items-center justify-between gap-4">
+                                <div className="space-y-1 min-w-0">
+                                    <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Badge Visibility</Label>
+                                    <p className="text-sm font-bold text-foreground flex items-center gap-2">
+                                        {showBadge ? <><Eye className="h-4 w-4 text-primary" /> Show badge on hero</> : <><EyeOff className="h-4 w-4 text-muted-foreground" /> Hide badge on hero</>}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground italic">Completely hide the badge from the landing page.</p>
                                 </div>
                                 <Switch
-                                    checked={showPrefix}
-                                    onCheckedChange={setShowPrefix}
+                                    checked={showBadge}
+                                    onCheckedChange={setShowBadge}
                                 />
                             </div>
 
-                            <div className="p-8 rounded-[2rem] bg-muted/40 border border-border/80 space-y-4">
-                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Badge Link Destination</Label>
-                                <p className="text-xs text-muted-foreground italic -mt-2 mb-2">
-                                    Choose where the badge links to when clicked.
-                                </p>
-
-                                <div ref={selectRef} className="relative">
-                                    <button
-                                        type="button"
-                                        onClick={() => setSelectOpen(!selectOpen)}
-                                        className="w-full flex items-center justify-between gap-3 rounded-2xl border border-border/80 bg-background h-14 px-5 text-sm font-bold focus:ring-2 focus:ring-primary/30 focus:outline-none transition-all"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 rounded-xl bg-primary/10 text-primary">
-                                                <SelectedIcon className="h-4 w-4" />
-                                            </div>
-                                            <span>{selectedOption.label}</span>
+                            {showBadge && (
+                                <>
+                                    <div className="p-4 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] bg-muted/40 border border-border/80 flex items-center justify-between gap-4">
+                                        <div className="space-y-1 min-w-0">
+                                            <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Prefix Visibility</Label>
+                                            <p className="text-sm font-bold text-foreground">Show &ldquo;Last update :&rdquo; prefix</p>
+                                            <p className="text-xs text-muted-foreground italic">Toggle the visibility of the &ldquo;Last update :&rdquo; text before your message.</p>
                                         </div>
-                                        <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${selectOpen ? "rotate-180" : ""}`} />
-                                    </button>
-
-                                    {selectOpen && (
-                                        <div className="absolute z-50 top-full mt-2 left-0 right-0 rounded-2xl border border-border/80 bg-background shadow-2xl shadow-black/20 overflow-hidden">
-                                            {linkOptions.map((option) => {
-                                                const OptionIcon = option.icon
-                                                return (
-                                                    <button
-                                                        key={option.value}
-                                                        type="button"
-                                                        onClick={() => {
-                                                            setLinkType(option.value)
-                                                            setSelectOpen(false)
-                                                        }}
-                                                        className={`w-full flex items-center gap-3 px-5 py-4 text-sm font-bold text-left transition-all hover:bg-muted/50 ${linkType === option.value ? "bg-primary/5 text-primary" : "text-foreground"}`}
-                                                    >
-                                                        <div className={`p-2 rounded-xl ${linkType === option.value ? "bg-primary/10 text-primary" : "bg-muted/50 text-muted-foreground"}`}>
-                                                            <OptionIcon className="h-4 w-4" />
-                                                        </div>
-                                                        <span>{option.label}</span>
-                                                        {linkType === option.value && (
-                                                            <div className="ml-auto w-2 h-2 rounded-full bg-primary" />
-                                                        )}
-                                                    </button>
-                                                )
-                                            })}
-                                        </div>
-                                    )}
-                                </div>
-
-                                {linkType === "custom" && (
-                                    <div className="pt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
-                                        <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Custom URL</Label>
-                                        <Input
-                                            placeholder="e.g. https://example.com/page"
-                                            value={customUrl}
-                                            onChange={(e) => setCustomUrl(e.target.value)}
-                                            className="rounded-2xl border-border/80 bg-background h-12 text-sm px-5 focus:ring-primary shadow-inner"
+                                        <Switch
+                                            checked={showPrefix}
+                                            onCheckedChange={setShowPrefix}
                                         />
-                                        <p className="text-xs text-muted-foreground italic px-2">
-                                            Enter a full URL or relative path (e.g. /contact).
-                                        </p>
                                     </div>
-                                )}
-                            </div>
+
+                                    <div className="p-4 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] bg-muted/40 border border-border/80 space-y-4">
+                                        <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Badge Link Destination</Label>
+                                        <p className="text-xs text-muted-foreground italic -mt-2 mb-2">
+                                            Choose where the badge links to when clicked.
+                                        </p>
+
+                                        <div ref={selectRef} className="relative">
+                                            <button
+                                                type="button"
+                                                onClick={() => setSelectOpen(!selectOpen)}
+                                                className="w-full flex items-center justify-between gap-3 rounded-xl sm:rounded-2xl border border-border/80 bg-background h-12 sm:h-14 px-4 sm:px-5 text-sm font-bold focus:ring-2 focus:ring-primary/30 focus:outline-none transition-all"
+                                            >
+                                                <div className="flex items-center gap-3 min-w-0">
+                                                    <div className="p-2 rounded-xl bg-primary/10 text-primary shrink-0">
+                                                        <SelectedIcon className="h-4 w-4" />
+                                                    </div>
+                                                    <span className="truncate">{selectedOption.label}</span>
+                                                </div>
+                                                <ChevronDown className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-200 ${selectOpen ? "rotate-180" : ""}`} />
+                                            </button>
+
+                                            {selectOpen && (
+                                                <div className="absolute z-50 top-full mt-2 left-0 right-0 rounded-xl sm:rounded-2xl border border-border/80 bg-background shadow-2xl shadow-black/20 overflow-hidden">
+                                                    {linkOptions.map((option) => {
+                                                        const OptionIcon = option.icon
+                                                        return (
+                                                            <button
+                                                                key={option.value}
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    setLinkType(option.value)
+                                                                    setSelectOpen(false)
+                                                                }}
+                                                                className={`w-full flex items-center gap-3 px-4 sm:px-5 py-3 sm:py-4 text-sm font-bold text-left transition-all hover:bg-muted/50 ${linkType === option.value ? "bg-primary/5 text-primary" : "text-foreground"}`}
+                                                            >
+                                                                <div className={`p-2 rounded-xl shrink-0 ${linkType === option.value ? "bg-primary/10 text-primary" : "bg-muted/50 text-muted-foreground"}`}>
+                                                                    <OptionIcon className="h-4 w-4" />
+                                                                </div>
+                                                                <span>{option.label}</span>
+                                                                {linkType === option.value && (
+                                                                    <div className="ml-auto w-2 h-2 rounded-full bg-primary shrink-0" />
+                                                                )}
+                                                            </button>
+                                                        )
+                                                    })}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {linkType === "custom" && (
+                                            <div className="pt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
+                                                <Label className="text-[10px] uppercase tracking-[0.2em] font-black text-primary/70 ml-1">Custom URL</Label>
+                                                <Input
+                                                    placeholder="e.g. https://example.com/page"
+                                                    value={customUrl}
+                                                    onChange={(e) => setCustomUrl(e.target.value)}
+                                                    className="rounded-xl sm:rounded-2xl border-border/80 bg-background h-12 text-sm px-4 sm:px-5 focus:ring-primary shadow-inner"
+                                                />
+                                                <p className="text-xs text-muted-foreground italic px-2">
+                                                    Enter a full URL or relative path (e.g. /contact).
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
 
-                    <DialogFooter className="p-8 border-t border-border/80 bg-background/80 backdrop-blur-xl">
-                        <div className="flex gap-4 w-full sm:w-auto ml-auto">
-                            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="rounded-xl h-12 px-6 font-bold text-muted-foreground hover:bg-white/5">
+                    <DialogFooter className="p-4 sm:p-8 border-t border-border/80 bg-background/80 backdrop-blur-xl shrink-0">
+                        <div className="flex gap-4 w-full sm:w-auto">
+                            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)} className="rounded-xl h-12 px-6 font-bold text-muted-foreground hover:bg-white/5 flex-1 sm:flex-initial">
                                 Discard
                             </Button>
-                            <Button type="submit" disabled={isLoading} className="rounded-xl h-12 px-10 bg-primary text-primary-foreground shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all font-black uppercase tracking-widest text-[10px]">
+                            <Button type="submit" disabled={isLoading} className="rounded-xl h-12 px-6 sm:px-10 bg-primary text-primary-foreground shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all font-black uppercase tracking-widest text-[10px] flex-1 sm:flex-initial">
                                 <Save className="mr-2 h-4 w-4" />
                                 {isLoading ? "Updating..." : "Push Release"}
                             </Button>
