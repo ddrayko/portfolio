@@ -12,5 +12,4 @@ export const {
   versions,
 } = selectedSchema
 
-export type { DbType } from './config'
-export { dbType } from './config'
+

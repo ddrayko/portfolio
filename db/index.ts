@@ -1,4 +1,4 @@
-import { dbType, type DbType } from './config'
+import { dbType } from './config'
 import postgres from 'postgres'
 import { drizzle as drizzlePg } from 'drizzle-orm/postgres-js'
 import * as schema from './schema'
@@ -71,5 +71,4 @@ export const db = new Proxy({} as unknown as DbInstance, {
   },
 })
 
-export { dbType }
-export type { DbType }
+
