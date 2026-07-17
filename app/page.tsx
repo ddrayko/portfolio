@@ -125,9 +125,9 @@ export default async function HomePage() {
       <main className="relative z-10 pt-20">
         <section className="relative min-h-[calc(100dvh-5rem)] flex items-center justify-center overflow-hidden">
           <div className="container px-6 py-24 mx-auto text-center space-y-12">
-            <div className="reveal-up stagger-1">
-              <div className="flex flex-col items-center gap-4 reveal-up stagger-1">
-                {updateData?.show_badge !== false && (
+              {updateData?.show_badge !== false && (
+              <div className="reveal-up stagger-1">
+                <div className="flex flex-col items-center gap-4 reveal-up stagger-1">
                 <Link
                   href={updateData?.hero_link_type === "custom" && updateData?.hero_custom_url ? updateData.hero_custom_url : "/update"}
                   className="inline-flex items-center px-4 py-2 rounded-full glass border-white/10 text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-all group overflow-hidden whitespace-nowrap hover:shadow-[0_0_30px_rgba(var(--primary),0.1)]"
@@ -182,9 +182,9 @@ export default async function HomePage() {
                     </svg>
                   </div>
                 </Link>
+                  </div>
+                </div>
                 )}
-              </div>
-            </div>
 
             <div className="space-y-6">
               <h2 className="text-7xl md:text-8xl lg:text-[10rem] font-black tracking-[calc(-0.05em)] leading-[0.85] animate-fade-in-up font-display">
