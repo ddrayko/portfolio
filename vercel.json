@@ -1,4 +1,7 @@
 {
   "installCommand": "npm install --prefer-offline",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "env": {
+    "DOTENV_CONFIG_PATH": "/dev/null"
+  }
 }
