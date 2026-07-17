@@ -113,7 +113,6 @@ export default async function HomePage() {
             <ScrollButton targetId="projects" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Scroll to projects">Projects</ScrollButton>
             <ScrollButton targetId="tech-stack" variant="ghost" className="p-0 h-auto text-muted-foreground hover:bg-transparent hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Scroll to tech stack">Tech</ScrollButton>
             <Link href="/about" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="About Drayko">About</Link>
-            <Link href="#contact" className="hover:text-foreground transition-all hover:translate-y-[-2px]" aria-label="Contact section">Contact</Link>
           </nav>
 
           <div className="flex items-center gap-4">
@@ -245,27 +244,6 @@ export default async function HomePage() {
         </section>
 
         <TechStack />
-
-        <section id="contact" className="py-32">
-          <div className="container mx-auto px-6 text-center">
-            <div className="glass p-16 rounded-[3rem] border-white/10 space-y-8 mesh-bg relative overflow-hidden reveal-up perspective-card">
-              <div className="relative z-10 space-y-4">
-                <h3 className="text-4xl md:text-6xl font-bold tracking-tight reveal-up stagger-1">LET'S BUILD SOMETHING</h3>
-                <p className="text-xl text-muted-foreground font-medium max-w-xl mx-auto reveal-up stagger-2">
-                  Always open for new opportunities and collaborations.
-                  Let's bring your vision to life.
-                </p>
-                <div className="pt-8 reveal-up stagger-3">
-                  <Button asChild size="lg" className="rounded-full px-12 h-16 text-lg bg-foreground text-background hover:bg-primary hover:text-primary-foreground transition-all hover:scale-110 active:scale-95 shadow-2xl hover:shadow-primary/20">
-                    <Link href="/contact">
-                      Start a Conversation
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
     </div >
   )

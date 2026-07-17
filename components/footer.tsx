@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Command, Github, Gitlab, MessageSquare } from "lucide-react"
+import { Command, Github, Gitlab } from "lucide-react"
 import { ScrollButton } from "@/components/scroll-button"
 import { usePathname } from "next/navigation"
 
@@ -57,7 +57,7 @@ export function Footer() {
                             <ul className="space-y-3 text-muted-foreground font-medium" aria-label="Social links">
                                 <li className="transition-transform hover:translate-x-1"><Link href="https://github.com/ddrayko" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="GitHub profile"><Github className="h-4 w-4" aria-hidden="true" /> GitHub</Link></li>
                                 <li className="transition-transform hover:translate-x-1"><Link href="https://gitlab.com/drayko_dev" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="GitLab profile"><Gitlab className="h-4 w-4" aria-hidden="true" /> GitLab</Link></li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="/contact" className="hover:text-foreground transition-all flex items-center gap-2" aria-label="Contact page"><MessageSquare className="h-4 w-4" aria-hidden="true" /> Contact</Link></li>
+
                             </ul>
                         </div>
                     </div>

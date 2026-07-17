@@ -215,7 +215,7 @@ export default async function TagsInfoPage() {
                                 <h3 className="text-xl font-bold">Good to know</h3>
                                 <p className="text-muted-foreground font-medium leading-relaxed">
                                     Tags are updated regularly to reflect the current state of each project.
-                                    If you have questions about a specific project, feel free to <Link href="/contact" className="text-primary hover:underline font-bold">contact me</Link>.
+                                    If you have questions about a specific project, feel free to reach out on <a href="https://github.com/ddrayko" target="_blank" rel="noopener noreferrer" referrerPolicy="strict-origin-when-cross-origin" className="text-primary hover:underline font-bold">GitHub</a>.
                                 </p>
                             </div>
                         </div>

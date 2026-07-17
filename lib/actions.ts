@@ -226,7 +226,6 @@ export async function updateAvailability(isAvailable: boolean) {
       })
 
     revalidatePath("/")
-    revalidatePath("/contact")
     revalidatePath("/admin/dashboard")
     return { success: true }
   } catch (error: unknown) {
