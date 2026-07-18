@@ -16,7 +16,6 @@ export const projets = pgTable("projets", {
   is_archived: boolean("is_archived").default(false),
   development_progress: integer("development_progress").default(0),
   changelog: jsonb("changelog").$type<ChangelogEntry[]>().default([]),
-  is_featured: boolean("is_featured").default(false),
   created_at: timestamp("created_at").defaultNow(),
 })
 

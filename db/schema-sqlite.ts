@@ -27,7 +27,6 @@ export const projets = sqliteTable("projets", {
   is_archived: integer("is_archived").default(0),
   development_progress: integer("development_progress").default(0),
   changelog: jsonText("changelog").$type<any[]>(),
-  is_featured: integer("is_featured").default(0),
   created_at: timestampText("created_at"),
 }, (table) => ({
   slugIdx: uniqueIndex("slug_idx").on(table.slug),

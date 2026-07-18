@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS projets (
     is_archived           BOOLEAN DEFAULT FALSE,
     development_progress  INTEGER DEFAULT 0,
     changelog             JSONB DEFAULT '[]'::JSONB,
-    is_featured           BOOLEAN DEFAULT FALSE,
     created_at            TIMESTAMPTZ DEFAULT NOW()
 );
 

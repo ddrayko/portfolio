@@ -47,21 +47,16 @@ export default async function HomePage() {
   }
 
   let projects: Project[] = []
-  let featuredProject: Project | null = null
   let fetchError = false
 
   try {
     const rawProjects = await db.select().from(projetsTable).orderBy(desc(projetsTable.created_at))
-    const all = rawProjects.map((p: any) => ({
+    projects = rawProjects.map((p: any) => ({
       ...p,
       id: p.id.toString(),
       created_at: p.created_at?.toISOString() || new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })) as unknown as Project[]
-
-    const featured = all.find((p) => p.is_featured)
-    featuredProject = featured || null
-    projects = all.filter((p) => !p.is_featured)
   } catch (e) {
     console.error("Database connection error:", e)
     fetchError = true
@@ -157,7 +152,7 @@ export default async function HomePage() {
               )}
             </div>
 
-            <PortfolioContent projects={projects} featuredProject={featuredProject} />
+            <PortfolioContent projects={projects} />
           </div>
         </section>
 

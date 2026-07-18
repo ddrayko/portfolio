@@ -14,7 +14,6 @@ export interface Project {
   development_progress?: number
   is_completed?: boolean
   is_archived?: boolean
-  is_featured?: boolean
   changelog?: ChangelogEntry[]
 }
 

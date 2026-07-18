@@ -10,7 +10,7 @@ import { AdminCard } from "@/components/admin-card"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import type { Project, Admin } from "@/lib/types"
 import { logoutAdmin } from "@/lib/admin-auth"
-import { getAdmins, getMaintenanceMode, getAvailability, getProjects, setFeaturedProject } from "@/lib/actions"
+import { getAdmins, getMaintenanceMode, getAvailability, getProjects } from "@/lib/actions"
 import { MaintenanceToggle } from "@/components/maintenance-toggle"
 import { AvailabilityToggle } from "@/components/availability-toggle"
 import Link from "next/link"
@@ -82,14 +82,6 @@ export default function AdminDashboardClient() {
 
   const handleAdminDeleted = () => {
     fetchAdmins()
-  }
-
-  const handleSetFeatured = async (projectId: string) => {
-    const result = await setFeaturedProject(projectId)
-    if (!result.success) {
-      console.error("Failed to set featured:", result.error)
-    }
-    await fetchProjects()
   }
 
   const handleLogout = async () => {
@@ -184,8 +176,6 @@ export default function AdminDashboardClient() {
                           project={project}
                           onDeleted={handleProjectDeleted}
                           onUpdated={handleProjectUpdated}
-                          onSetFeatured={handleSetFeatured}
-                          isFeatured={project.is_featured || false}
                         />
                       ))}
                     </div>
