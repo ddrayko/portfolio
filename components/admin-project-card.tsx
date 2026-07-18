@@ -4,7 +4,7 @@ import { useState } from "react"
 import type { Project } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Pencil, Trash2, Settings2, ImageOff } from "lucide-react"
+import { Pencil, Trash2, Settings2, ImageOff, Star } from "lucide-react"
 import Image from "next/image"
 import { ProjectDialog } from "@/components/project-dialog"
 import { DeleteProjectDialog } from "@/components/delete-project-dialog"
@@ -13,9 +13,11 @@ interface AdminProjectCardProps {
   project: Project
   onDeleted?: (projectId: string) => void
   onUpdated?: () => void
+  onSetFeatured?: (projectId: string) => void
+  isFeatured?: boolean
 }
 
-export function AdminProjectCard({ project, onDeleted, onUpdated }: AdminProjectCardProps) {
+export function AdminProjectCard({ project, onDeleted, onUpdated, onSetFeatured, isFeatured }: AdminProjectCardProps) {
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
 
@@ -49,6 +51,9 @@ export function AdminProjectCard({ project, onDeleted, onUpdated }: AdminProject
         <div className="p-6 space-y-4 flex-1 flex flex-col">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
+              {isFeatured && (
+                <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 shrink-0" />
+              )}
               <h4 className="text-xl font-bold tracking-tight text-foreground/90">{project.title}</h4>
               {project.in_development && (
                 <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-[10px] animate-pulse">
@@ -79,7 +84,11 @@ export function AdminProjectCard({ project, onDeleted, onUpdated }: AdminProject
             ))}
           </div>
 
-          <div className="flex gap-3 pt-4 mt-auto">
+          <div className="flex flex-wrap gap-3 pt-4 mt-auto">
+            <Button type="button" variant="outline" size="sm" onClick={() => onSetFeatured?.(project.id)} className="flex-1 rounded-full border border-yellow-500/30 text-yellow-500 hover:bg-yellow-500/10 hover:text-yellow-400 font-bold transition-all text-[10px]">
+              <Star className={`mr-1.5 h-3.5 w-3.5 ${isFeatured ? 'fill-yellow-500' : ''}`} />
+              {isFeatured ? "Featured" : "Set Featured"}
+            </Button>
             <Button type="button" variant="ghost" size="sm" onClick={() => setEditOpen(true)} className="flex-1 rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground font-bold transition-all">
               <Pencil className="mr-2 h-4 w-4" />
               Edit

@@ -243,3 +243,20 @@ export async function getProjects() {
     return { success: false, error: (error as Error).message, data: [] }
   }
 }
+
+export async function setFeaturedProject(projectId: string | null) {
+  try {
+    await db.update(projets).set({ is_featured: toSql(false) })
+    if (projectId) {
+      const numericId = validateId(projectId)
+      if (numericId === null) return { success: false, error: "Invalid ID" }
+      await db.update(projets).set({ is_featured: toSql(true) }).where(eq(projets.id, numericId))
+    }
+    revalidatePath("/")
+    revalidatePath("/admin/dashboard")
+    return { success: true }
+  } catch (error: unknown) {
+    console.error("Error setting featured project:", error)
+    return { success: false, error: "An unexpected error occurred" }
+  }
+}
