@@ -4,7 +4,7 @@ import { useState } from "react"
 import type { Project } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Pencil, Trash2, Settings2, ImageOff, Star } from "lucide-react"
+import { Pencil, Trash2, Settings2, ImageOff, Star, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { ProjectDialog } from "@/components/project-dialog"
 import { DeleteProjectDialog } from "@/components/delete-project-dialog"
@@ -20,6 +20,7 @@ interface AdminProjectCardProps {
 export function AdminProjectCard({ project, onDeleted, onUpdated, onSetFeatured, isFeatured }: AdminProjectCardProps) {
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
+  const [featureLoading, setFeatureLoading] = useState(false)
 
   return (
     <>
@@ -85,8 +86,8 @@ export function AdminProjectCard({ project, onDeleted, onUpdated, onSetFeatured,
           </div>
 
           <div className="flex flex-wrap gap-3 pt-4 mt-auto">
-            <Button type="button" variant="outline" size="sm" onClick={() => onSetFeatured?.(project.id)} className="flex-1 rounded-full border border-yellow-500/30 text-yellow-500 hover:bg-yellow-500/10 hover:text-yellow-400 font-bold transition-all text-[10px]">
-              <Star className={`mr-1.5 h-3.5 w-3.5 ${isFeatured ? 'fill-yellow-500' : ''}`} />
+            <Button type="button" variant="outline" size="sm" disabled={featureLoading} onClick={async () => { setFeatureLoading(true); await onSetFeatured?.(project.id); setFeatureLoading(false) }} className="flex-1 rounded-full border border-yellow-500/30 text-yellow-500 hover:bg-yellow-500/10 hover:text-yellow-400 font-bold transition-all text-[10px]">
+              {featureLoading ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Star className={`mr-1.5 h-3.5 w-3.5 ${isFeatured ? 'fill-yellow-500' : ''}`} />}
               {isFeatured ? "Featured" : "Set Featured"}
             </Button>
             <Button type="button" variant="ghost" size="sm" onClick={() => setEditOpen(true)} className="flex-1 rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground font-bold transition-all">

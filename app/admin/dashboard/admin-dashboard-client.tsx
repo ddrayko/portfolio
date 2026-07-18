@@ -85,8 +85,11 @@ export default function AdminDashboardClient() {
   }
 
   const handleSetFeatured = async (projectId: string) => {
-    await setFeaturedProject(projectId)
-    fetchProjects()
+    const result = await setFeaturedProject(projectId)
+    if (!result.success) {
+      console.error("Failed to set featured:", result.error)
+    }
+    await fetchProjects()
   }
 
   const handleLogout = async () => {
