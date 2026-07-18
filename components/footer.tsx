@@ -11,7 +11,7 @@ export function Footer() {
     const isHomePage = pathname === "/"
     const isMaintenancePage = pathname === "/maintenance"
 
-    if (isMaintenancePage) return null
+    if (isMaintenancePage || pathname.startsWith("/admin")) return null
 
     return (
         <footer className="py-20 border-t border-white/5 bg-background relative overflow-hidden">

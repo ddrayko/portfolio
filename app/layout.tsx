@@ -79,7 +79,6 @@ export const metadata: Metadata = {
 
 import { Suspense } from "react"
 import { Toaster } from "sonner"
-import { headers } from "next/headers"
 
 import { BackToTop } from "@/components/back-to-top"
 import { ConsoleEasterEgg } from "@/components/console-easter-egg"
@@ -89,10 +88,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const headerList = await headers()
-  const pathname = headerList.get("x-pathname") || headerList.get("next-url") || ""
-  const isAdmin = pathname.startsWith("/admin")
-
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} light`}>
       <head>
@@ -123,7 +118,7 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <main id="main-content" className="flex-1">{children}</main>
           </Suspense>
-          {!isAdmin && <Footer />}
+          <Footer />
         </div>
         <BackToTop />
         <ConsoleEasterEgg />
