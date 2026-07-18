@@ -6,24 +6,21 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import type { Project, ChangelogEntry } from "@/lib/types"
+import type { Project } from "@/lib/types"
 import { createProject, updateProject } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
-import { Plus, Trash2, GitBranch, Settings2, Sparkles, LayoutGrid, History, Save, ChevronUp, ChevronDown, Play, Pause } from "lucide-react"
+import { Settings2, Sparkles, Save, Play, Pause } from "lucide-react"
 
 interface ProjectFormProps {
   project?: Project
   onSuccess?: () => void
 }
 
-type FormTab = "details" | "updates"
-
 export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<FormTab>("details")
 
   // States for form fields
   const [inDev, setInDev] = useState(project?.in_development || false)
@@ -31,7 +28,6 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
   const [isCompleted, setIsCompleted] = useState(project?.is_completed || false)
   const [isArchived, setIsArchived] = useState(project?.is_archived || false)
   const [progress, setProgress] = useState(project?.development_progress || 0)
-  const [changelog, setChangelog] = useState<ChangelogEntry[]>(project?.changelog || [])
   const formRef = useRef<HTMLFormElement>(null)
 
   const router = useRouter()
@@ -49,7 +45,6 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
       project_url: (formData.get("project_url") as string) || null,
       github_url: (formData.get("github_url") as string) || null,
       tags: (formData.get("tags") as string)?.split(",").map(t => t.trim()).filter(Boolean) || [],
-      changelog: changelog,
       in_development: inDev,
       development_status: developmentStatus,
       is_completed: isCompleted,
@@ -76,104 +71,9 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
     }
   }
 
-  // Changelog management functions
-  const addChangelogEntry = () => {
-    const newEntry: ChangelogEntry = {
-      id: crypto.randomUUID(),
-      version: "",
-      date: new Date().toISOString().split("T")[0],
-      changes: [""],
-    }
-    setChangelog([newEntry, ...changelog])
-  }
-
-  const removeChangelogEntry = (id: string) => {
-    setChangelog(changelog.filter((entry) => entry.id !== id))
-  }
-
-  const updateEntry = <K extends keyof ChangelogEntry>(id: string, field: K, value: ChangelogEntry[K]) => {
-    setChangelog(
-      changelog.map((entry) => (entry.id === id ? { ...entry, [field]: value } : entry))
-    )
-  }
-
-  const moveChangelogEntry = (index: number, direction: 'up' | 'down') => {
-    const newChangelog = [...changelog]
-    const targetIndex = direction === 'up' ? index - 1 : index + 1
-
-    if (targetIndex >= 0 && targetIndex < newChangelog.length) {
-      [newChangelog[index], newChangelog[targetIndex]] = [newChangelog[targetIndex], newChangelog[index]]
-      setChangelog(newChangelog)
-    }
-  }
-
-  const addChange = (entryId: string) => {
-    setChangelog(
-      changelog.map((entry) =>
-        entry.id === entryId ? { ...entry, changes: [...entry.changes, ""] } : entry
-      )
-    )
-  }
-
-  const removeChange = (entryId: string, index: number) => {
-    setChangelog(
-      changelog.map((entry) =>
-        entry.id === entryId
-          ? { ...entry, changes: entry.changes.filter((_, i) => i !== index) }
-          : entry
-      )
-    )
-  }
-
-  const updateChange = (entryId: string, index: number, value: string) => {
-    setChangelog(
-      changelog.map((entry) =>
-        entry.id === entryId
-          ? {
-            ...entry,
-            changes: entry.changes.map((change, i) => (i === index ? value : change)),
-          }
-          : entry
-      )
-    )
-  }
-
   return (
     <div className="flex flex-col h-full">
-      {/* Header with Tabs (Sticky) */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-xl border-b border-border/80 pb-4 mb-6">
-        <div className="relative grid grid-cols-2 p-1 bg-muted/50 border border-border/80 rounded-2xl w-[350px] mx-auto overflow-hidden">
-          {/* Sliding Indicator Background */}
-          <div
-            className="absolute h-[calc(100%-8px)] top-1 rounded-xl bg-primary shadow-lg shadow-primary/20 transition-all duration-300 ease-out z-0"
-            style={{
-              left: activeTab === "details" ? "4px" : "calc(50% + 0px)",
-              width: "calc(50% - 4px)"
-            }}
-          />
-
-          <button
-            type="button"
-            onClick={() => setActiveTab("details")}
-            className={`relative flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 z-10 ${activeTab === "details" ? "text-white" : "text-foreground/50 hover:text-foreground"}`}
-          >
-            <LayoutGrid className="h-3.5 w-3.5" />
-            1. PROJECT INFO
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("updates")}
-            className={`relative flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 z-10 ${activeTab === "updates" ? "text-white" : "text-foreground/50 hover:text-foreground"}`}
-          >
-            <History className="h-3.5 w-3.5" />
-            2. ADD UPDATES
-          </button>
-        </div>
-      </div>
-
       <form ref={formRef} onSubmit={handleSubmit} className="flex-1 overflow-y-auto overflow-x-hidden pr-2 space-y-8">
-        {/* TAB 1: DETAILS */}
-        <div className={`space-y-8 animate-in slide-in-from-left-8 fade-in duration-500 fill-mode-both ${activeTab !== "details" ? "hidden" : ""}`}>
           {/* Basic Info */}
           <section className="space-y-4">
             <div className="flex items-center gap-2 text-primary/80">
@@ -284,121 +184,6 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
               </div>
             </div>
           </section>
-        </div>
-
-
-        {/* TAB 2: UPDATES */}
-        <div className={`space-y-6 animate-in slide-in-from-right-8 fade-in duration-500 fill-mode-both ${activeTab !== "updates" ? "hidden" : ""}`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-primary/80">
-              <GitBranch className="h-4 w-4" />
-              <h3 className="font-bold text-xs uppercase tracking-[0.2em]">Change Registry</h3>
-            </div>
-            <Button type="button" variant="outline" size="sm" onClick={addChangelogEntry} className="h-8 rounded-lg border-primary/20 bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
-              <Plus className="h-3 w-3 mr-1" /> New Log
-            </Button>
-          </div>
-
-          <div className="space-y-6 pb-4">
-            {changelog.length === 0 ? (
-              <div className="text-center p-12 glass rounded-3xl border-dashed border-white/10 text-muted-foreground/30">
-                <History className="h-8 w-8 mx-auto mb-3 opacity-20" />
-                <p className="text-xs font-bold uppercase tracking-widest">No release logs found</p>
-              </div>
-            ) : (
-              changelog.map((entry, index) => (
-                <div key={entry.id} className="glass p-6 rounded-3xl border-white/5 bg-white/[0.01] space-y-4 group">
-                  <div className="grid grid-cols-[auto_1fr_1fr_auto] gap-4 items-end">
-                    <div className="flex flex-col gap-1 shrink-0">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 rounded-full bg-white/5 border border-white/10 text-muted-foreground/50 hover:text-primary hover:bg-primary/10 hover:border-primary/20 disabled:opacity-10 transition-all duration-300 shadow-sm"
-                        disabled={index === 0}
-                        onClick={() => moveChangelogEntry(index, 'up')}
-                      >
-                        <ChevronUp className="h-3.5 w-3.5 transition-transform group-hover:scale-110" />
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 rounded-full bg-white/5 border border-white/10 text-muted-foreground/50 hover:text-primary hover:bg-primary/10 hover:border-primary/20 disabled:opacity-10 transition-all duration-300 shadow-sm"
-                        disabled={index === changelog.length - 1}
-                        onClick={() => moveChangelogEntry(index, 'down')}
-                      >
-                        <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:scale-110" />
-                      </Button>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label className="text-[9px] uppercase tracking-widest text-foreground/70 ml-1">Version</Label>
-                      <Input
-                        placeholder="v1.0.0"
-                        value={entry.version}
-                        onChange={(e) => updateEntry(entry.id, "version", e.target.value)}
-                        className="h-9 rounded-lg border-white/10 bg-white/5 font-mono text-primary text-xs font-bold"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label className="text-[9px] uppercase tracking-widest text-foreground/70 ml-1">Date</Label>
-                      <Input
-                        type="date"
-                        value={entry.date}
-                        onChange={(e) => updateEntry(entry.id, "date", e.target.value)}
-                        className="h-9 rounded-lg border-white/10 bg-white/5 text-xs"
-                      />
-                    </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="text-destructive/30 hover:text-destructive hover:bg-destructive/10 h-9 w-9"
-                      onClick={() => removeChangelogEntry(entry.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-
-                  <div className="space-y-3 pt-3 border-t border-white/5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[9px] uppercase tracking-widest font-bold text-muted-foreground ml-1">Modifications</span>
-                      <button
-                        type="button"
-                        onClick={() => addChange(entry.id)}
-                        className="text-primary hover:underline text-[9px] font-bold uppercase tracking-widest"
-                      >
-                        + Add Line
-                      </button>
-                    </div>
-
-                    <div className="space-y-2">
-                      {entry.changes.map((change, index) => (
-                        <div key={index} className="flex gap-2 items-center group/line">
-                          <div className="w-1 h-1 rounded-full bg-primary/20" />
-                          <Input
-                            placeholder="New feature added..."
-                            value={change}
-                            onChange={(e) => updateChange(entry.id, index, e.target.value)}
-                            className="flex-1 h-8 border-none bg-transparent hover:bg-white/5 focus:bg-white/5 text-xs px-2"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeChange(entry.id, index)}
-                            className="opacity-0 group-hover/line:opacity-100 text-destructive/30 hover:text-destructive p-1"
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
 
       </form>
 
