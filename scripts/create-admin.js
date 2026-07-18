@@ -53,12 +53,12 @@ async function createAdmin(email, password) {
       const dbPath = DATABASE_URL.replace(/^sqlite:\/\//, "").replace(/^file:/, "");
       const sqlite = new Database(dbPath);
 
-      const existing = sqlite.prepare("SELECT id FROM admins WHERE email = ?").get(email);
+      const existing = sqlite.prepare("SELECT id FROM admin WHERE email = ?").get(email);
       if (existing) {
-        sqlite.prepare("UPDATE admins SET password = ? WHERE email = ?").run(hashedPassword, email);
+        sqlite.prepare("UPDATE admin SET password = ? WHERE email = ?").run(hashedPassword, email);
         console.log(`✔ Password updated for existing admin: ${email}`);
       } else {
-        sqlite.prepare("INSERT INTO admins (email, password, created_at) VALUES (?, ?, ?)").run(email, hashedPassword, now);
+        sqlite.prepare("INSERT INTO admin (email, password, created_at) VALUES (?, ?, ?)").run(email, hashedPassword, now);
         console.log(`✔ Admin created: ${email}`);
       }
 
@@ -67,12 +67,12 @@ async function createAdmin(email, password) {
       const { default: postgres } = await import("postgres");
       const sql = postgres(DATABASE_URL, { prepare: false });
 
-      const [existing] = await sql`SELECT id FROM admins WHERE email = ${email}`;
+      const [existing] = await sql`SELECT id FROM admin WHERE email = ${email}`;
       if (existing) {
-        await sql`UPDATE admins SET password = ${hashedPassword} WHERE email = ${email}`;
+        await sql`UPDATE admin SET password = ${hashedPassword} WHERE email = ${email}`;
         console.log(`✔ Password updated for existing admin: ${email}`);
       } else {
-        await sql`INSERT INTO admins (email, password, created_at) VALUES (${email}, ${hashedPassword}, ${now})`;
+        await sql`INSERT INTO admin (email, password, created_at) VALUES (${email}, ${hashedPassword}, ${now})`;
         console.log(`✔ Admin created: ${email}`);
       }
 

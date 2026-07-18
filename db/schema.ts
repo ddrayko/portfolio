@@ -5,11 +5,8 @@ import * as schemaSqlite from './schema-sqlite'
 const selectedSchema = dbType === 'sqlite' ? schemaSqlite : schemaPg
 
 export const {
-  projects,
-  admins,
+  projets,
+  admin,
   settings,
-  siteUpdates,
-  versions,
+  siteUpdate,
 } = selectedSchema
-
-

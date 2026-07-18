@@ -7,7 +7,7 @@ import { ChangelogList } from "@/components/changelog-list"
 import { getMaintenanceMode } from "@/lib/actions"
 import { isLocalRequest } from "@/lib/server-utils"
 import { db } from "@/db"
-import { projects as projectsTable } from "@/db/schema"
+import { projets as projetsTable } from "@/db/schema"
 import { eq } from "drizzle-orm"
 
 export const dynamic = "force-dynamic"
@@ -20,7 +20,7 @@ interface ProjectUpdatePageProps {
 
 export async function generateMetadata({ params }: ProjectUpdatePageProps): Promise<Metadata> {
     const { slug } = await params
-    const [project] = await db.select().from(projectsTable).where(eq(projectsTable.slug, slug)).limit(1)
+    const [project] = await db.select().from(projetsTable).where(eq(projetsTable.slug, slug)).limit(1)
 
     if (!project) {
         return {
@@ -51,10 +51,8 @@ export async function generateMetadata({ params }: ProjectUpdatePageProps): Prom
 export default async function ProjectUpdatePage({ params }: ProjectUpdatePageProps) {
     const { slug } = await params
 
-    // Platform Status check (Skipped if local)
     const isLocal = await isLocalRequest()
     if (!isLocal) {
-        // Maintenance check
         const { isMaintenance } = await getMaintenanceMode()
         if (isMaintenance) {
             redirect("/maintenance")
@@ -68,7 +66,6 @@ export default async function ProjectUpdatePage({ params }: ProjectUpdatePagePro
         notFound()
     }
 
-    // Redirect to main update page if it's the portfolio itself
     if (project.slug === "drayko-xyz" || project.title === "drayko.xyz") {
         redirect("/update")
     }
@@ -79,7 +76,6 @@ export default async function ProjectUpdatePage({ params }: ProjectUpdatePagePro
         <div className="min-h-screen bg-background relative overflow-hidden font-sans selection:bg-primary/30 selection:text-primary">
             <div className="noise-overlay" />
 
-            {/* Background Orbs */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] animate-pulse-glow" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "-2s" }} />
@@ -106,7 +102,6 @@ export default async function ProjectUpdatePage({ params }: ProjectUpdatePagePro
             </header>
 
             <main className="relative z-10 pt-32 pb-24 container max-w-4xl mx-auto px-6 space-y-12">
-                {/* Archived Status Banner */}
                 {project.is_archived && (
                     <div className="glass p-6 rounded-3xl border-indigo-500/20 bg-indigo-500/5 flex items-center gap-4 animate-in fade-in slide-in-from-top-4">
                         <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400">
@@ -119,7 +114,6 @@ export default async function ProjectUpdatePage({ params }: ProjectUpdatePagePro
                     </div>
                 )}
 
-                {/* Project Context Card */}
                 <section>
                     <div className="glass p-10 md:p-14 rounded-[3rem] border-white/5 relative overflow-hidden perspective-card">
                         <div className="absolute top-0 right-0 p-8 opacity-10">
@@ -157,7 +151,6 @@ export default async function ProjectUpdatePage({ params }: ProjectUpdatePagePro
                     </div>
                 </section>
 
-                {/* Changelog Section */}
                 <section className="space-y-12">
                     <div className="flex flex-col items-center text-center space-y-4">
                         <div className="text-primary font-bold tracking-widest text-xs uppercase px-4 py-1 rounded-full bg-primary/5 border border-primary/10">Lifecycle</div>

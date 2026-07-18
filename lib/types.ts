@@ -43,12 +43,3 @@ export interface SiteUpdate {
   hero_custom_url?: string;
   updated_at: string;
 }
-
-export interface Version {
-  id: string
-  name: string
-  description: string | null
-  link: string
-  is_current?: boolean
-  created_at: string
-}

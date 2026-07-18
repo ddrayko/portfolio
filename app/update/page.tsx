@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ChevronLeft, History, Rocket, Calendar } from "lucide-react"
 import { db } from "@/db"
-import { siteUpdates } from "@/db/schema"
+import { siteUpdate } from "@/db/schema"
 import type { SiteUpdate, ChangelogEntry } from "@/lib/types"
 import { Countdown } from "@/components/countdown"
 import { ChangelogList } from "@/components/changelog-list"
@@ -34,17 +34,15 @@ export const metadata: Metadata = {
 }
 
 export default async function UpdatePage() {
-    // Platform Status check (Skipped if local)
     const isLocal = await isLocalRequest()
     if (!isLocal) {
-        // Maintenance check
         const { isMaintenance } = await getMaintenanceMode()
         if (isMaintenance) {
             redirect("/maintenance")
         }
     }
 
-    const [rawUpdate] = await db.select().from(siteUpdates).limit(1)
+    const [rawUpdate] = await db.select().from(siteUpdate).limit(1)
 
     const updateData: SiteUpdate = rawUpdate
         ? {
@@ -67,7 +65,6 @@ export default async function UpdatePage() {
         <div className="min-h-screen bg-background relative overflow-hidden font-sans selection:bg-primary/30 selection:text-primary">
             <div className="noise-overlay" />
 
-            {/* Background Orbs */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] animate-pulse-glow" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "-2s" }} />
@@ -89,7 +86,6 @@ export default async function UpdatePage() {
             </header>
 
             <main className="relative z-10 pt-32 pb-24 container max-w-4xl mx-auto px-6 space-y-12">
-                {/* Next Update Card */}
                 {(!updateData.no_update_planned && updateData.next_update_date) && (
                     <section className="reveal-up opacity-0 stagger-1">
                         <div className="glass p-10 md:p-16 rounded-[3rem] border-white/5 relative overflow-hidden mesh-bg perspective-card">
@@ -116,7 +112,6 @@ export default async function UpdatePage() {
                     </section>
                 )}
 
-                {/* Changelog Section */}
                 <section className="space-y-12 reveal-up opacity-0 stagger-2">
                     <div className="flex flex-col items-center text-center space-y-4">
                         <div className="text-primary font-bold tracking-widest text-xs uppercase">History</div>

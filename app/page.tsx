@@ -1,7 +1,7 @@
 import { db } from "@/db"
-import { projects as projectsTable, siteUpdates } from "@/db/schema"
+import { projets as projetsTable, siteUpdate } from "@/db/schema"
 import { desc } from "drizzle-orm"
-import type { Project, SiteUpdate, ChangelogEntry, Version } from "@/lib/types"
+import type { Project, SiteUpdate, ChangelogEntry } from "@/lib/types"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { TechStack } from "@/components/tech-stack"
 import { Button } from "@/components/ui/button"
@@ -10,9 +10,7 @@ import Link from "next/link"
 import { ArrowRight, Sparkles, Code2, Command, ChevronDown } from "lucide-react"
 import { getMaintenanceMode } from "@/lib/actions"
 import { redirect } from "next/navigation"
-import { VersionSelector } from "@/components/version-selector"
 import { isLocalRequest } from "@/lib/server-utils"
-import { versions as versionsTable } from "@/db/schema"
 
 export const dynamic = "force-dynamic"
 
@@ -40,7 +38,6 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  // Platform Status check (Skipped if local)
   const isLocal = await isLocalRequest()
   if (!isLocal) {
     const { isMaintenance } = await getMaintenanceMode()
@@ -50,12 +47,11 @@ export default async function HomePage() {
   }
 
   let projects: Project[] = []
-  let versions: Version[] = []
   let fetchError = false
   let updateData: SiteUpdate | null = null
 
   try {
-    const rawProjects = await db.select().from(projectsTable).orderBy(desc(projectsTable.created_at))
+    const rawProjects = await db.select().from(projetsTable).orderBy(desc(projetsTable.created_at))
     projects = rawProjects.map((p: any) => ({
       ...p,
       id: p.id.toString(),
@@ -63,15 +59,7 @@ export default async function HomePage() {
       updated_at: new Date().toISOString(),
     })) as unknown as Project[]
 
-    const rawVersions = await db.select().from(versionsTable).orderBy(desc(versionsTable.created_at))
-    versions = rawVersions.map((v: any) => ({
-      ...v,
-      id: v.id.toString(),
-      created_at: v.created_at?.toISOString() || new Date().toISOString(),
-    })) as Version[]
-
-    // Fetch site update info
-    const [rawUpdate] = await db.select().from(siteUpdates).limit(1)
+    const [rawUpdate] = await db.select().from(siteUpdate).limit(1)
     if (rawUpdate) {
       updateData = {
         ...rawUpdate,
@@ -91,7 +79,6 @@ export default async function HomePage() {
     <div className="min-h-screen bg-background relative selection:bg-primary/30 selection:text-primary overflow-x-hidden font-sans">
       <div className="noise-overlay" />
 
-      {/* Background Orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse-glow" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "-3s" }} />
@@ -116,7 +103,6 @@ export default async function HomePage() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <VersionSelector versions={versions} />
           </div>
         </div>
       </header>
@@ -124,7 +110,7 @@ export default async function HomePage() {
       <main className="relative z-10 pt-20">
         <section className="relative min-h-[calc(100dvh-5rem)] flex items-center justify-center overflow-hidden">
           <div className="container px-6 py-24 mx-auto text-center space-y-12">
-              {updateData?.show_badge !== false && (
+              {updateData?.show_badge !== false && updateData?.latest_update_text && (
               <div className="reveal-up stagger-1">
                 <div className="flex flex-col items-center gap-4 reveal-up stagger-1">
                 <Link
@@ -154,12 +140,12 @@ export default async function HomePage() {
                     transform: scaleX(1);
                   }
                 `}} />
-                  {!(/\p{Extended_Pictographic}/u.test(updateData?.latest_update_text || "Fix database bug and new interface (v3!)")) && (
+                  {!/\p{Extended_Pictographic}/u.test(updateData!.latest_update_text) && (
                     <Sparkles className="h-4 w-4 text-primary animate-pulse mr-2 flex-none" />
                   )}
                   <span className="transition-colors duration-300">
                     {updateData?.show_last_update_prefix !== false && "Last update : "}
-                    {(updateData?.latest_update_text || "Fix database bug and new interface (v3!)").trim()}
+                    {updateData!.latest_update_text.trim()}
                   </span>
                   <div className="flex items-center w-0 group-hover:w-6 transition-all duration-300 ease-out overflow-hidden flex-none group-hover:ml-2">
                     <svg width="18" height="12" viewBox="0 0 18 12" fill="none" className="flex-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">

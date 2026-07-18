@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 import crypto from "crypto"
 import { redirect } from "next/navigation"
 import { db } from "@/db"
-import { admins } from "@/db/schema"
+import { admin } from "@/db/schema"
 import { eq } from "drizzle-orm"
 import bcrypt from "bcryptjs"
 
@@ -12,16 +12,16 @@ const ADMIN_SESSION_COOKIE = "admin_session"
 
 export async function verifyAdminCredentials(email: string, password: string): Promise<boolean> {
   try {
-    const [admin] = await db.select()
-      .from(admins)
-      .where(eq(admins.email, email))
+    const [found] = await db.select()
+      .from(admin)
+      .where(eq(admin.email, email))
       .limit(1)
 
-    if (!admin) {
+    if (!found) {
       return false
     }
 
-    const isValid = await bcrypt.compare(password, admin.password)
+    const isValid = await bcrypt.compare(password, found.password)
 
     if (!isValid) {
       return false

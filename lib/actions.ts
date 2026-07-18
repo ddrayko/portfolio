@@ -1,17 +1,12 @@
 "use server"
 
 import { db } from "@/db"
-import { projects, admins, settings, siteUpdates, versions } from "@/db/schema"
+import { projets, admin, settings, siteUpdate } from "@/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
-import type { Project, SiteUpdate, Version, ChangelogEntry } from "./types"
+import type { Project, SiteUpdate, ChangelogEntry } from "./types"
 import bcrypt from "bcryptjs"
 
-/**
- * Serialize a primitive value to a SQLite-compatible type.
- * better-sqlite3 only accepts: number, string, bigint, Buffer, null
- * Arrays/objects are passed through for jsonText custom type's toDriver to handle.
- */
 function toSql(value: unknown): unknown {
   if (value == null) return null
   if (typeof value === "boolean") return value ? 1 : 0
@@ -20,10 +15,6 @@ function toSql(value: unknown): unknown {
   return value
 }
 
-/**
- * Safely parse a field that may be a JSON string or already-parsed value.
- * Handles existing double-encoded data from the previous toSql behavior.
- */
 function parseJSONField<T>(value: unknown): T {
   if (typeof value === 'string') {
     try {
@@ -40,7 +31,6 @@ export async function createProject(data: Partial<Project>) {
   try {
     const { id: _, created_at: __, updated_at: ___, ...insertData } = data
     
-    // Generate slug from title if not provided
     if (!insertData.slug && insertData.title) {
       insertData.slug = insertData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
     }
@@ -51,7 +41,7 @@ export async function createProject(data: Partial<Project>) {
     }
     values.created_at = new Date()
 
-    const [newProject] = await db.insert(projects).values(values).returning()
+    const [newProject] = await db.insert(projets).values(values).returning()
     
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
@@ -78,9 +68,9 @@ export async function updateProject(id: string, data: Partial<Project>) {
       values[k] = toSql(v)
     }
     values.updated_at = new Date()
-    await db.update(projects)
+    await db.update(projets)
       .set(values)
-      .where(eq(projects.id, numericId))
+      .where(eq(projets.id, numericId))
     
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
@@ -95,7 +85,7 @@ export async function deleteProject(id: string) {
   try {
     const numericId = validateId(id)
     if (numericId === null) return { success: false, error: "Invalid ID" }
-    await db.delete(projects).where(eq(projects.id, numericId))
+    await db.delete(projets).where(eq(projets.id, numericId))
     revalidatePath("/")
     revalidatePath("/admin/dashboard")
     return { success: true }
@@ -108,7 +98,7 @@ export async function deleteProject(id: string) {
 export async function createAdmin(email: string, password: string) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10)
-    await db.insert(admins).values({
+    await db.insert(admin).values({
       email,
       password: hashedPassword,
     })
@@ -123,7 +113,7 @@ export async function deleteAdmin(id: string) {
   try {
     const numericId = validateId(id)
     if (numericId === null) return { success: false, error: "Invalid ID" }
-    await db.delete(admins).where(eq(admins.id, numericId))
+    await db.delete(admin).where(eq(admin.id, numericId))
     return { success: true }
   } catch (error: unknown) {
     console.error("Error deleting admin:", error)
@@ -133,8 +123,8 @@ export async function deleteAdmin(id: string) {
 
 export async function getAdmins() {
   try {
-    const data = await db.select().from(admins).orderBy(desc(admins.created_at))
-    return { success: true, data: data.map((admin) => ({ ...admin, id: admin.id.toString(), created_at: admin.created_at?.toISOString() })) }
+    const data = await db.select().from(admin).orderBy(desc(admin.created_at))
+    return { success: true, data: data.map((a: any) => ({ ...a, id: a.id.toString(), created_at: a.created_at?.toISOString() })) }
   } catch (error: unknown) {
     console.error("Error fetching admins:", error)
     return { success: false, error: (error as Error).message, data: [] }
@@ -184,7 +174,7 @@ export async function updateMaintenanceMode(isMaintenance: boolean, message?: st
 
 export async function getProjectBySlug(slug: string) {
   try {
-    const [project] = await db.select().from(projects).where(eq(projects.slug, slug)).limit(1)
+    const [project] = await db.select().from(projets).where(eq(projets.slug, slug)).limit(1)
     if (project) {
         return {
             ...project,
@@ -236,7 +226,7 @@ export async function updateAvailability(isAvailable: boolean) {
 
 export async function getSiteUpdateData() {
   try {
-    const [row] = await db.select().from(siteUpdates).limit(1)
+    const [row] = await db.select().from(siteUpdate).limit(1)
     if (row) {
       return {
         success: true,
@@ -273,7 +263,7 @@ export async function getSiteUpdateData() {
 
 export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
   try {
-    const [row] = await db.select().from(siteUpdates).limit(1)
+    const [row] = await db.select().from(siteUpdate).limit(1)
     
     const payload: Record<string, any> = {}
     for (const [key, value] of Object.entries(data)) {
@@ -289,9 +279,9 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
     payload.updated_at = new Date()
 
     if (row) {
-      await db.update(siteUpdates).set(payload).where(eq(siteUpdates.id, row.id))
+      await db.update(siteUpdate).set(payload).where(eq(siteUpdate.id, row.id))
     } else {
-      await db.insert(siteUpdates).values(payload)
+      await db.insert(siteUpdate).values(payload)
     }
 
     revalidatePath("/")
@@ -306,10 +296,10 @@ export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
 
 export async function getProjects() {
   try {
-    const data = await db.select().from(projects).orderBy(desc(projects.created_at))
+    const data = await db.select().from(projets).orderBy(desc(projets.created_at))
     return { 
       success: true, 
-      data: data.map((p) => ({ 
+      data: data.map((p: any) => ({ 
         ...p, 
         id: p.id.toString(), 
         tags: parseJSONField<string[]>(p.tags),
@@ -321,94 +311,5 @@ export async function getProjects() {
   } catch (error: unknown) {
     console.error("Error fetching projects:", error)
     return { success: false, error: (error as Error).message, data: [] }
-  }
-}
-
-export async function getVersions() {
-  try {
-    const data = await db.select().from(versions).orderBy(desc(versions.created_at))
-    return {
-      success: true,
-      data: data.map((v) => ({
-        ...v,
-        id: v.id.toString(),
-        created_at: v.created_at?.toISOString() || new Date().toISOString()
-      })) as Version[]
-    }
-  } catch (error: unknown) {
-    console.error("Error fetching versions:", error)
-    return { success: false, error: (error as Error).message, data: [] }
-  }
-}
-
-export async function createVersion(data: Partial<Version>) {
-  try {
-    const { id: _, created_at: __, ...insertData } = data
-    const values: Record<string, any> = {}
-    for (const [k, v] of Object.entries(insertData)) {
-      values[k] = toSql(v)
-    }
-    values.created_at = new Date()
-    const [newVersion] = await db.insert(versions).values(values).returning()
-
-    revalidatePath("/")
-    revalidatePath("/admin/dashboard")
-    return { success: true, version: newVersion }
-  } catch (error: unknown) {
-    console.error("Error creating version:", error)
-    return { success: false, error: "An unexpected error occurred" }
-  }
-}
-
-export async function updateVersion(id: string, data: Partial<Version>) {
-  try {
-    const numericId = validateId(id)
-    if (numericId === null) return { success: false, error: "Invalid ID" }
-
-    const { id: _, created_at: __, ...updateData } = data
-    const values: Record<string, any> = {}
-    for (const [k, v] of Object.entries(updateData)) {
-      values[k] = toSql(v)
-    }
-    await db.update(versions)
-      .set(values)
-      .where(eq(versions.id, numericId))
-
-    revalidatePath("/")
-    revalidatePath("/admin/dashboard")
-    return { success: true }
-  } catch (error: unknown) {
-    console.error("Error updating version:", error)
-    return { success: false, error: "An unexpected error occurred" }
-  }
-}
-
-export async function deleteVersion(id: string) {
-  try {
-    const numericId = validateId(id)
-    if (numericId === null) return { success: false, error: "Invalid ID" }
-    await db.delete(versions).where(eq(versions.id, numericId))
-    revalidatePath("/")
-    revalidatePath("/admin/dashboard")
-    return { success: true }
-  } catch (error: unknown) {
-    console.error("Error deleting version:", error)
-    return { success: false, error: "An unexpected error occurred" }
-  }
-}
-
-export async function setCurrentVersion(id: string) {
-  try {
-    const numericId = validateId(id)
-    if (numericId === null) return { success: false, error: "Invalid ID" }
-    await db.update(versions).set({ is_current: toSql(false) })
-    await db.update(versions).set({ is_current: toSql(true) }).where(eq(versions.id, numericId))
-
-    revalidatePath("/")
-    revalidatePath("/admin/dashboard")
-    return { success: true }
-  } catch (error: unknown) {
-    console.error("Error setting current version:", error)
-    return { success: false, error: (error as Error).message }
   }
 }
