@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Pencil, Trash2, Settings2, ImageOff } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import { ProjectDialog } from "@/components/project-dialog"
 import { DeleteProjectDialog } from "@/components/delete-project-dialog"
 
@@ -52,25 +51,19 @@ export function AdminProjectCard({ project, onDeleted, onUpdated }: AdminProject
             <div className="flex items-center gap-2">
               <h4 className="text-xl font-bold tracking-tight text-foreground/90">{project.title}</h4>
               {project.in_development && (
-                <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                  <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-[10px] animate-pulse cursor-pointer">
-                    Dev Mode
-                  </Badge>
-                </Link>
+                <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-[10px] animate-pulse">
+                  Dev Mode
+                </Badge>
               )}
               {project.is_completed && (
-                <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                  <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 text-[10px] cursor-pointer">
-                    Finished
-                  </Badge>
-                </Link>
+                <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 text-[10px]">
+                  Finished
+                </Badge>
               )}
               {project.is_archived && (
-                <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                  <Badge variant="secondary" className="bg-indigo-500/10 text-indigo-500 border-indigo-500/20 text-[10px] cursor-pointer">
-                    Archived
-                  </Badge>
-                </Link>
+                <Badge variant="secondary" className="bg-indigo-500/10 text-indigo-500 border-indigo-500/20 text-[10px]">
+                  Archived
+                </Badge>
               )}
             </div>
             <p className="text-sm text-muted-foreground line-clamp-2 font-medium">

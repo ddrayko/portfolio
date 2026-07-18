@@ -48,7 +48,7 @@ export function Footer() {
                                         <Link href="/#tech-stack" className="hover:text-foreground" aria-label="View tech stack">Tech Stack</Link>
                                     )}
                                 </li>
-                                <li className="transition-transform hover:translate-x-1"><Link href="/tags-info" className="hover:text-foreground" aria-label="Learn about project tags">Tags Info</Link></li>
+                                
                                 <li className="transition-transform hover:translate-x-1"><Link href="/about" className="hover:text-foreground" aria-label="About Drayko">About Me</Link></li>
                             </ul>
                         </div>
