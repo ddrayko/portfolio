@@ -12,7 +12,7 @@ const timestampText = customType<{ data: Date | null; driverData: string | null 
   fromDriver: (value: string | null) => value ? new Date(value) : null,
 })
 
-export const projects = sqliteTable("projects", {
+export const projets = sqliteTable("projets", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
   slug: text("slug").notNull(),
@@ -32,7 +32,7 @@ export const projects = sqliteTable("projects", {
   slugIdx: uniqueIndex("slug_idx").on(table.slug),
 }))
 
-export const admins = sqliteTable("admins", {
+export const admin = sqliteTable("admin", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   email: text("email").notNull(),
   password: text("password").notNull(),
@@ -45,27 +45,4 @@ export const settings = sqliteTable("settings", {
   key: text("key").primaryKey(),
   value: jsonText("value").$type<any>(),
   updated_at: timestampText("updated_at"),
-})
-
-export const siteUpdates = sqliteTable("site_updates", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  next_update_date: timestampText("next_update_date"),
-  no_update_planned: integer("no_update_planned").default(1),
-  planned_features: jsonText("planned_features").$type<string[]>(),
-  changelog: jsonText("changelog").$type<any[]>(),
-  latest_update_text: text("latest_update_text"),
-  show_last_update_prefix: integer("show_last_update_prefix").default(1),
-  show_badge: integer("show_badge").default(1),
-  hero_link_type: text("hero_link_type").default("update"),
-  hero_custom_url: text("hero_custom_url"),
-  updated_at: timestampText("updated_at"),
-})
-
-export const versions = sqliteTable("versions", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(),
-  description: text("description"),
-  link: text("link").notNull(),
-  is_current: integer("is_current").default(0),
-  created_at: timestampText("created_at"),
 })

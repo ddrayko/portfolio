@@ -1,7 +1,7 @@
 import type { Project } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, History, Play, Pause } from "lucide-react"
+import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -54,8 +54,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     }}
                   />
                   <div className="absolute top-3 inset-x-0 flex items-center justify-center">
-                    <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                      <div className={`px-4 py-1.5 rounded-full font-black text-[10px] uppercase tracking-widest shadow-2xl border-2 rotate-[-1deg] cursor-pointer flex items-center gap-1.5 ${isPaused
+                    <div className={`px-4 py-1.5 rounded-full font-black text-[10px] uppercase tracking-widest shadow-2xl border-2 rotate-[-1deg] flex items-center gap-1.5 ${isPaused
                         ? 'bg-orange-400 text-black border-black'
                         : 'bg-yellow-400 text-black border-black animate-pulse'
                         }`}>
@@ -71,28 +70,23 @@ export function ProjectCard({ project }: ProjectCardProps) {
                           </>
                         )}
                       </div>
-                    </Link>
                   </div>
                 </>
               )}
 
               {isFinished && (
                 <div className="absolute top-3 right-3">
-                  <Link href="/tags-info" className="block hover:scale-110 transition-transform duration-300">
-                    <div className="bg-emerald-500 text-white p-1.5 rounded-lg shadow-lg border border-emerald-400/50 animate-bounce cursor-pointer">
+                  <div className="bg-emerald-500 text-white p-1.5 rounded-lg shadow-lg border border-emerald-400/50 animate-bounce">
                       <Trophy className="h-4 w-4" />
                     </div>
-                  </Link>
                 </div>
               )}
 
               {isArchived && !isFinished && (
                 <div className="absolute top-3 right-3">
-                  <Link href="/tags-info" className="block hover:scale-110 transition-transform duration-300">
-                    <div className="bg-indigo-500/20 text-indigo-300 p-1.5 rounded-lg shadow-lg border border-indigo-400/30 backdrop-blur-md cursor-pointer">
+                  <div className="bg-indigo-500/20 text-indigo-300 p-1.5 rounded-lg shadow-lg border border-indigo-400/30 backdrop-blur-md">
                       <Archive className="h-4 w-4" />
                     </div>
-                  </Link>
                 </div>
               )}
             </div>
@@ -125,8 +119,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {project.title}
                   </h4>
                   {isInDev && (
-                    <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                      <div className={`p-1.5 rounded-lg border cursor-pointer ${isPaused
+                    <div className={`p-1.5 rounded-lg border ${isPaused
                         ? 'bg-orange-400/10 border-orange-400/20'
                         : 'bg-yellow-400/10 border-yellow-400/20'
                         }`}>
@@ -136,21 +129,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
                           <Wrench className="h-3.5 w-3.5 text-yellow-400 animate-spin-slow" />
                         )}
                       </div>
-                    </Link>
                   )}
                   {isFinished && (
-                    <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                      <div className="p-1 rounded-full bg-emerald-500/20 text-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.2)] cursor-pointer">
+                    <div className="p-1 rounded-full bg-emerald-500/20 text-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
                         <CheckCircle2 className="h-4 w-4" />
                       </div>
-                    </Link>
                   )}
                   {isArchived && (
-                    <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                      <div className="p-1 rounded-full bg-indigo-500/20 text-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.2)] cursor-pointer">
+                    <div className="p-1 rounded-full bg-indigo-500/20 text-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]">
                         <PackageCheck className="h-4 w-4" />
                       </div>
-                    </Link>
                   )}
                 </div>
                 <div className={`p-2 rounded-full border transition-all duration-300 shadow-glow
@@ -181,8 +169,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </Badge>
                 ))}
                 {isInDev && (
-                  <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                    <Badge variant="secondary" className={`rounded-full px-4 py-1 font-bold text-[10px] uppercase tracking-widest cursor-pointer flex items-center gap-1 ${isPaused
+                  <Badge variant="secondary" className={`rounded-full px-4 py-1 font-bold text-[10px] uppercase tracking-widest flex items-center gap-1 ${isPaused
                       ? 'bg-orange-500/20 border-orange-500/30 text-orange-400'
                       : 'bg-primary/20 border-primary/30 text-primary animate-pulse'
                       }`}>
@@ -197,21 +184,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         </>
                       )}
                     </Badge>
-                  </Link>
                 )}
                 {isFinished && (
-                  <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                    <Badge variant="secondary" className="rounded-full px-4 py-1 bg-emerald-500/20 border-emerald-500/30 text-emerald-400 font-bold text-[10px] uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.2)] cursor-pointer">
+                  <Badge variant="secondary" className="rounded-full px-4 py-1 bg-emerald-500/20 border-emerald-500/30 text-emerald-400 font-bold text-[10px] uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.2)]">
                       Finished
                     </Badge>
-                  </Link>
                 )}
                 {isArchived && (
-                  <Link href="/tags-info" className="hover:scale-110 transition-transform duration-300">
-                    <Badge variant="secondary" className="rounded-full px-4 py-1 bg-indigo-500/20 border-indigo-500/30 text-indigo-400 font-bold text-[10px] uppercase tracking-widest cursor-pointer">
+                  <Badge variant="secondary" className="rounded-full px-4 py-1 bg-indigo-500/20 border-indigo-500/30 text-indigo-400 font-bold text-[10px] uppercase tracking-widest">
                       Archived
                     </Badge>
-                  </Link>
                 )}
               </div>
 
@@ -262,21 +244,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </Button>
                 )}
               </div>
-
-              <Button
-                asChild
-                variant="outline"
-                className="w-full rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-muted-foreground hover:text-foreground transition-all duration-500 font-bold uppercase tracking-widest text-[10px] h-11"
-              >
-                <Link href={
-                  (project.slug === "drayko-xyz" || project.title === "drayko.xyz")
-                    ? "/update"
-                    : `/${project.slug || project.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')}/update`
-                } aria-label={`View updates for ${project.title}`}>
-                  <History className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
-                  View Updates
-                </Link>
-              </Button>
             </div>
           </div>
         </div>

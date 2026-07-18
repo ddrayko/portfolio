@@ -2,36 +2,25 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Shield, History as HistoryIcon, Sparkles, Activity } from "lucide-react"
+import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Activity } from "lucide-react"
 import { AdminProjectCard } from "@/components/admin-project-card"
-import { AdminVersionCard } from "@/components/admin-version-card"
 import { ProjectDialog } from "@/components/project-dialog"
-import { VersionDialog } from "@/components/version-dialog"
 import { AdminDialog } from "@/components/admin-dialog"
 import { AdminCard } from "@/components/admin-card"
-import { UpdateDialog } from "@/components/update-dialog"
-import { BadgeDialog } from "@/components/badge-dialog"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { Project, Admin, SiteUpdate, Version } from "@/lib/types"
+import type { Project, Admin } from "@/lib/types"
 import { logoutAdmin } from "@/lib/admin-auth"
-import { getAdmins, getMaintenanceMode, getAvailability, getProjects, getSiteUpdateData, getVersions, setCurrentVersion } from "@/lib/actions"
+import { getAdmins, getMaintenanceMode, getAvailability, getProjects } from "@/lib/actions"
 import { MaintenanceToggle } from "@/components/maintenance-toggle"
 import { AvailabilityToggle } from "@/components/availability-toggle"
 import Link from "next/link"
 
 export default function AdminDashboardClient() {
   const [projects, setProjects] = useState<Project[]>([])
-  const [versions, setVersions] = useState<Version[]>([])
   const [admins, setAdmins] = useState<Admin[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [isVersionsLoading, setIsVersionsLoading] = useState(true)
   const [addProjectOpen, setAddProjectOpen] = useState(false)
-  const [addVersionOpen, setAddVersionOpen] = useState(false)
   const [addAdminOpen, setAddAdminOpen] = useState(false)
-  const [updateDialogOpen, setUpdateDialogOpen] = useState(false)
-  const [badgeDialogOpen, setBadgeDialogOpen] = useState(false)
-  const [updateData, setUpdateData] = useState<SiteUpdate | null>(null)
   const [maintenanceMode, setMaintenanceMode] = useState(false)
   const [maintenanceMessage, setMaintenanceMessage] = useState("")
   const [maintenanceProgress, setMaintenanceProgress] = useState(0)
@@ -47,32 +36,12 @@ export default function AdminDashboardClient() {
     setIsLoading(false)
   }
 
-  const fetchVersions = async () => {
-    setIsVersionsLoading(true)
-    const result = await getVersions()
-    if (result.success) {
-      setVersions(result.data)
-    } else {
-      console.error("Failed to fetch versions:", result.error)
-    }
-    setIsVersionsLoading(false)
-  }
-
   const fetchAdmins = async () => {
     const result = await getAdmins()
     if (result.success) {
       setAdmins(result.data as Admin[])
     } else {
       console.error("Failed to fetch admins:", result.error)
-    }
-  }
-
-  const fetchUpdateData = async () => {
-    const result = await getSiteUpdateData()
-    if (result.success && result.data) {
-      setUpdateData(result.data)
-    } else {
-      console.error("Failed to fetch update data:", result.error)
     }
   }
 
@@ -98,9 +67,7 @@ export default function AdminDashboardClient() {
 
   useEffect(() => {
     fetchProjects()
-    fetchVersions()
     fetchAdmins()
-    fetchUpdateData()
     fetchMaintenanceMode()
     fetchAvailability()
   }, [])
@@ -109,23 +76,8 @@ export default function AdminDashboardClient() {
     setProjects((prev) => prev.filter((p) => p.id !== projectId))
   }
 
-  const handleVersionDeleted = (versionId: string) => {
-    setVersions((prev) => prev.filter((v) => v.id !== versionId))
-  }
-
   const handleProjectUpdated = () => {
     fetchProjects()
-  }
-
-  const handleVersionUpdated = () => {
-    fetchVersions()
-  }
-
-  const handleSetCurrentVersion = async (versionId: string) => {
-    const result = await setCurrentVersion(versionId)
-    if (result.success) {
-      fetchVersions()
-    }
   }
 
   const handleAdminDeleted = () => {
@@ -140,13 +92,11 @@ export default function AdminDashboardClient() {
     <div className="min-h-screen bg-background relative selection:bg-primary/30 selection:text-primary transition-colors duration-500 font-sans">
       <div className="noise-overlay" />
 
-      {/* Background Orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] animate-pulse-glow" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "-2s" }} />
       </div>
 
-      {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 backdrop-blur-md bg-background/60">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -171,7 +121,6 @@ export default function AdminDashboardClient() {
         </div>
       </header>
 
-      {/* Content */}
       <main className="relative z-10 pt-32 pb-24 container mx-auto px-6">
         <Accordion type="multiple" className="w-full space-y-8">
           
@@ -243,7 +192,7 @@ export default function AdminDashboardClient() {
             <AccordionTrigger className="bg-white/40 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2rem] hover:no-underline hover:bg-white/60 dark:hover:bg-white/10 group transition-all data-[state=open]:rounded-b-none border border-black/5 dark:border-white/10 shadow-sm">
               <div className="flex items-center gap-6 text-left">
                 <div className="p-4 rounded-2xl bg-primary/10 text-primary group-data-[state=open]:bg-primary group-data-[state=open]:text-primary-foreground transition-all duration-500 shadow-inner">
-                  <Shield className="h-8 w-8" aria-hidden="true" />
+                  <Database className="h-8 w-8" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-primary/70 mb-1">Infrastructure & Control</p>
@@ -253,79 +202,6 @@ export default function AdminDashboardClient() {
             </AccordionTrigger>
             <AccordionContent className="bg-white/20 dark:bg-white/[0.02] backdrop-blur-xl border border-t-0 border-black/5 dark:border-white/10 p-10 rounded-b-[2rem] shadow-xl">
               <Accordion type="single" collapsible className="w-full space-y-6">
-                
-                {/* Nested: Communications */}
-                <AccordionItem value="communications" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
-                  <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />
-                      <span className="text-xl font-bold">Hero Communications</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-8 pb-8 space-y-8">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-black/5 dark:border-white/5 pt-8">
-                      <div className="space-y-2">
-                        <h2 className="text-2xl font-bold tracking-tight">HOMEPAGE BADGE</h2>
-                        <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                          Update the headline message that visitors see first.
-                        </p>
-                      </div>
-                      <Button
-                        onClick={() => setBadgeDialogOpen(true)}
-                        className="rounded-xl h-12 px-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 transition-all self-start md:self-auto"
-                      >
-                        <Sparkles className="mr-2 h-4 w-4" />
-                        Update Headline
-                      </Button>
-                    </div>
-
-                    <div className="bg-black/5 dark:bg-white/5 p-8 rounded-2xl border border-black/5 dark:border-white/5 shadow-inner">
-                      <div className="flex items-center gap-6">
-                        <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                          <Sparkles className="h-6 w-6 text-primary shadow-glow shadow-primary/20" />
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">Live Content</p>
-                          <p className="text-lg font-bold text-foreground/90 italic">
-                            "{updateData?.latest_update_text || "Fix database bug and new interface (v3!)"}"
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-                {/* Nested: Evolution */}
-                <AccordionItem value="evolution" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
-                  <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <HistoryIcon className="h-5 w-5 text-primary" />
-                      <span className="text-xl font-bold">Site Evolution</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-8 pb-8 space-y-8">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-black/5 dark:border-white/5 pt-8">
-                      <div className="space-y-2">
-                        <h2 className="text-2xl font-bold tracking-tight">SYSTEM UPDATES</h2>
-                        <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                          Coordinate release cycles and document version changes.
-                        </p>
-                      </div>
-                      <Button onClick={() => setUpdateDialogOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all shrink-0">
-                        <HistoryIcon className="mr-2 h-4 w-4" />
-                        Manage Logs
-                      </Button>
-                    </div>
-                    <div className="bg-black/5 dark:bg-white/5 p-8 rounded-2xl border border-black/5 dark:border-white/5 flex items-center gap-4 shadow-inner">
-                       <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                        <HistoryIcon className="h-6 w-6" />
-                      </div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Track the evolution of the platform with detailed version logs.
-                      </p>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
 
                 {/* Nested: Status */}
                 <AccordionItem value="status" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
@@ -355,75 +231,6 @@ export default function AdminDashboardClient() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-                {/* Nested: Versions */}
-                <AccordionItem value="versions" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
-                  <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <Database className="h-5 w-5 text-primary" />
-                      <span className="text-xl font-bold">Manage Versions</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-8 pb-8 space-y-8">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-black/5 dark:border-white/5 pt-8">
-                      <div className="space-y-2">
-                        <h2 className="text-2xl font-bold tracking-tight">MANAGE VERSIONS</h2>
-                        <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                          Manage the different versions of your portfolio.
-                        </p>
-                      </div>
-                      <div className="flex flex-wrap items-end gap-4 self-start md:self-auto">
-                        <div className="flex flex-col gap-1.5">
-                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold ml-1">Current Version</span>
-                          <Select 
-                            value={versions.find(v => v.is_current)?.id || ""} 
-                            onValueChange={handleSetCurrentVersion}
-                            disabled={versions.length === 0}
-                          >
-                            <SelectTrigger className="w-[180px] h-12 rounded-xl glass border-white/10">
-                              <SelectValue placeholder="None" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {versions.map(v => (
-                                <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <Button onClick={() => setAddVersionOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all group shrink-0" aria-label="Add new version">
-                          <Plus className="mr-2 h-4 w-4 group-hover:rotate-90 transition-transform duration-300" aria-hidden="true" />
-                          Add Version
-                        </Button>
-                      </div>
-                    </div>
-
-                    {isVersionsLoading ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[1, 2, 3].map(i => (
-                          <div key={i} className="h-32 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/5 animate-pulse" />
-                        ))}
-                      </div>
-                    ) : versions.length === 0 ? (
-                      <div className="bg-black/5 dark:bg-white/5 p-12 rounded-3xl border border-black/5 dark:border-white/5 text-center space-y-4 shadow-inner">
-                        <div className="w-16 h-16 rounded-full bg-black/5 dark:bg-white/5 mx-auto flex items-center justify-center text-muted-foreground">
-                          <Database className="h-8 w-8" />
-                        </div>
-                        <p className="text-muted-foreground italic">No versions added yet.</p>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {versions.map((version) => (
-                          <AdminVersionCard
-                            key={version.id}
-                            version={version}
-                            onDeleted={handleVersionDeleted}
-                            onUpdated={handleVersionUpdated}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </AccordionContent>
-                </AccordionItem>
-
 
                 {/* Nested: Admins */}
                 <AccordionItem value="admins" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
@@ -467,10 +274,7 @@ export default function AdminDashboardClient() {
       </main>
 
       <ProjectDialog open={addProjectOpen} onOpenChange={setAddProjectOpen} onSuccess={fetchProjects} />
-      <VersionDialog open={addVersionOpen} onOpenChange={setAddVersionOpen} onSuccess={fetchVersions} />
       <AdminDialog open={addAdminOpen} onOpenChange={setAddAdminOpen} onSuccess={fetchAdmins} />
-      <UpdateDialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen} onSuccess={fetchUpdateData} />
-      <BadgeDialog open={badgeDialogOpen} onOpenChange={setBadgeDialogOpen} onSuccess={fetchUpdateData} />
     </div>
   )
 }

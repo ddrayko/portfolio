@@ -29,26 +29,3 @@ export interface ChangelogEntry {
   date: string
   changes: string[]
 }
-
-export interface SiteUpdate {
-  id?: string
-  next_update_date: string | null
-  no_update_planned: boolean
-  planned_features: string[];
-  changelog: ChangelogEntry[];
-  latest_update_text?: string;
-  show_last_update_prefix?: boolean;
-  show_badge?: boolean;
-  hero_link_type?: string;
-  hero_custom_url?: string;
-  updated_at: string;
-}
-
-export interface Version {
-  id: string
-  name: string
-  description: string | null
-  link: string
-  is_current?: boolean
-  created_at: string
-}

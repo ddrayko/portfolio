@@ -80,19 +80,14 @@ export const metadata: Metadata = {
 import { Suspense } from "react"
 import { Toaster } from "sonner"
 
-import { OldVersionPopup } from "@/components/old-version-popup"
 import { BackToTop } from "@/components/back-to-top"
 import { ConsoleEasterEgg } from "@/components/console-easter-egg"
-import { getVersions } from "@/lib/actions"
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const versionsResult = await getVersions()
-  const versions = versionsResult.success ? versionsResult.data : []
-
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} light`}>
       <head>
@@ -127,7 +122,6 @@ export default async function RootLayout({
         </div>
         <BackToTop />
         <ConsoleEasterEgg />
-        <OldVersionPopup versions={versions} />
         <Toaster position="bottom-right" richColors />
       </body>
     </html>
