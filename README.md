@@ -1,5 +1,3 @@
-<img src="public/assets/logo/pictoandtext.png" alt="Drayko Logo" width="400"/>
-
 # Drayko v6 Portfolio
 
 > High-performance portfolio platform built with Next.js 16, Drizzle ORM, and PostgreSQL. Features a dynamic project showcase, interactive timeline, admin dashboard, versioning system, and real-time maintenance controls.
