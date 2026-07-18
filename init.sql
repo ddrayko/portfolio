@@ -1,6 +1,6 @@
 -- ============================================================
 -- Init SQL - v6-portfolio Database
--- Tables: settings, update, projets, admin
+-- Tables: settings, projets, admin
 -- ============================================================
 
 -- Settings (key-value pour toute la configuration)
@@ -8,21 +8,6 @@ CREATE TABLE IF NOT EXISTS settings (
     key         TEXT PRIMARY KEY,
     value       JSONB NOT NULL,
     updated_at  TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Update (page /update - roadmap et changelog)
-CREATE TABLE IF NOT EXISTS "update" (
-    id                    SERIAL PRIMARY KEY,
-    next_update_date      TIMESTAMPTZ,
-    no_update_planned     BOOLEAN DEFAULT TRUE,
-    planned_features      JSONB DEFAULT '[]'::JSONB,
-    changelog             JSONB DEFAULT '[]'::JSONB,
-    latest_update_text    TEXT,
-    show_last_update_prefix BOOLEAN DEFAULT TRUE,
-    show_badge            BOOLEAN DEFAULT TRUE,
-    hero_link_type        TEXT DEFAULT 'update',
-    hero_custom_url       TEXT,
-    updated_at            TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Projets (projets du portfolio)
@@ -64,8 +49,3 @@ ON CONFLICT (key) DO NOTHING;
 INSERT INTO settings (key, value) VALUES
     ('availability',  '{"isAvailable": true}')
 ON CONFLICT (key) DO NOTHING;
-
--- Seed par défaut : update (une seule ligne)
-INSERT INTO "update" (no_update_planned, planned_features, changelog) VALUES
-    (TRUE, '[]'::JSONB, '[]'::JSONB)
-ON CONFLICT DO NOTHING;

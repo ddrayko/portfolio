@@ -8,5 +8,4 @@ export const {
   projets,
   admin,
   settings,
-  siteUpdate,
 } = selectedSchema

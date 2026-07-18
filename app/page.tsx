@@ -1,7 +1,7 @@
 import { db } from "@/db"
-import { projets as projetsTable, siteUpdate } from "@/db/schema"
+import { projets as projetsTable } from "@/db/schema"
 import { desc } from "drizzle-orm"
-import type { Project, SiteUpdate, ChangelogEntry } from "@/lib/types"
+import type { Project } from "@/lib/types"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { TechStack } from "@/components/tech-stack"
 import { Button } from "@/components/ui/button"
@@ -48,7 +48,6 @@ export default async function HomePage() {
 
   let projects: Project[] = []
   let fetchError = false
-  let updateData: SiteUpdate | null = null
 
   try {
     const rawProjects = await db.select().from(projetsTable).orderBy(desc(projetsTable.created_at))
@@ -58,18 +57,6 @@ export default async function HomePage() {
       created_at: p.created_at?.toISOString() || new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })) as unknown as Project[]
-
-    const [rawUpdate] = await db.select().from(siteUpdate).limit(1)
-    if (rawUpdate) {
-      updateData = {
-        ...rawUpdate,
-        id: rawUpdate.id.toString(),
-        next_update_date: rawUpdate.next_update_date?.toISOString() || null,
-        updated_at: rawUpdate.updated_at?.toISOString() || new Date().toISOString(),
-        changelog: (rawUpdate.changelog || []) as ChangelogEntry[],
-        planned_features: (rawUpdate.planned_features || []) as string[],
-      } as SiteUpdate
-    }
   } catch (e) {
     console.error("Database connection error:", e)
     fetchError = true
@@ -110,66 +97,6 @@ export default async function HomePage() {
       <main className="relative z-10 pt-20">
         <section className="relative min-h-[calc(100dvh-5rem)] flex items-center justify-center overflow-hidden">
           <div className="container px-6 py-24 mx-auto text-center space-y-12">
-              {updateData?.show_badge !== false && updateData?.latest_update_text && (
-              <div className="reveal-up stagger-1">
-                <div className="flex flex-col items-center gap-4 reveal-up stagger-1">
-                <Link
-                  href={updateData?.hero_link_type === "custom" && updateData?.hero_custom_url ? updateData.hero_custom_url : "/update"}
-                  className="inline-flex items-center px-4 py-2 rounded-full glass border-white/10 text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-all group overflow-hidden whitespace-nowrap hover:shadow-[0_0_30px_rgba(var(--primary),0.1)]"
-                >
-                  <style dangerouslySetInnerHTML={{
-                    __html: `
-                  @keyframes draw-tip {
-                    from { stroke-dashoffset: 20; }
-                    to { stroke-dashoffset: 0; }
-                  }
-                  .arrow-tip {
-                    stroke-dasharray: 20;
-                    stroke-dashoffset: 20;
-                    transition: stroke-dashoffset 0.3s ease-out;
-                  }
-                  .group:hover .arrow-tip {
-                    animation: draw-tip 0.3s ease-out 0.2s forwards;
-                  }
-                  .arrow-bar {
-                    transform: scaleX(0);
-                    transform-origin: left;
-                    transition: transform 0.3s ease-out;
-                  }
-                  .group:hover .arrow-bar {
-                    transform: scaleX(1);
-                  }
-                `}} />
-                  {!/\p{Extended_Pictographic}/u.test(updateData!.latest_update_text) && (
-                    <Sparkles className="h-4 w-4 text-primary animate-pulse mr-2 flex-none" />
-                  )}
-                  <span className="transition-colors duration-300">
-                    {updateData?.show_last_update_prefix !== false && "Last update : "}
-                    {updateData!.latest_update_text.trim()}
-                  </span>
-                  <div className="flex items-center w-0 group-hover:w-6 transition-all duration-300 ease-out overflow-hidden flex-none group-hover:ml-2">
-                    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" className="flex-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <path
-                        d="M1 6H16"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        className="arrow-bar shadow-glow shadow-primary/20"
-                      />
-                      <path
-                        d="M11 1L16 6L11 11"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="arrow-tip"
-                      />
-                    </svg>
-                  </div>
-                </Link>
-                  </div>
-                </div>
-                )}
 
             <div className="space-y-6">
               <h2 className="text-7xl md:text-8xl lg:text-[10rem] font-black tracking-[calc(-0.05em)] leading-[0.85] animate-fade-in-up font-display">

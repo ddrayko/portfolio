@@ -1,7 +1,7 @@
 import type { Project } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, History, Play, Pause } from "lucide-react"
+import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -244,21 +244,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </Button>
                 )}
               </div>
-
-              <Button
-                asChild
-                variant="outline"
-                className="w-full rounded-2xl border-white/5 bg-white/[0.02] hover:bg-white/5 hover:border-white/10 text-muted-foreground hover:text-foreground transition-all duration-500 font-bold uppercase tracking-widest text-[10px] h-11"
-              >
-                <Link href={
-                  (project.slug === "drayko-xyz" || project.title === "drayko.xyz")
-                    ? "/update"
-                    : `/${project.slug || project.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')}/update`
-                } aria-label={`View updates for ${project.title}`}>
-                  <History className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
-                  View Updates
-                </Link>
-              </Button>
             </div>
           </div>
         </div>

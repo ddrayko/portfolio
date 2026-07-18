@@ -46,17 +46,3 @@ export const settings = sqliteTable("settings", {
   value: jsonText("value").$type<any>(),
   updated_at: timestampText("updated_at"),
 })
-
-export const siteUpdate = sqliteTable("update", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  next_update_date: timestampText("next_update_date"),
-  no_update_planned: integer("no_update_planned").default(1),
-  planned_features: jsonText("planned_features").$type<string[]>(),
-  changelog: jsonText("changelog").$type<any[]>(),
-  latest_update_text: text("latest_update_text"),
-  show_last_update_prefix: integer("show_last_update_prefix").default(1),
-  show_badge: integer("show_badge").default(1),
-  hero_link_type: text("hero_link_type").default("update"),
-  hero_custom_url: text("hero_custom_url"),
-  updated_at: timestampText("updated_at"),
-})

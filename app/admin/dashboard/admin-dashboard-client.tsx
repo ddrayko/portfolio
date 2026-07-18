@@ -2,17 +2,15 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Sparkles, Activity } from "lucide-react"
+import { Plus, LogOut, Home, UserPlus, LayoutDashboard, Database, Activity } from "lucide-react"
 import { AdminProjectCard } from "@/components/admin-project-card"
 import { ProjectDialog } from "@/components/project-dialog"
 import { AdminDialog } from "@/components/admin-dialog"
 import { AdminCard } from "@/components/admin-card"
-import { UpdateDialog } from "@/components/update-dialog"
-import { BadgeDialog } from "@/components/badge-dialog"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
-import type { Project, Admin, SiteUpdate } from "@/lib/types"
+import type { Project, Admin } from "@/lib/types"
 import { logoutAdmin } from "@/lib/admin-auth"
-import { getAdmins, getMaintenanceMode, getAvailability, getProjects, getSiteUpdateData } from "@/lib/actions"
+import { getAdmins, getMaintenanceMode, getAvailability, getProjects } from "@/lib/actions"
 import { MaintenanceToggle } from "@/components/maintenance-toggle"
 import { AvailabilityToggle } from "@/components/availability-toggle"
 import Link from "next/link"
@@ -23,9 +21,6 @@ export default function AdminDashboardClient() {
   const [isLoading, setIsLoading] = useState(true)
   const [addProjectOpen, setAddProjectOpen] = useState(false)
   const [addAdminOpen, setAddAdminOpen] = useState(false)
-  const [updateDialogOpen, setUpdateDialogOpen] = useState(false)
-  const [badgeDialogOpen, setBadgeDialogOpen] = useState(false)
-  const [updateData, setUpdateData] = useState<SiteUpdate | null>(null)
   const [maintenanceMode, setMaintenanceMode] = useState(false)
   const [maintenanceMessage, setMaintenanceMessage] = useState("")
   const [maintenanceProgress, setMaintenanceProgress] = useState(0)
@@ -47,15 +42,6 @@ export default function AdminDashboardClient() {
       setAdmins(result.data as Admin[])
     } else {
       console.error("Failed to fetch admins:", result.error)
-    }
-  }
-
-  const fetchUpdateData = async () => {
-    const result = await getSiteUpdateData()
-    if (result.success && result.data) {
-      setUpdateData(result.data)
-    } else {
-      console.error("Failed to fetch update data:", result.error)
     }
   }
 
@@ -82,7 +68,6 @@ export default function AdminDashboardClient() {
   useEffect(() => {
     fetchProjects()
     fetchAdmins()
-    fetchUpdateData()
     fetchMaintenanceMode()
     fetchAvailability()
   }, [])
@@ -217,79 +202,6 @@ export default function AdminDashboardClient() {
             </AccordionTrigger>
             <AccordionContent className="bg-white/20 dark:bg-white/[0.02] backdrop-blur-xl border border-t-0 border-black/5 dark:border-white/10 p-10 rounded-b-[2rem] shadow-xl">
               <Accordion type="single" collapsible className="w-full space-y-6">
-                
-                {/* Nested: Communications */}
-                <AccordionItem value="communications" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
-                  <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />
-                      <span className="text-xl font-bold">Hero Communications</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-8 pb-8 space-y-8">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-black/5 dark:border-white/5 pt-8">
-                      <div className="space-y-2">
-                        <h2 className="text-2xl font-bold tracking-tight">HOMEPAGE BADGE</h2>
-                        <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                          Update the headline message that visitors see first.
-                        </p>
-                      </div>
-                      <Button
-                        onClick={() => setBadgeDialogOpen(true)}
-                        className="rounded-xl h-12 px-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 transition-all self-start md:self-auto"
-                      >
-                        <Sparkles className="mr-2 h-4 w-4" />
-                        Update Headline
-                      </Button>
-                    </div>
-
-                    <div className="bg-black/5 dark:bg-white/5 p-8 rounded-2xl border border-black/5 dark:border-white/5 shadow-inner">
-                      <div className="flex items-center gap-6">
-                        <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                          <Sparkles className="h-6 w-6 text-primary shadow-glow shadow-primary/20" />
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">Live Content</p>
-                          <p className="text-lg font-bold text-foreground/90 italic">
-                            "{updateData?.latest_update_text ?? "—"}"
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-                {/* Nested: Evolution */}
-                <AccordionItem value="evolution" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
-                  <AccordionTrigger className="px-8 py-6 hover:no-underline hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <Database className="h-5 w-5 text-primary" />
-                      <span className="text-xl font-bold">Site Evolution</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-8 pb-8 space-y-8">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-t border-black/5 dark:border-white/5 pt-8">
-                      <div className="space-y-2">
-                        <h2 className="text-2xl font-bold tracking-tight">SYSTEM UPDATES</h2>
-                        <p className="text-muted-foreground font-medium max-w-xl text-sm">
-                          Coordinate release cycles and document version changes.
-                        </p>
-                      </div>
-                      <Button onClick={() => setUpdateDialogOpen(true)} variant="outline" className="rounded-xl h-12 px-6 glass border-white/10 hover:bg-white/10 transition-all shrink-0">
-                        <Database className="mr-2 h-4 w-4" />
-                        Manage Logs
-                      </Button>
-                    </div>
-                    <div className="bg-black/5 dark:bg-white/5 p-8 rounded-2xl border border-black/5 dark:border-white/5 flex items-center gap-4 shadow-inner">
-                       <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                        <Database className="h-6 w-6" />
-                      </div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Track the evolution of the platform with detailed version logs.
-                      </p>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
 
                 {/* Nested: Status */}
                 <AccordionItem value="status" className="border-none bg-black/[0.03] dark:bg-white/[0.03] rounded-[1.5rem] overflow-hidden border border-black/5 dark:border-white/5 shadow-inner">
@@ -363,8 +275,6 @@ export default function AdminDashboardClient() {
 
       <ProjectDialog open={addProjectOpen} onOpenChange={setAddProjectOpen} onSuccess={fetchProjects} />
       <AdminDialog open={addAdminOpen} onOpenChange={setAddAdminOpen} onSuccess={fetchAdmins} />
-      <UpdateDialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen} onSuccess={fetchUpdateData} />
-      <BadgeDialog open={badgeDialogOpen} onOpenChange={setBadgeDialogOpen} onSuccess={fetchUpdateData} />
     </div>
   )
 }

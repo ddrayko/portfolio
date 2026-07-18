@@ -1,10 +1,10 @@
 "use server"
 
 import { db } from "@/db"
-import { projets, admin, settings, siteUpdate } from "@/db/schema"
+import { projets, admin, settings } from "@/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
-import type { Project, SiteUpdate, ChangelogEntry } from "./types"
+import type { Project, ChangelogEntry } from "./types"
 import bcrypt from "bcryptjs"
 
 function toSql(value: unknown): unknown {
@@ -220,76 +220,6 @@ export async function updateAvailability(isAvailable: boolean) {
     return { success: true }
   } catch (error: unknown) {
     console.error("Error updating availability:", error)
-    return { success: false, error: "An unexpected error occurred" }
-  }
-}
-
-export async function getSiteUpdateData() {
-  try {
-    const [row] = await db.select().from(siteUpdate).limit(1)
-    if (row) {
-      return {
-        success: true,
-        data: {
-          ...row,
-          id: row.id.toString(),
-          next_update_date: row.next_update_date?.toISOString() || null,
-          updated_at: row.updated_at?.toISOString() || new Date().toISOString(),
-          changelog: parseJSONField<ChangelogEntry[]>(row.changelog) || [],
-          planned_features: parseJSONField<string[]>(row.planned_features) || [],
-          no_update_planned: (row.no_update_planned ?? 1) ? true : false,
-          show_last_update_prefix: (row.show_last_update_prefix ?? 1) ? true : false,
-          show_badge: (row.show_badge ?? 1) ? true : false,
-          hero_link_type: row.hero_link_type || "update",
-          hero_custom_url: row.hero_custom_url || "",
-        } as SiteUpdate
-      }
-    }
-    return {
-      success: true,
-      data: {
-        next_update_date: null,
-        no_update_planned: true,
-        planned_features: [],
-        changelog: [],
-        updated_at: new Date().toISOString()
-      } as SiteUpdate
-    }
-  } catch (error: unknown) {
-    console.error("Error fetching site update data:", error)
-    return { success: false, error: "An unexpected error occurred" }
-  }
-}
-
-export async function updateSiteUpdateData(data: Partial<SiteUpdate>) {
-  try {
-    const [row] = await db.select().from(siteUpdate).limit(1)
-    
-    const payload: Record<string, any> = {}
-    for (const [key, value] of Object.entries(data)) {
-      if (value === undefined || key === "id") continue
-      if (key === "next_update_date" || key === "updated_at") {
-        payload[key] = value ? new Date(value) : null
-      } else if (key === "no_update_planned" || key === "show_last_update_prefix" || key === "show_badge") {
-        payload[key] = value ? 1 : 0
-      } else {
-        payload[key] = value
-      }
-    }
-    payload.updated_at = new Date()
-
-    if (row) {
-      await db.update(siteUpdate).set(payload).where(eq(siteUpdate.id, row.id))
-    } else {
-      await db.insert(siteUpdate).values(payload)
-    }
-
-    revalidatePath("/")
-    revalidatePath("/update")
-    revalidatePath("/admin/dashboard")
-    return { success: true }
-  } catch (error: unknown) {
-    console.error("Error updating site update data:", error)
     return { success: false, error: "An unexpected error occurred" }
   }
 }

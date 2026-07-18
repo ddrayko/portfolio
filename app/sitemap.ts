@@ -9,8 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/privacy",
     "/terms",
-    "/copyright",
-    "/update"
+    "/copyright"
   ]
 
   return routes.map((route) => ({
