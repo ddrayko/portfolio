@@ -29,12 +29,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Image Section */}
         {project.image_url ? (
-          <div className="relative w-full md:w-[35%] lg:w-[30%] shrink-0 aspect-video md:aspect-auto md:min-h-[300px] bg-muted overflow-hidden">
+          <div className="relative w-full md:w-[42%] lg:w-[38%] shrink-0 aspect-video md:aspect-auto md:min-h-[300px] bg-muted overflow-hidden">
             <Image
               src={project.image_url || "/placeholder.svg"}
               alt={`${project.title} - Project screenshot`}
               fill
-              sizes="(max-width: 768px) 100vw, 35vw"
+              sizes="(max-width: 768px) 100vw, 42vw"
               loading="lazy"
               decoding="async"
               className={`object-cover group-hover:scale-110 transition-transform duration-1000 ease-out
@@ -42,7 +42,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 ${isFinished ? "brightness-110 contrast-110" : isArchived ? "brightness-100" : ""}
               `}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent opacity-80" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/40 to-background" />
 
             {isInDev && (
               <>
@@ -91,7 +91,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             )}
           </div>
         ) : (
-          <div className="relative w-full md:w-[35%] lg:w-[30%] shrink-0 aspect-video md:aspect-auto md:min-h-[300px] bg-muted/20 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
+          <div className="relative w-full md:w-[42%] lg:w-[38%] shrink-0 aspect-video md:aspect-auto md:min-h-[300px] bg-muted/20 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
             <div className="absolute inset-0 flex flex-col items-center justify-center space-y-3 bg-white/[0.02] group-hover:bg-white/[0.04] transition-colors duration-500">
               <div className={`p-4 rounded-2xl border border-dashed transition-all duration-500
                 ${isFinished ? "border-emerald-500/20 bg-emerald-500/5" : isArchived ? "border-indigo-500/20 bg-indigo-500/5" : "border-white/10 bg-white/5 group-hover:border-primary/20"}
