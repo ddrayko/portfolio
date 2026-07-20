@@ -87,7 +87,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               sizes="(max-width: 768px) 100vw, 100vw"
               loading="lazy"
               decoding="async"
-              className={`object-cover object-left group-hover:scale-110 transition-transform duration-1000 ease-out
+              className={`object-cover object-right group-hover:scale-110 transition-transform duration-1000 ease-out
                 ${isInDev ? "grayscale brightness-50" : ""}
                 ${isFinished ? "brightness-110 contrast-110" : isArchived ? "brightness-100" : ""}
               `}
@@ -97,8 +97,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div
               className="hidden md:block absolute inset-0 backdrop-blur-2xl"
               style={{
-                maskImage: 'linear-gradient(to right, transparent 35%, black 55%, black 100%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 35%, black 55%, black 100%)'
+                maskImage: 'linear-gradient(to left, transparent 35%, black 60%)',
+                WebkitMaskImage: 'linear-gradient(to left, transparent 35%, black 60%)'
               }}
             />
 
@@ -109,7 +109,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </>
       ) : (
-        <div className="relative w-full aspect-video md:absolute md:inset-y-0 md:left-0 md:w-[42%] md:aspect-auto bg-muted/20 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
+          <div className="relative w-full aspect-video md:absolute md:inset-y-0 md:right-0 md:w-[42%] md:aspect-auto bg-muted/20 overflow-hidden border-b md:border-b-0 md:border-l border-white/5">
           <div className="absolute inset-0 flex flex-col items-center justify-center space-y-3 bg-white/[0.02] group-hover:bg-white/[0.04] transition-colors duration-500">
             <div className={`p-4 rounded-2xl border border-dashed transition-all duration-500
               ${isFinished ? "border-emerald-500/20 bg-emerald-500/5" : isArchived ? "border-indigo-500/20 bg-indigo-500/5" : "border-white/10 bg-white/5 group-hover:border-primary/20"}
@@ -128,7 +128,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Content Section */}
-      <div className="relative z-10 p-6 lg:p-8 md:ml-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4">
+      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4">
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
