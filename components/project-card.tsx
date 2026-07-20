@@ -97,13 +97,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div
               className="hidden md:block absolute inset-0 backdrop-blur-2xl"
               style={{
-                maskImage: 'linear-gradient(to right, transparent 38%, black 55%, black 100%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 38%, black 55%, black 100%)'
+                maskImage: 'linear-gradient(to right, transparent 35%, black 55%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 35%, black 55%, black 100%)'
               }}
             />
-
-            {/* Desktop fade - image devient transparente progressivement vers la droite */}
-            <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-transparent via-[38%] to-background to-[60%]" />
 
             {/* Mobile gradient */}
             <div className="md:hidden absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
