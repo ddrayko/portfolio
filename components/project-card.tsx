@@ -166,7 +166,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : "text-primary"}`} />
             </div>
           </div>
-          <p className={`text-sm text-muted-foreground leading-relaxed font-medium line-clamp-2 transition-colors max-w-sm
+          <p className={`text-sm text-muted-foreground leading-relaxed font-medium line-clamp-2 transition-colors max-w-md
             ${isInDev ? "italic opacity-70" : ""}
             ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : ""}
           `}>
@@ -175,7 +175,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex flex-wrap gap-2 max-w-sm">
+          <div className="flex flex-wrap gap-2 max-w-md">
             {project.tags.map((tag) => (
               <Badge
                 key={tag}
