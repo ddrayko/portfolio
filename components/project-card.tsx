@@ -128,7 +128,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Content Section */}
-      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4">
+      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4 max-w-prose">
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
