@@ -15,29 +15,79 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isInDev = project.in_development;
   const isPaused = project.development_status === 'paused';
 
+  const statusBadges = (
+    <>
+      {isInDev && (
+        <>
+          <div
+            className={`absolute inset-x-0 top-0 h-[18%] construction-pattern ${isPaused ? 'paused' : ''}`}
+            style={{
+              maskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)'
+            }}
+          />
+          <div className="absolute top-3 inset-x-0 flex items-center justify-center">
+            <div className={`px-4 py-1.5 rounded-full font-black text-[10px] uppercase tracking-widest shadow-2xl border-2 rotate-[-1deg] flex items-center gap-1.5 ${isPaused
+                ? 'bg-orange-400 text-black border-black'
+                : 'bg-yellow-400 text-black border-black animate-pulse'
+              }`}>
+                {isPaused ? (
+                  <>
+                    <Pause className="h-3 w-3" />
+                    Development paused
+                  </>
+                ) : (
+                  <>
+                    <Play className="h-3 w-3" />
+                    Development in progress
+                  </>
+                )}
+              </div>
+          </div>
+        </>
+      )}
+
+      {isFinished && (
+        <div className="absolute top-3 right-3">
+          <div className="bg-emerald-500 text-white p-1.5 rounded-lg shadow-lg border border-emerald-400/50 animate-bounce">
+              <Trophy className="h-4 w-4" />
+            </div>
+        </div>
+      )}
+
+      {isArchived && !isFinished && (
+        <div className="absolute top-3 right-3">
+          <div className="bg-indigo-500/20 text-indigo-300 p-1.5 rounded-lg shadow-lg border border-indigo-400/30 backdrop-blur-md">
+              <Archive className="h-4 w-4" />
+            </div>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <div className={`group relative rounded-3xl overflow-hidden glass w-full flex flex-col md:flex-row perspective-card reveal-up transition-all duration-500
       ${isInDev ? "border-dashed border-white/20" : "border-white/5"}
       ${isFinished ? "border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]" : ""}
       ${isArchived ? "border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.05)]" : ""}
     `}>
-      <div className="relative z-10 flex flex-col md:flex-row w-full">
+      <div className="relative z-10 w-full min-h-[300px]">
         {/* Glow Effect Overlay */}
         <div className={`absolute inset-0 transition-colors duration-500
           ${isFinished ? "group-hover:bg-emerald-500/5" : isArchived ? "group-hover:bg-indigo-500/5" : "group-hover:bg-primary/5"}
         `} />
 
-        {/* Image Section */}
-        {project.image_url ? (
-          <div className="relative w-full md:w-[42%] lg:w-[38%] shrink-0 aspect-video md:aspect-auto md:min-h-[300px] bg-muted overflow-hidden">
+        {/* Desktop: Image as extended background behind content */}
+        {project.image_url && (
+          <div className="hidden md:block absolute inset-y-0 left-0 w-[65%] overflow-hidden rounded-l-3xl">
             <Image
-              src={project.image_url || "/placeholder.svg"}
+              src={project.image_url}
               alt={`${project.title} - Project screenshot`}
               fill
-              sizes="(max-width: 768px) 100vw, 42vw"
+              sizes="65vw"
               loading="lazy"
               decoding="async"
-              className={`object-cover group-hover:scale-110 transition-transform duration-1000 ease-out
+              className={`object-cover object-left group-hover:scale-110 transition-transform duration-1000 ease-out
                 ${isInDev ? "grayscale brightness-50" : ""}
                 ${isFinished ? "brightness-110 contrast-110" : isArchived ? "brightness-100" : ""}
               `}
@@ -45,59 +95,38 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div
               className="absolute inset-0 backdrop-blur-2xl"
               style={{
-                maskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 20%, black 60%)'
+                maskImage: 'linear-gradient(to right, transparent 0%, transparent 30%, black 60%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 30%, black 60%)'
               }}
             />
-
-            {isInDev && (
-              <>
-                <div
-                  className={`absolute inset-x-0 top-0 h-[18%] construction-pattern ${isPaused ? 'paused' : ''}`}
-                  style={{
-                    maskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)'
-                  }}
-                />
-                <div className="absolute top-3 inset-x-0 flex items-center justify-center">
-                  <div className={`px-4 py-1.5 rounded-full font-black text-[10px] uppercase tracking-widest shadow-2xl border-2 rotate-[-1deg] flex items-center gap-1.5 ${isPaused
-                      ? 'bg-orange-400 text-black border-black'
-                      : 'bg-yellow-400 text-black border-black animate-pulse'
-                    }`}>
-                      {isPaused ? (
-                        <>
-                          <Pause className="h-3 w-3" />
-                          Development paused
-                        </>
-                      ) : (
-                        <>
-                          <Play className="h-3 w-3" />
-                          Development in progress
-                        </>
-                      )}
-                    </div>
-                </div>
-              </>
-            )}
-
-            {isFinished && (
-              <div className="absolute top-3 right-3">
-                <div className="bg-emerald-500 text-white p-1.5 rounded-lg shadow-lg border border-emerald-400/50 animate-bounce">
-                    <Trophy className="h-4 w-4" />
-                  </div>
-              </div>
-            )}
-
-            {isArchived && !isFinished && (
-              <div className="absolute top-3 right-3">
-                <div className="bg-indigo-500/20 text-indigo-300 p-1.5 rounded-lg shadow-lg border border-indigo-400/30 backdrop-blur-md">
-                    <Archive className="h-4 w-4" />
-                  </div>
-              </div>
-            )}
+            {statusBadges}
           </div>
-        ) : (
-          <div className="relative w-full md:w-[42%] lg:w-[38%] shrink-0 aspect-video md:aspect-auto md:min-h-[300px] bg-muted/20 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
+        )}
+
+        {/* Mobile: Image in normal flow */}
+        {project.image_url && (
+          <div className="md:hidden relative w-full aspect-video bg-muted overflow-hidden">
+            <Image
+              src={project.image_url}
+              alt={`${project.title} - Project screenshot`}
+              fill
+              sizes="100vw"
+              loading="lazy"
+              decoding="async"
+              className={`object-cover group-hover:scale-110 transition-transform duration-1000 ease-out
+                ${isInDev ? "grayscale brightness-50" : ""}
+                ${isFinished ? "brightness-110 contrast-110" : isArchived ? "brightness-100" : ""}
+              `}
+            />
+            <div className="absolute inset-0 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+            {statusBadges}
+          </div>
+        )}
+
+        {/* No image placeholder */}
+        {!project.image_url && (
+          <div className="relative w-full aspect-video md:absolute md:inset-y-0 md:left-0 md:w-[42%] md:aspect-auto bg-muted/20 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
             <div className="absolute inset-0 flex flex-col items-center justify-center space-y-3 bg-white/[0.02] group-hover:bg-white/[0.04] transition-colors duration-500">
               <div className={`p-4 rounded-2xl border border-dashed transition-all duration-500
                 ${isFinished ? "border-emerald-500/20 bg-emerald-500/5" : isArchived ? "border-indigo-500/20 bg-indigo-500/5" : "border-white/10 bg-white/5 group-hover:border-primary/20"}
@@ -116,7 +145,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         )}
 
         {/* Content Section */}
-        <div className="p-6 lg:p-8 flex-1 flex flex-col justify-center space-y-4 relative z-10 min-w-0">
+        <div className="relative z-10 p-6 lg:p-8 flex flex-col justify-center space-y-4 min-h-[300px] md:ml-[45%]">
           <div className="space-y-2">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3 min-w-0">
