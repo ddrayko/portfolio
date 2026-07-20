@@ -42,7 +42,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 ${isFinished ? "brightness-110 contrast-110" : isArchived ? "brightness-100" : ""}
               `}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/40 to-background" />
+            <div
+              className="absolute inset-0 backdrop-blur-2xl"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent 20%, black 60%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 20%, black 60%)'
+              }}
+            />
 
             {isInDev && (
               <>
