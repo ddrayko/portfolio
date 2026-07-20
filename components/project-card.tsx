@@ -128,7 +128,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Content Section */}
-      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4 max-w-prose">
+      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4">
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
@@ -166,7 +166,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : "text-primary"}`} />
             </div>
           </div>
-          <p className={`text-sm text-muted-foreground leading-relaxed font-medium line-clamp-2 transition-colors
+          <p className={`text-sm text-muted-foreground leading-relaxed font-medium line-clamp-2 transition-colors max-w-sm
             ${isInDev ? "italic opacity-70" : ""}
             ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : ""}
           `}>
