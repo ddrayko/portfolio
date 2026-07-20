@@ -175,7 +175,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 max-w-sm">
             {project.tags.map((tag) => (
               <Badge
                 key={tag}
