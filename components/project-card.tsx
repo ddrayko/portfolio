@@ -15,7 +15,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isArchived = project.is_archived;
   const isInDev = project.in_development;
   const isPaused = project.development_status === 'paused';
-  const { isDarkBg, onImageLoad } = useImageBrightness()
+  const isDarkBg = useImageBrightness(project.image_url)
 
   const statusBadges = (
     <>
@@ -89,7 +89,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
               sizes="(max-width: 768px) 100vw, 100vw"
               loading="lazy"
               decoding="async"
-              onLoad={onImageLoad}
               className={`object-cover object-right group-hover:scale-110 transition-transform duration-1000 ease-out
                 ${isInDev ? "grayscale brightness-50" : ""}
                 ${isFinished ? "brightness-110 contrast-110" : isArchived ? "brightness-100" : ""}
