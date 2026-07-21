@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useImageBrightness } from "@/hooks/use-image-brightness"
 
 interface ProjectCardProps {
   project: Project
@@ -15,8 +14,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isArchived = project.is_archived;
   const isInDev = project.in_development;
   const isPaused = project.development_status === 'paused';
-  const brightness = useImageBrightness(project.image_url)
-  const isDarkBg = brightness === 'dark'
 
   const statusBadges = (
     <>
@@ -105,6 +102,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
               }}
             />
 
+            {/* Desktop dark overlay - darkens the text area for readability */}
+            <div
+              className="hidden md:block absolute inset-0 bg-background/60"
+              style={{
+                maskImage: 'linear-gradient(to right, black 30%, transparent 65%)',
+                WebkitMaskImage: 'linear-gradient(to right, black 30%, transparent 65%)'
+              }}
+            />
+
             {/* Mobile gradient */}
             <div className="md:hidden absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
 
@@ -131,7 +137,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Content Section */}
-      <div className={`relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4 ${isDarkBg ? "text-white" : ""}`}>
+      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4 text-white">
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
@@ -171,7 +177,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
           <p className={`text-sm leading-relaxed font-medium line-clamp-2 transition-colors max-w-md
             ${isInDev ? "italic opacity-70" : ""}
-            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : isDarkBg ? "text-white/80" : "text-muted-foreground"}
+            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : "text-white/80"}
           `}>
             {project.description}
           </p>
@@ -234,7 +240,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         <div className="flex gap-3 pt-2">
           {isInDev ? (
-            <Button disabled className={`rounded-full bg-white/5 border border-white/10 cursor-not-allowed text-xs h-8 px-4 ${isDarkBg ? "text-white/60" : "text-muted-foreground"}`} aria-label="Coming soon">
+            <Button disabled className="rounded-full bg-white/5 border border-white/10 cursor-not-allowed text-xs h-8 px-4 text-white/60" aria-label="Coming soon">
               <Construction className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
               Coming Soon
             </Button>
