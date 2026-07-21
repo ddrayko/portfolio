@@ -2,16 +2,6 @@ import { useState, useEffect } from 'react'
 
 type Brightness = 'light' | 'dark' | 'loading'
 
-function getCanvasUrl(imageUrl: string): string {
-  try {
-    const url = new URL(imageUrl, window.location.origin)
-    if (url.origin !== window.location.origin) {
-      return `/_next/image?url=${encodeURIComponent(imageUrl)}&w=1920&q=75`
-    }
-  } catch {}
-  return imageUrl
-}
-
 export function useImageBrightness(imageUrl: string | null): Brightness {
   const [brightness, setBrightness] = useState<Brightness>('loading')
 
@@ -31,13 +21,13 @@ export function useImageBrightness(imageUrl: string | null): Brightness {
         const ctx = canvas.getContext('2d')
         if (!ctx) { setBrightness('dark'); return }
 
-        const sw = Math.floor(img.naturalWidth * 0.4)
+        const sw = Math.floor(img.naturalWidth * 0.58)
         const sh = img.naturalHeight
         if (sw === 0 || sh === 0) { setBrightness('dark'); return }
 
         canvas.width = sw
         canvas.height = sh
-        ctx.drawImage(img, img.naturalWidth - sw, 0, sw, sh, 0, 0, sw, sh)
+        ctx.drawImage(img, 0, 0, sw, sh, 0, 0, sw, sh)
 
         const { data } = ctx.getImageData(0, 0, sw, sh)
         let total = 0
@@ -54,7 +44,16 @@ export function useImageBrightness(imageUrl: string | null): Brightness {
       if (!cancelled) setBrightness('dark')
     }
 
-    img.src = getCanvasUrl(imageUrl)
+    try {
+      const url = new URL(imageUrl, window.location.origin)
+      if (url.origin !== window.location.origin) {
+        img.src = `/api/img-proxy?url=${encodeURIComponent(imageUrl)}`
+      } else {
+        img.src = imageUrl
+      }
+    } catch {
+      img.src = `/api/img-proxy?url=${encodeURIComponent(imageUrl)}`
+    }
 
     return () => { cancelled = true }
   }, [imageUrl])
