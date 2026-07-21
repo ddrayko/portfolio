@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useImageBrightness } from "@/hooks/use-image-brightness"
-
 interface ProjectCardProps {
   project: Project
 }
@@ -15,7 +13,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isArchived = project.is_archived;
   const isInDev = project.in_development;
   const isPaused = project.development_status === 'paused';
-  const isDarkBg = useImageBrightness(project.image_url)
+  const isDarkBg = project.text_color === 'black' ? false : true
 
   const statusBadges = (
     <>

@@ -11,7 +11,7 @@ import { createProject, updateProject } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
-import { Settings2, Sparkles, Save, Play, Pause } from "lucide-react"
+import { Settings2, Sparkles, Save, Play, Pause, Sun, Moon } from "lucide-react"
 
 interface ProjectFormProps {
   project?: Project
@@ -28,6 +28,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
   const [isCompleted, setIsCompleted] = useState(project?.is_completed || false)
   const [isArchived, setIsArchived] = useState(project?.is_archived || false)
   const [progress, setProgress] = useState(project?.development_progress || 0)
+  const [textColor, setTextColor] = useState<'black' | 'white'>(project?.text_color || 'white')
   const formRef = useRef<HTMLFormElement>(null)
 
   const router = useRouter()
@@ -50,6 +51,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
       is_completed: isCompleted,
       is_archived: isArchived,
       development_progress: progress,
+      text_color: textColor,
     }
 
     try {
@@ -180,6 +182,39 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
                 <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
                   <Label className="text-sm font-bold">Archived</Label>
                   <Switch checked={isArchived} onCheckedChange={setIsArchived} className="scale-75" />
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-3">
+                <Label className="text-sm font-bold flex items-center gap-2">
+                  <Sun className="h-4 w-4 text-muted-foreground" />
+                  Text Color
+                </Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setTextColor('white')}
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs transition-all ${
+                      textColor === 'white'
+                        ? 'bg-white text-black border-2 border-white shadow-lg'
+                        : 'bg-white/5 border border-white/10 text-muted-foreground hover:bg-white/10'
+                    }`}
+                  >
+                    <Moon className="h-4 w-4" />
+                    White
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTextColor('black')}
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs transition-all ${
+                      textColor === 'black'
+                        ? 'bg-black text-white border-2 border-black shadow-lg'
+                        : 'bg-black/5 border border-black/10 text-muted-foreground hover:bg-black/10'
+                    }`}
+                  >
+                    <Sun className="h-4 w-4" />
+                    Black
+                  </button>
                 </div>
               </div>
             </div>
