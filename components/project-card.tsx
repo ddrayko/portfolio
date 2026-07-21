@@ -133,7 +133,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
               <h4 className={`text-xl lg:text-2xl font-bold tracking-tight truncate transition-all duration-500
-                ${isFinished ? "text-emerald-400" : isArchived ? "text-indigo-400" : isDarkBg ? "text-gradient" : "text-black"}
+                ${isFinished ? "text-emerald-400" : isArchived ? "text-indigo-400" : isDarkBg ? "text-white" : "text-black"}
               `}>
                 {project.title}
               </h4>
@@ -181,7 +181,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 key={tag}
                 variant="outline"
                 className={`rounded-full px-3 py-0.5 transition-all font-semibold text-[10px] uppercase tracking-wider
-                  ${isFinished ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400/80" : isArchived ? "bg-indigo-500/5 border-indigo-500/20 text-indigo-400/80" : isDarkBg ? "bg-white/5 border-white/10 group-hover:border-primary/50" : "bg-black/5 border-black/10 group-hover:border-black/30"}
+                  ${isFinished ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400/80" : isArchived ? "bg-indigo-500/5 border-indigo-500/20 text-indigo-400/80" : isDarkBg ? "bg-white/5 border-white/10 text-white group-hover:border-primary/50" : "bg-black/5 border-black/10 text-black group-hover:border-black/30"}
                 `}
               >
                 {tag}
