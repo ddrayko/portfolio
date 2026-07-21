@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useImageBrightness } from "@/hooks/use-image-brightness"
 
 interface ProjectCardProps {
   project: Project
@@ -14,6 +15,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isArchived = project.is_archived;
   const isInDev = project.in_development;
   const isPaused = project.development_status === 'paused';
+  const brightness = useImageBrightness(project.image_url)
+  const isDarkBg = brightness === 'dark'
 
   const statusBadges = (
     <>
@@ -102,15 +105,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
               }}
             />
 
-            {/* Desktop dark overlay - darkens the text area for readability */}
-            <div
-              className="hidden md:block absolute inset-0 bg-background/60"
-              style={{
-                maskImage: 'linear-gradient(to right, black 30%, transparent 65%)',
-                WebkitMaskImage: 'linear-gradient(to right, black 30%, transparent 65%)'
-              }}
-            />
-
             {/* Mobile gradient */}
             <div className="md:hidden absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
 
@@ -137,12 +131,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Content Section */}
-      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4 text-white">
+      <div className={`relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4 ${brightness === 'loading' ? '' : isDarkBg ? 'text-white' : 'text-black'}`}>
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
               <h4 className={`text-xl lg:text-2xl font-bold tracking-tight truncate transition-all duration-500
-                ${isFinished ? "text-emerald-400" : isArchived ? "text-indigo-400" : "text-gradient group-hover:text-primary"}
+                ${isFinished ? "text-emerald-400" : isArchived ? "text-indigo-400" : isDarkBg ? "text-gradient group-hover:text-primary" : "text-black group-hover:text-gray-900"}
               `}>
                 {project.title}
               </h4>
@@ -172,12 +166,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div className={`p-2 rounded-full border transition-all duration-300 shadow-glow shrink-0
               ${isFinished ? "bg-emerald-500/10 border-emerald-500/20 opacity-100 shadow-emerald-500/20" : isArchived ? "bg-indigo-500/10 border-indigo-500/20 opacity-100 shadow-indigo-500/20" : "bg-white/5 border-white/10 opacity-0 group-hover:opacity-100 shadow-primary/20"}
             `}>
-              <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : "text-primary"}`} />
+              <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : isDarkBg ? "text-primary" : "text-black/60"}`} />
             </div>
           </div>
           <p className={`text-sm leading-relaxed font-medium line-clamp-2 transition-colors max-w-md
             ${isInDev ? "italic opacity-70" : ""}
-            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : "text-white/80"}
+            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : isDarkBg ? "text-white/80" : "text-black/60"}
           `}>
             {project.description}
           </p>
@@ -240,7 +234,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         <div className="flex gap-3 pt-2">
           {isInDev ? (
-            <Button disabled className="rounded-full bg-white/5 border border-white/10 cursor-not-allowed text-xs h-8 px-4 text-white/60" aria-label="Coming soon">
+            <Button disabled className={`rounded-full border cursor-not-allowed text-xs h-8 px-4 ${isDarkBg ? 'bg-white/5 border-white/10 text-white/60' : 'bg-black/5 border-black/10 text-black/40'}`} aria-label="Coming soon">
               <Construction className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
               Coming Soon
             </Button>
