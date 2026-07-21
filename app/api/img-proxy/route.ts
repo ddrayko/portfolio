@@ -1,22 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export const runtime = 'nodejs'
-
 export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get('url')
   if (!url) {
-    return new NextResponse('Missing url parameter', { status: 400 })
+    return NextResponse.json({ error: 'Missing url' }, { status: 400 })
   }
 
   try {
     const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; PortfolioBot/1.0)',
-      },
+      headers: { 'User-Agent': 'PortfolioBot/1.0' },
     })
 
     if (!response.ok) {
-      return new NextResponse('Failed to fetch image', { status: response.status })
+      return NextResponse.json({ error: 'Fetch failed' }, { status: response.status })
     }
 
     const contentType = response.headers.get('content-type') || 'image/png'
@@ -30,6 +26,6 @@ export async function GET(request: NextRequest) {
       },
     })
   } catch {
-    return new NextResponse('Failed to fetch image', { status: 502 })
+    return NextResponse.json({ error: 'Proxy failed' }, { status: 502 })
   }
 }

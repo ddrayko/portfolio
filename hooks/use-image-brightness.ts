@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
 
-type Brightness = 'light' | 'dark' | 'loading'
+function getThemeDefault(): 'light' | 'dark' {
+  if (typeof document === 'undefined') return 'dark'
+  const isDarkClass = document.documentElement.classList.contains('dark')
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  return isDarkClass || prefersDark ? 'dark' : 'light'
+}
 
-export function useImageBrightness(imageUrl: string | null): Brightness {
-  const [brightness, setBrightness] = useState<Brightness>('loading')
+export function useImageBrightness(imageUrl: string | null): 'light' | 'dark' {
+  const [brightness, setBrightness] = useState<'light' | 'dark'>(getThemeDefault)
 
   useEffect(() => {
-    if (!imageUrl) {
-      setBrightness('dark')
-      return
-    }
+    if (!imageUrl) return
 
     let cancelled = false
+    const proxyUrl = `/api/img-proxy?url=${encodeURIComponent(imageUrl)}`
     const img = new Image()
 
     img.onload = () => {
@@ -19,11 +22,11 @@ export function useImageBrightness(imageUrl: string | null): Brightness {
       try {
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
-        if (!ctx) { setBrightness('dark'); return }
+        if (!ctx) return
 
         const sw = Math.floor(img.naturalWidth * 0.58)
         const sh = img.naturalHeight
-        if (sw === 0 || sh === 0) { setBrightness('dark'); return }
+        if (sw < 2 || sh < 2) return
 
         canvas.width = sw
         canvas.height = sh
@@ -31,29 +34,20 @@ export function useImageBrightness(imageUrl: string | null): Brightness {
 
         const { data } = ctx.getImageData(0, 0, sw, sh)
         let total = 0
-        for (let i = 0; i < data.length; i += 4) {
+        const len = data.length
+        for (let i = 0; i < len; i += 4) {
           total += 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]
         }
-        setBrightness(total / (data.length / 4) > 128 ? 'light' : 'dark')
+        const avg = total / (len / 4)
+        if (!cancelled) setBrightness(avg > 128 ? 'light' : 'dark')
       } catch {
-        setBrightness('dark')
+        // fallback: keep theme default
       }
     }
 
-    img.onerror = () => {
-      if (!cancelled) setBrightness('dark')
-    }
+    img.onerror = () => {}
 
-    try {
-      const url = new URL(imageUrl, window.location.origin)
-      if (url.origin !== window.location.origin) {
-        img.src = `/api/img-proxy?url=${encodeURIComponent(imageUrl)}`
-      } else {
-        img.src = imageUrl
-      }
-    } catch {
-      img.src = `/api/img-proxy?url=${encodeURIComponent(imageUrl)}`
-    }
+    img.src = proxyUrl
 
     return () => { cancelled = true }
   }, [imageUrl])
