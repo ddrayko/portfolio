@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useImageBrightness } from "@/hooks/use-image-brightness"
 
 interface ProjectCardProps {
   project: Project
@@ -14,6 +15,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isArchived = project.is_archived;
   const isInDev = project.in_development;
   const isPaused = project.development_status === 'paused';
+  const brightness = useImageBrightness(project.image_url)
+  const isDarkBg = brightness === 'dark'
 
   const statusBadges = (
     <>
@@ -128,7 +131,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {/* Content Section */}
-      <div className="relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4">
+      <div className={`relative z-10 p-6 lg:p-8 md:mr-[42%] md:min-h-[300px] flex flex-col justify-center space-y-4 ${isDarkBg ? "text-white" : ""}`}>
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
@@ -166,9 +169,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : "text-primary"}`} />
             </div>
           </div>
-          <p className={`text-sm text-muted-foreground leading-relaxed font-medium line-clamp-2 transition-colors max-w-md
+          <p className={`text-sm leading-relaxed font-medium line-clamp-2 transition-colors max-w-md
             ${isInDev ? "italic opacity-70" : ""}
-            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : ""}
+            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : isDarkBg ? "text-white/80" : "text-muted-foreground"}
           `}>
             {project.description}
           </p>
@@ -231,7 +234,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         <div className="flex gap-3 pt-2">
           {isInDev ? (
-            <Button disabled className="rounded-full bg-white/5 text-muted-foreground border border-white/10 cursor-not-allowed text-xs h-8 px-4" aria-label="Coming soon">
+            <Button disabled className={`rounded-full bg-white/5 border border-white/10 cursor-not-allowed text-xs h-8 px-4 ${isDarkBg ? "text-white/60" : "text-muted-foreground"}`} aria-label="Coming soon">
               <Construction className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
               Coming Soon
             </Button>
