@@ -133,7 +133,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
               <h4 className={`text-xl lg:text-2xl font-bold tracking-tight truncate transition-all duration-500
-                ${isFinished ? "text-emerald-400" : isArchived ? "text-indigo-400" : "text-white mix-blend-difference"}
+                ${isFinished ? "text-emerald-400" : isArchived ? "text-indigo-400" : "text-contrast text-white"}
               `}>
                 {project.title}
               </h4>
@@ -163,12 +163,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <div className={`p-2 rounded-full border transition-all duration-300 shadow-glow shrink-0
               ${isFinished ? "bg-emerald-500/10 border-emerald-500/20 opacity-100 shadow-emerald-500/20" : isArchived ? "bg-indigo-500/10 border-indigo-500/20 opacity-100 shadow-indigo-500/20" : "bg-white/5 border-white/10 opacity-0 group-hover:opacity-100"}
             `}>
-              <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : "text-white mix-blend-difference"}`} />
+              <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : "text-contrast text-white"}`} />
             </div>
           </div>
           <p className={`text-sm leading-relaxed font-medium line-clamp-2 transition-colors max-w-md
             ${isInDev ? "italic opacity-70" : ""}
-            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : "text-white/80 mix-blend-difference"}
+            ${isFinished ? "text-emerald-50/70" : isArchived ? "text-indigo-50/70" : "text-contrast text-white/80"}
           `}>
             {project.description}
           </p>
@@ -181,7 +181,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 key={tag}
                 variant="outline"
                 className={`rounded-full px-3 py-0.5 transition-all font-semibold text-[10px] uppercase tracking-wider
-                  ${isFinished ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400/80" : isArchived ? "bg-indigo-500/5 border-indigo-500/20 text-indigo-400/80" : "text-white mix-blend-difference bg-white/5 border-white/10 group-hover:border-primary/50"}
+                  ${isFinished ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400/80" : isArchived ? "bg-indigo-500/5 border-indigo-500/20 text-indigo-400/80" : "text-contrast text-white bg-white/5 border-white/10 group-hover:border-primary/50"}
                 `}
               >
                 {tag}
@@ -231,7 +231,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         <div className="flex gap-3 pt-2">
           {isInDev ? (
-            <Button disabled className="rounded-full bg-white/5 border border-white/10 cursor-not-allowed text-xs h-8 px-4 text-white/60 mix-blend-difference" aria-label="Coming soon">
+            <Button disabled className="rounded-full bg-white/5 border border-white/10 cursor-not-allowed text-xs h-8 px-4 text-contrast text-white/60" aria-label="Coming soon">
               <Construction className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
               Coming Soon
             </Button>
@@ -253,7 +253,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               asChild
               variant="ghost"
               size="sm"
-              className="rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground font-bold tracking-tight transition-all duration-500 hover:scale-110 active:scale-95 text-xs h-8 px-4 text-white mix-blend-difference"
+              className="rounded-full border border-white/10 glass hover:bg-white/10 hover:text-foreground font-bold tracking-tight transition-all duration-500 hover:scale-110 active:scale-95 text-xs h-8 px-4 text-contrast text-white"
             >
               <Link href={project.github_url} target="_blank" rel="noopener noreferrer" aria-label={`Source code of ${project.title}`}>
                 <Github className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
