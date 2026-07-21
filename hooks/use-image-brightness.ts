@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react'
 
 type Brightness = 'light' | 'dark' | 'loading'
 
+function getCanvasUrl(imageUrl: string): string {
+  try {
+    const url = new URL(imageUrl, window.location.origin)
+    if (url.origin !== window.location.origin) {
+      return `/_next/image?url=${encodeURIComponent(imageUrl)}&w=1920&q=75`
+    }
+  } catch {}
+  return imageUrl
+}
+
 export function useImageBrightness(imageUrl: string | null): Brightness {
   const [brightness, setBrightness] = useState<Brightness>('loading')
 
@@ -23,6 +33,8 @@ export function useImageBrightness(imageUrl: string | null): Brightness {
 
         const sw = Math.floor(img.naturalWidth * 0.4)
         const sh = img.naturalHeight
+        if (sw === 0 || sh === 0) { setBrightness('dark'); return }
+
         canvas.width = sw
         canvas.height = sh
         ctx.drawImage(img, img.naturalWidth - sw, 0, sw, sh, 0, 0, sw, sh)
@@ -42,16 +54,7 @@ export function useImageBrightness(imageUrl: string | null): Brightness {
       if (!cancelled) setBrightness('dark')
     }
 
-    try {
-      const url = new URL(imageUrl, window.location.origin)
-      if (url.origin !== window.location.origin) {
-        img.crossOrigin = 'anonymous'
-      }
-    } catch {
-      img.crossOrigin = 'anonymous'
-    }
-
-    img.src = imageUrl
+    img.src = getCanvasUrl(imageUrl)
 
     return () => { cancelled = true }
   }, [imageUrl])
