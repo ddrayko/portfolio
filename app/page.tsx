@@ -116,7 +116,7 @@ export default async function HomePage() {
 
       <main className="relative z-10 pt-20">
         <section className="relative min-h-[calc(100dvh-5rem)] flex items-start justify-center pt-32 overflow-hidden">
-          <div className="container px-6 mx-auto text-center space-y-6">
+          <div className="container px-6 mx-auto text-center space-y-10">
 
             <div className="space-y-6">
               <h2 className="text-7xl md:text-8xl lg:text-[10rem] font-black tracking-[calc(-0.05em)] leading-[0.85] animate-fade-in-up font-display">
