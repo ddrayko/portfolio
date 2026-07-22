@@ -115,8 +115,8 @@ export default async function HomePage() {
       </header>
 
       <main className="relative z-10 pt-20">
-        <section className="relative min-h-[calc(100dvh-5rem)] flex items-start justify-center pt-48 overflow-hidden">
-          <div className="container px-6 mx-auto text-center space-y-10">
+        <section className="relative min-h-[calc(100dvh-5rem)] flex items-center justify-center overflow-hidden">
+          <div className="container px-6 py-24 mx-auto text-center space-y-6">
 
             <div className="space-y-6">
               <h2 className="text-7xl md:text-8xl lg:text-[10rem] font-black tracking-[calc(-0.05em)] leading-[0.85] animate-fade-in-up font-display">
@@ -133,7 +133,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
               <ScrollButton targetId="projects" size="lg" className="rounded-full px-8 bg-primary hover:bg-primary text-white hover:text-white shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/50 group w-full sm:w-auto transition-all text-sm font-bold uppercase tracking-widest">
                 Discover Projects
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
