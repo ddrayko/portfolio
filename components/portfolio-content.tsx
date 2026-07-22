@@ -11,7 +11,7 @@ interface PortfolioContentProps {
 
 export function PortfolioContent({ featuredProject, otherProjects }: PortfolioContentProps) {
   return (
-    <div className="space-y-16">
+    <div className="space-y-8">
       {featuredProject && (
         <section>
           <div className="animate-fade-in-up">
