@@ -65,6 +65,11 @@ export function AdminProjectCard({ project, onDeleted, onUpdated }: AdminProject
                   Archived
                 </Badge>
               )}
+              {project.featured && (
+                <Badge variant="secondary" className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[10px]">
+                  Featured
+                </Badge>
+              )}
             </div>
             <p className="text-sm text-muted-foreground line-clamp-2 font-medium">
               {project.description || "No description."}

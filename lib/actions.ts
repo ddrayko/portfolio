@@ -5,11 +5,15 @@ import { projets, admin, settings } from "@/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 import type { Project, ChangelogEntry } from "./types"
+import { dbType } from "@/db/config"
 import bcrypt from "bcryptjs"
 
 function toSql(value: unknown): unknown {
   if (value == null) return null
-  if (typeof value === "boolean") return value ? 1 : 0
+  if (typeof value === "boolean") {
+    if (dbType === "sqlite") return value ? 1 : 0
+    return value
+  }
   if (typeof value === "string" || typeof value === "number") return value
   if (value instanceof Date) return value.toISOString()
   return value

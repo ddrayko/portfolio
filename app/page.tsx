@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { projets as projetsTable } from "@/db/schema"
-import { desc } from "drizzle-orm"
+import { desc, eq, or, isNull } from "drizzle-orm"
 import type { Project } from "@/lib/types"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { TechStack } from "@/components/tech-stack"
@@ -46,12 +46,32 @@ export default async function HomePage() {
     }
   }
 
-  let projects: Project[] = []
+  let featuredProject: Project | null = null
+  let otherProjects: Project[] = []
   let fetchError = false
 
   try {
-    const rawProjects = await db.select().from(projetsTable).orderBy(desc(projetsTable.created_at))
-    projects = rawProjects.map((p: any) => ({
+    const [rawFeatured] = await db.select().from(projetsTable)
+      .where(eq(projetsTable.featured, true))
+      .limit(1)
+
+    const rawOther = await db.select().from(projetsTable)
+      .where(
+        or(
+          eq(projetsTable.featured, false),
+          isNull(projetsTable.featured)
+        )
+      )
+      .orderBy(desc(projetsTable.created_at))
+
+    featuredProject = rawFeatured ? ({
+      ...rawFeatured,
+      id: rawFeatured.id.toString(),
+      created_at: rawFeatured.created_at?.toISOString() || new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }) as unknown as Project : null
+
+    otherProjects = rawOther.map((p: any) => ({
       ...p,
       id: p.id.toString(),
       created_at: p.created_at?.toISOString() || new Date().toISOString(),
@@ -95,8 +115,8 @@ export default async function HomePage() {
       </header>
 
       <main className="relative z-10 pt-20">
-        <section className="relative min-h-[calc(100dvh-5rem)] flex items-center justify-center overflow-hidden">
-          <div className="container px-6 py-24 mx-auto text-center space-y-12">
+        <section className="relative min-h-[calc(100dvh-5rem)] flex items-start justify-center pt-32 overflow-hidden">
+          <div className="container px-6 mx-auto text-center space-y-10">
 
             <div className="space-y-6">
               <h2 className="text-7xl md:text-8xl lg:text-[10rem] font-black tracking-[calc(-0.05em)] leading-[0.85] animate-fade-in-up font-display">
@@ -113,7 +133,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
               <ScrollButton targetId="projects" size="lg" className="rounded-full px-8 bg-primary hover:bg-primary text-white hover:text-white shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/50 group w-full sm:w-auto transition-all text-sm font-bold uppercase tracking-widest">
                 Discover Projects
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -152,7 +172,7 @@ export default async function HomePage() {
               )}
             </div>
 
-            <PortfolioContent projects={projects} />
+            <PortfolioContent featuredProject={featuredProject} otherProjects={otherProjects} />
           </div>
         </section>
 
