@@ -1,7 +1,7 @@
 import type { Project } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, ArrowUpRight, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
+import { ExternalLink, Github, Wrench, Construction, CheckCircle2, Archive, PackageCheck, ImageOff, Trophy, Play, Pause } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 interface ProjectCardProps {
@@ -160,11 +160,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   </div>
               )}
             </div>
-            <div className={`p-2 rounded-full border transition-all duration-300 shadow-glow shrink-0
-              ${isFinished ? "bg-emerald-500/10 border-emerald-500/20 opacity-100 shadow-emerald-500/20" : isArchived ? "bg-indigo-500/10 border-indigo-500/20 opacity-100 shadow-indigo-500/20" : isDarkBg ? "bg-white/5 border-white/10 opacity-0 group-hover:opacity-100" : "bg-black/5 border-black/10 opacity-0 group-hover:opacity-100"}
-            `}>
-              <ArrowUpRight className={`h-4 w-4 ${isFinished ? "text-emerald-500" : isArchived ? "text-indigo-500" : ""}`} />
-            </div>
+
           </div>
           <p className={`text-sm leading-relaxed font-medium line-clamp-2 transition-colors max-w-md
             ${isInDev ? "italic opacity-70" : ""}
