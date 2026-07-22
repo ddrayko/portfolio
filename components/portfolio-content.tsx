@@ -14,11 +14,6 @@ export function PortfolioContent({ featuredProject, otherProjects }: PortfolioCo
     <div className="space-y-16">
       {featuredProject && (
         <section>
-          <div className="mb-8">
-            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
-              Projet en vedette
-            </h4>
-          </div>
           <div className="animate-fade-in-up">
             <ProjectCard project={featuredProject} />
           </div>
@@ -27,13 +22,6 @@ export function PortfolioContent({ featuredProject, otherProjects }: PortfolioCo
 
       {otherProjects.length > 0 && (
         <section>
-          {featuredProject && (
-            <div className="mb-8">
-              <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                Autres projets
-              </h4>
-            </div>
-          )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherProjects.map((project, index) => (
               <div
