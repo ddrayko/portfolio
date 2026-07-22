@@ -11,7 +11,7 @@ interface ProjectCardSmallProps {
 
 export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
   return (
-    <div className="group relative rounded-2xl overflow-hidden glass border border-white/5 transition-all duration-500 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 h-full flex flex-col">
+    <div className="group relative rounded-2xl overflow-hidden bg-white border border-black/5 transition-all duration-500 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 h-full flex flex-col">
       {/* Image */}
       <div className="relative w-full aspect-video overflow-hidden bg-muted/20">
         {project.image_url ? (
@@ -39,12 +39,12 @@ export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
 
       {/* Content */}
       <div className="p-5 space-y-3 flex-1 flex flex-col">
-        <h4 className="text-lg font-bold tracking-tight text-white group-hover:text-primary transition-colors">
+        <h4 className="text-lg font-bold tracking-tight text-black group-hover:text-primary transition-colors">
           {project.title}
         </h4>
 
         {project.description && (
-          <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+          <p className="text-sm text-black/70 leading-relaxed line-clamp-3">
             {project.description}
           </p>
         )}
@@ -54,13 +54,13 @@ export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
             <Badge
               key={tag}
               variant="outline"
-              className="rounded-full px-2.5 py-0 text-[9px] font-semibold uppercase tracking-wider border-white/10 text-white/70 bg-white/5"
+              className="rounded-full px-2.5 py-0 text-[9px] font-semibold uppercase tracking-wider border-black/10 text-black/70 bg-black/5"
             >
               {tag}
             </Badge>
           ))}
           {project.tags.length > 4 && (
-            <span className="text-[9px] text-muted-foreground/50 self-center">+{project.tags.length - 4}</span>
+            <span className="text-[9px] text-black/50 self-center">+{project.tags.length - 4}</span>
           )}
         </div>
 
@@ -74,7 +74,7 @@ export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
             </Button>
           )}
           {project.github_url && (
-            <Button asChild variant="ghost" size="sm" className="rounded-full h-8 px-4 text-xs font-bold tracking-tight border border-white/10 glass hover:bg-white/10">
+            <Button asChild variant="ghost" size="sm" className="rounded-full h-8 px-4 text-xs font-bold tracking-tight border border-black/10 bg-black/5 hover:bg-black/10 text-black">
               <Link href={project.github_url} target="_blank" rel="noopener noreferrer" aria-label={`Source code of ${project.title}`}>
                 <Github className="mr-1.5 h-3.5 w-3.5" />
                 Code
