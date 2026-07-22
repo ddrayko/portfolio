@@ -11,7 +11,7 @@ interface ProjectCardSmallProps {
 
 export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
   return (
-    <div className="group relative rounded-2xl overflow-hidden glass border border-white/5 transition-all duration-500 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
+    <div className="group relative rounded-2xl overflow-hidden glass border border-white/5 transition-all duration-500 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 h-full flex flex-col">
       {/* Image */}
       <div className="relative w-full aspect-video overflow-hidden bg-muted/20">
         {project.image_url ? (
@@ -38,7 +38,7 @@ export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
       </div>
 
       {/* Content */}
-      <div className="p-5 space-y-3">
+      <div className="p-5 space-y-3 flex-1 flex flex-col">
         <h4 className="text-lg font-bold tracking-tight text-white group-hover:text-primary transition-colors">
           {project.title}
         </h4>
@@ -49,7 +49,7 @@ export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
           </p>
         )}
 
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 mt-auto">
           {project.tags.slice(0, 4).map((tag) => (
             <Badge
               key={tag}
@@ -64,7 +64,7 @@ export function ProjectCardSmall({ project }: ProjectCardSmallProps) {
           )}
         </div>
 
-        <div className="flex gap-2 pt-2">
+        <div className="flex gap-2">
           {project.project_url && (
             <Button asChild size="sm" className="rounded-full h-8 px-4 text-xs font-bold tracking-tight bg-white text-black hover:bg-primary hover:text-white transition-all shadow-lg">
               <Link href={project.project_url} target="_blank" rel="noopener noreferrer" aria-label={`Live demo of ${project.title}`}>
