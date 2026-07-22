@@ -27,6 +27,7 @@ export const projets = sqliteTable("projets", {
   is_archived: integer("is_archived").default(0),
   development_progress: integer("development_progress").default(0),
   text_color: text("text_color"),
+  featured: integer("featured").default(0),
   changelog: jsonText("changelog").$type<any[]>(),
   created_at: timestampText("created_at"),
 }, (table) => ({

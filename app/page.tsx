@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { projets as projetsTable } from "@/db/schema"
-import { desc } from "drizzle-orm"
+import { desc, eq, or, isNull } from "drizzle-orm"
 import type { Project } from "@/lib/types"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { TechStack } from "@/components/tech-stack"
@@ -46,12 +46,32 @@ export default async function HomePage() {
     }
   }
 
-  let projects: Project[] = []
+  let featuredProject: Project | null = null
+  let otherProjects: Project[] = []
   let fetchError = false
 
   try {
-    const rawProjects = await db.select().from(projetsTable).orderBy(desc(projetsTable.created_at))
-    projects = rawProjects.map((p: any) => ({
+    const [rawFeatured] = await db.select().from(projetsTable)
+      .where(eq(projetsTable.featured, true))
+      .limit(1)
+
+    const rawOther = await db.select().from(projetsTable)
+      .where(
+        or(
+          eq(projetsTable.featured, false),
+          isNull(projetsTable.featured)
+        )
+      )
+      .orderBy(desc(projetsTable.created_at))
+
+    featuredProject = rawFeatured ? ({
+      ...rawFeatured,
+      id: rawFeatured.id.toString(),
+      created_at: rawFeatured.created_at?.toISOString() || new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }) as unknown as Project : null
+
+    otherProjects = rawOther.map((p: any) => ({
       ...p,
       id: p.id.toString(),
       created_at: p.created_at?.toISOString() || new Date().toISOString(),
@@ -152,7 +172,7 @@ export default async function HomePage() {
               )}
             </div>
 
-            <PortfolioContent projects={projects} />
+            <PortfolioContent featuredProject={featuredProject} otherProjects={otherProjects} />
           </div>
         </section>
 

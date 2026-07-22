@@ -15,6 +15,7 @@ export interface Project {
   is_completed?: boolean
   is_archived?: boolean
   text_color?: 'black' | 'white' | null
+  featured?: boolean
   changelog?: ChangelogEntry[]
 }
 

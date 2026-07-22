@@ -29,6 +29,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
   const [isArchived, setIsArchived] = useState(project?.is_archived || false)
   const [progress, setProgress] = useState(project?.development_progress || 0)
   const [textColor, setTextColor] = useState<'black' | 'white'>(project?.text_color || 'white')
+  const [featured, setFeatured] = useState(project?.featured || false)
   const formRef = useRef<HTMLFormElement>(null)
 
   const router = useRouter()
@@ -52,6 +53,7 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
       is_archived: isArchived,
       development_progress: progress,
       text_color: textColor,
+      featured,
     }
 
     try {
@@ -173,6 +175,14 @@ export function ProjectForm({ project, onSuccess }: ProjectFormProps) {
                   </div>
                 </div>
               )}
+
+              <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                <div className="space-y-0.5">
+                  <Label className="text-sm font-bold">Featured</Label>
+                  <p className="text-[9px] text-muted-foreground uppercase">Show as featured project</p>
+                </div>
+                <Switch checked={featured} onCheckedChange={setFeatured} className="scale-75" />
+              </div>
 
               <div className="grid grid-cols-3 gap-4">
                 <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
